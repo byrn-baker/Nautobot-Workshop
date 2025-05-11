@@ -1,171 +1,171 @@
 ---
-# - include_vars: ./origanization_data.yml
+- include_vars: ./origanization_data.yml
 
-# - name: Create location types
-#   networktocode.nautobot.location_type:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     nestable: true
-#     content_types: "{{ item.content_type }}"
-#   loop: "{{ location_types }}"
+- name: Create location types
+  networktocode.nautobot.location_type:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    nestable: true
+    content_types: "{{ item.content_type }}"
+  loop: "{{ location_types }}"
 
-# - name: Create locations
-#   networktocode.nautobot.location:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     status: Active
-#     location_type:
-#       name: "{{ item.location_type }}"
-#     parent: "{{ item.parent |default(omit) }}"
-#     description: "{{ item.description |default(omit) }}"
-#     state: present
-#   loop: "{{ locations }}"
+- name: Create locations
+  networktocode.nautobot.location:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    status: Active
+    location_type:
+      name: "{{ item.location_type }}"
+    parent: "{{ item.parent |default(omit) }}"
+    description: "{{ item.description |default(omit) }}"
+    state: present
+  loop: "{{ locations }}"
 
-# - name: Create roles
-#   networktocode.nautobot.role:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     color: "{{ item.color }}"
-#     content_types: "{{ item.content_types }}"
-#     state: present
-#   loop: "{{ roles }}"
+- name: Create roles
+  networktocode.nautobot.role:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    color: "{{ item.color }}"
+    content_types: "{{ item.content_types }}"
+    state: present
+  loop: "{{ roles }}"
 
-# - include_vars: ./ipam_data.yml
+- include_vars: ./ipam_data.yml
 
-# - name: Create a namespace
-#   networktocode.nautobot.namespace:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     description: "{{ item.description |default(omit) }}"
-#     state: present
-#   loop: "{{ namespaces }}"
+- name: Create a namespace
+  networktocode.nautobot.namespace:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    description: "{{ item.description |default(omit) }}"
+    state: present
+  loop: "{{ namespaces }}"
 
-# - name: Create vrf
-#   networktocode.nautobot.vrf:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     description: "{{ item.description |default(omit) }}"
-#     namespace: "{{ item.namespace | default(omit) }}"
-#     rd: "{{ item.rd }}"
-#     state: present
-#   loop: "{{ vrfs }}"
+- name: Create vrf
+  networktocode.nautobot.vrf:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    description: "{{ item.description |default(omit) }}"
+    namespace: "{{ item.namespace | default(omit) }}"
+    rd: "{{ item.rd }}"
+    state: present
+  loop: "{{ vrfs }}"
 
-# - name: Create prefixes
-#   networktocode.nautobot.prefix:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     prefix: "{{ item.prefix }}"
-#     namespace: "{{ item.namespace | default(omit) }}"
-#     status: Active
-#     state: present
-#   loop: "{{ prefixes }}"
+- name: Create prefixes
+  networktocode.nautobot.prefix:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    prefix: "{{ item.prefix }}"
+    namespace: "{{ item.namespace | default(omit) }}"
+    status: Active
+    state: present
+  loop: "{{ prefixes }}"
 
-# - name: Create IP addresses
-#   networktocode.nautobot.ip_address:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     address: "{{ item.address }}"
-#     status: Active
-#     namespace: "{{ item.namespace | default(omit) }}"
-#     state: present
-#   loop: "{{ ip_addresses }}"
+- name: Create IP addresses
+  networktocode.nautobot.ip_address:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    address: "{{ item.address }}"
+    status: Active
+    namespace: "{{ item.namespace | default(omit) }}"
+    state: present
+  loop: "{{ ip_addresses }}"
 
-# - name: Assign Loopback Role to Loopback IPs
-#   networktocode.nautobot.ip_address:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     address: "{{ item.address }}"
-#     status: Active
-#     namespace: "{{ item.namespace | default(omit) }}"
-#     role: "Loopback"
-#     state: present
-#   loop: "{{ ip_addresses }}"
-#   when: "'/32' in item.address or '/128' in item.address"
+- name: Assign Loopback Role to Loopback IPs
+  networktocode.nautobot.ip_address:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    address: "{{ item.address }}"
+    status: Active
+    namespace: "{{ item.namespace | default(omit) }}"
+    role: "Loopback"
+    state: present
+  loop: "{{ ip_addresses }}"
+  when: "'/32' in item.address or '/128' in item.address"
 
 - include_vars: ./nautobot_devices.yml
 
-# - name: Create manufacturers
-#   networktocode.nautobot.manufacturer:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     state: present
-#   loop: "{{ manufacturers }}"
+- name: Create manufacturers
+  networktocode.nautobot.manufacturer:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ manufacturers }}"
 
-# - name: Create device types
-#   networktocode.nautobot.device_type:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     model: "{{ item.model }}"
-#     manufacturer: "{{ item.manufacturer }}"
-#     u_height: "{{ item.u_height }}"
-#     is_full_depth: false
-#     state: present
-#   loop: "{{ device_types }}"
+- name: Create device types
+  networktocode.nautobot.device_type:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    model: "{{ item.model }}"
+    manufacturer: "{{ item.manufacturer }}"
+    u_height: "{{ item.u_height }}"
+    is_full_depth: false
+    state: present
+  loop: "{{ device_types }}"
 
-# - name: Create platforms
-#   networktocode.nautobot.platform:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     manufacturer: "{{ item.manufacturer }}"
-#     network_driver: "{{ item.network_driver }}"
-#     state: present
-#   loop: "{{ platforms }}"
+- name: Create platforms
+  networktocode.nautobot.platform:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    manufacturer: "{{ item.manufacturer }}"
+    network_driver: "{{ item.network_driver }}"
+    state: present
+  loop: "{{ platforms }}"
 
-# - name: Create a software version
-#   networktocode.nautobot.software_version:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     version: "{{ item.version }}"
-#     platform: "{{ item.platform }}"
-#     status: Active
-#     state: present
-#   loop: "{{ software_versions }}"
+- name: Create a software version
+  networktocode.nautobot.software_version:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    version: "{{ item.version }}"
+    platform: "{{ item.platform }}"
+    status: Active
+    state: present
+  loop: "{{ software_versions }}"
 
-# - name: Create devices
-#   networktocode.nautobot.device:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     name: "{{ item.name }}"
-#     device_type: "{{ item.device_type }}"
-#     role: "{{ item.role }}"
-#     location: "{{ item.location }}"
-#     status: Active
-#     state: present
-#   loop: "{{ devices }}"
+- name: Create devices
+  networktocode.nautobot.device:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    device_type: "{{ item.device_type }}"
+    role: "{{ item.role }}"
+    location: "{{ item.location }}"
+    status: Active
+    state: present
+  loop: "{{ devices }}"
 
-# - name: Create interfaces for each device
-#   networktocode.nautobot.device_interface:
-#     url: "{{ nb_url }}"
-#     token: "{{ nb_token }}"
-#     validate_certs: false
-#     device: "{{ item.0.name }}"
-#     name: "{{ item.1.name }}"
-#     type: "{{ item.1.type }}"
-#     mode: "{{ item.1.mode | default(omit) }}"
-#     enabled: True
-#     status: Active
-#     state: present
-#   loop: "{{ devices | subelements('interfaces', 'skip_missing=True') }}"
+- name: Create interfaces for each device
+  networktocode.nautobot.device_interface:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    device: "{{ item.0.name }}"
+    name: "{{ item.1.name }}"
+    type: "{{ item.1.type }}"
+    mode: "{{ item.1.mode | default(omit) }}"
+    enabled: True
+    status: Active
+    state: present
+  loop: "{{ devices | subelements('interfaces', 'skip_missing=True') }}"
 
 - name: Add IPv4 addresses to interfaces
   networktocode.nautobot.ip_address_to_interface:
