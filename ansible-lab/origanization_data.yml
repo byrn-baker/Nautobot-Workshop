@@ -1,0 +1,67 @@
+location_types:
+  - name: HomeLab
+    content_type:
+      - dcim.device
+      - dcim.rack
+      - ipam.prefix
+      - ipam.vlan
+      - dcim.controller
+      - circuits.circuittermination
+      - dcim.powerpanel
+      - dcim.rackgroup
+      - ipam.vlangroup
+      - ipam.namespace
+      - virtualization.cluster
+
+locations:
+  - name: Nautobot Workshop
+    location_type: HomeLab
+  - name: East Side Data Center
+    description: "Data Center on the East side of the drawing"
+    location_type: HomeLab
+    parent: Nautobot Workshop
+  - name: West Side Data Center
+    description: "Data Center on the West side of the drawing"
+    location_type: HomeLab
+    parent: Nautobot Workshop
+  - name: Backbone
+    description: "Backbone between the East and West Data Centers"
+    location_type: HomeLab
+    parent: Nautobot Workshop
+
+roles:
+  - name: Customer Edge Router
+    color: 6c5734
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Datacenter Leaf
+    color: ac766f
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Datacenter Spine
+    color: 77e2f7
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Edge Router
+    color: d0530e
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Route Reflector
+    color: '391e91'
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Router
+    color: dfd52f
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: mgmt_switch
+    color: 9e9e9e
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine

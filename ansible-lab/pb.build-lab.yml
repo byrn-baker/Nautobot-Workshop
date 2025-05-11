@@ -1,0 +1,7 @@
+---
+- name: Populate Nautobot & Generate Containerlab topology from Nautobot
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - load_nautobot
