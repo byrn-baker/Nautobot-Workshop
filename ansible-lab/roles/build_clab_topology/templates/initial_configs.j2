@@ -1,0 +1,43 @@
+#jinja2: lstrip_blocks: True, trim_blocks: True
+{% if item.device_type.model == "iol" %}
+vrf definition clabbr220
+ description clabbr220
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+
+{% for int in item.interfaces if int.mgmt_only == true %}
+interface {{ int.name }}
+ vrf forwarding clabbr220
+ {% for addr in int.ip_addresses %}
+  ip address {{ addr.address | ipaddr('address') }} {{ addr.address | ipaddr('netmask') }}
+ {% endfor %}
+ no shutdown
+{% endfor %}
+!
+{% for int in item.interfaces if int.mgmt_only == true %}
+ip route vrf clabbr220 0.0.0.0 0.0.0.0 {{ int.name }} 192.168.220.1
+{% endfor %}
+
+{% elif item.device_type.model == "ceos" %}
+vrf instance clabbr220
+   description clabbr220
+!
+{% for int in item.interfaces if int.mgmt_only == true %}
+interface {{ int.name }}
+ no switchport
+ vrf forwarding clabbr220
+ {% for addr in int.ip_addresses %}
+  ip address {{ addr.address | ipaddr('address') }} {{ addr.address | ipaddr('netmask') }}
+ {% endfor %}
+ no shutdown
+{% endfor %}
+!
+{% for int in item.interfaces if int.mgmt_only == true %}
+ip route vrf clabbr220 0.0.0.0 0.0.0.0 {{ int.name }} 192.168.220.1
+{% endfor %}
+{% endif %}

@@ -5,3 +5,4 @@
 
   roles:
     - load_nautobot
+    - build_clab_topology

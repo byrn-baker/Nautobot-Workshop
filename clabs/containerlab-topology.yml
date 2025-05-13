@@ -1,0 +1,161 @@
+
+name: nautobot_workshop
+
+topology:
+  nodes:
+    CE1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/CE1.txt.partial
+      env:
+        HOSTNAME: CE1
+    CE2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/CE2.txt.partial
+      env:
+        HOSTNAME: CE2
+    East-Leaf01:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/East-Leaf01.txt.partial
+      env:
+        HOSTNAME: East-Leaf01
+    East-Leaf02:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/East-Leaf02.txt.partial
+      env:
+        HOSTNAME: East-Leaf02
+    East-Spine01:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/East-Spine01.txt.partial
+      env:
+        HOSTNAME: East-Spine01
+    East-Spine02:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/East-Spine02.txt.partial
+      env:
+        HOSTNAME: East-Spine02
+    P1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/P1.txt.partial
+      env:
+        HOSTNAME: P1
+    P2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/P2.txt.partial
+      env:
+        HOSTNAME: P2
+    P3:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/P3.txt.partial
+      env:
+        HOSTNAME: P3
+    P4:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/P4.txt.partial
+      env:
+        HOSTNAME: P4
+    PE1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/PE1.txt.partial
+      env:
+        HOSTNAME: PE1
+    PE2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/PE2.txt.partial
+      env:
+        HOSTNAME: PE2
+    PE3:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/PE3.txt.partial
+      env:
+        HOSTNAME: PE3
+    RR1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      startup-config: ./startup-configs/RR1.txt.partial
+      env:
+        HOSTNAME: RR1
+    West-Leaf01:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/West-Leaf01.txt.partial
+      env:
+        HOSTNAME: West-Leaf01
+    West-Leaf02:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/West-Leaf02.txt.partial
+      env:
+        HOSTNAME: West-Leaf02
+    West-Spine01:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/West-Spine01.txt.partial
+      env:
+        HOSTNAME: West-Spine01
+    West-Spine02:
+      kind: ceos
+      image: ceos:4.34.0F
+      startup-config: ./startup-configs/West-Spine02.txt.partial
+      env:
+        HOSTNAME: West-Spine02
+    clabbr220:
+      kind: bridge
+
+  links:
+          - endpoints: ["CE1:Ethernet0/1", "PE1:Ethernet0/3"]
+          - endpoints: ["CE1:Ethernet0/2", "West-Leaf01:eth7"]
+          - endpoints: ["CE1:Ethernet0/3", "West-Spine02:eth7"]
+          - endpoints: ["CE1:Ethernet1/0", "clabbr220:eth8"]
+          - endpoints: ["CE2:Ethernet0/1", "PE2:Ethernet0/3"]
+          - endpoints: ["CE2:Ethernet0/2", "East-Spine01:eth7"]
+          - endpoints: ["CE2:Ethernet0/3", "East-Spine02:eth7"]
+          - endpoints: ["CE2:Ethernet1/0", "clabbr220:eth9"]
+          - endpoints: ["East-Leaf01:eth1", "East-Spine01:eth1"]
+          - endpoints: ["East-Leaf01:eth2", "East-Spine02:eth1"]
+          - endpoints: ["clabbr220:eth10", "East-Leaf01:eth8"]
+          - endpoints: ["East-Leaf02:eth1", "East-Spine01:eth2"]
+          - endpoints: ["East-Leaf02:eth2", "East-Spine02:eth2"]
+          - endpoints: ["clabbr220:eth11", "East-Leaf02:eth8"]
+          - endpoints: ["clabbr220:eth17", "East-Spine01:eth8"]
+          - endpoints: ["clabbr220:eth12", "East-Spine02:eth8"]
+          - endpoints: ["P1:Ethernet0/1", "P2:Ethernet0/1"]
+          - endpoints: ["P1:Ethernet0/2", "P3:Ethernet0/2"]
+          - endpoints: ["P1:Ethernet1/0", "RR1:Ethernet0/1"]
+          - endpoints: ["P1:Ethernet1/1", "PE1:Ethernet0/1"]
+          - endpoints: ["clabbr220:eth0", "P1:Ethernet1/2"]
+          - endpoints: ["P2:Ethernet0/2", "P4:Ethernet0/2"]
+          - endpoints: ["P2:Ethernet0/3", "RR1:Ethernet0/2"]
+          - endpoints: ["P2:Ethernet1/0", "PE3:Ethernet0/1"]
+          - endpoints: ["clabbr220:eth1", "P2:Ethernet1/1"]
+          - endpoints: ["P3:Ethernet0/1", "P4:Ethernet0/1"]
+          - endpoints: ["P3:Ethernet0/3", "PE1:Ethernet0/2"]
+          - endpoints: ["P3:Ethernet1/0", "PE2:Ethernet0/1"]
+          - endpoints: ["clabbr220:eth2", "P3:Ethernet1/1"]
+          - endpoints: ["P4:Ethernet0/3", "PE2:Ethernet0/2"]
+          - endpoints: ["P4:Ethernet1/0", "PE3:Ethernet0/2"]
+          - endpoints: ["clabbr220:eth3", "P4:Ethernet1/1"]
+          - endpoints: ["clabbr220:eth4", "PE1:Ethernet1/0"]
+          - endpoints: ["clabbr220:eth5", "PE2:Ethernet1/0"]
+          - endpoints: ["clabbr220:eth6", "PE3:Ethernet1/0"]
+          - endpoints: ["clabbr220:eth7", "RR1:Ethernet1/0"]
+          - endpoints: ["West-Leaf01:eth1", "West-Spine01:eth1"]
+          - endpoints: ["West-Leaf01:eth2", "West-Spine02:eth1"]
+          - endpoints: ["clabbr220:eth13", "West-Leaf01:eth8"]
+          - endpoints: ["West-Leaf02:eth1", "West-Spine01:eth2"]
+          - endpoints: ["West-Leaf02:eth2", "West-Spine02:eth2"]
+          - endpoints: ["clabbr220:eth14", "West-Leaf02:eth8"]
+          - endpoints: ["clabbr220:eth15", "West-Spine01:eth8"]
+          - endpoints: ["clabbr220:eth16", "West-Spine02:eth8"]

@@ -1,0 +1,53 @@
+#jinja2: lstrip_blocks: True, trim_blocks: True
+{% set delay_targets = ["vrnetlab/vr-xrv9k", "vrnetlab/n9kv"] %}
+{% set global_delay = [0] %}
+
+name: nautobot_workshop
+
+topology:
+  nodes:
+{% for device in nb_devices["data"]["devices"] %}
+  {% if device.software_version is not none and device.platform is not none %}
+    {% set model = device.device_type.model | lower %}
+    {% if "ceos" in model %}
+      {% set kind = "ceos" %}
+      {% set image = "ceos:" ~ device.software_version.version %}
+    {% else %}
+      {% set kind = (device.device_type.manufacturer.name ~ "_" ~ device.device_type.model) | lower %}
+      {% set image_base = "vrnetlab/" ~ kind %}
+      {% set image = image_base ~ ":" ~ device.software_version.version %}
+    {% endif %}
+    {{ device.name }}:
+      kind: {{ kind }}
+      image: {{ image }}
+      startup-config: ./startup-configs/{{ device.name }}.txt.partial
+      {% if image_base is defined and image_base in delay_targets %}
+      startup-delay: {{ global_delay[0] * 30 }}
+      {% set _ = global_delay.append(global_delay.pop() + 1) %}
+      {% endif %}
+      env:
+        HOSTNAME: {{ device.name }}
+  {% endif %}
+  {% if device.name == "clabbr220" %}
+    clabbr220:
+      kind: bridge
+  {% endif %}
+{% endfor %}
+
+  links:
+{% set ns = {'seen': []} %}
+{% for device in nb_devices["data"]["devices"] %}
+  {% if device.software_version is not none and device.platform is not none %}
+    {% for iface in device.interfaces %}
+      {% if iface.connected_interface %}
+        {% set local = device.name ~ ':' ~ iface.name %}
+        {% set remote = iface.connected_interface.device.name ~ ':' ~ iface.connected_interface.name %}
+        {% set endpoints = [local, remote]|sort %}
+        {% if endpoints not in ns.seen %}
+          - endpoints: ["{{ endpoints[0] }}", "{{ endpoints[1] }}"]
+          {% set _ = ns.seen.append(endpoints) %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}

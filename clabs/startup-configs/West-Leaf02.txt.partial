@@ -1,0 +1,10 @@
+vrf instance clabbr220
+   description clabbr220
+!
+interface eth8
+ no switchport
+ vrf forwarding clabbr220
+  ip address 192.168.220.15 255.255.255.0
+ no shutdown
+!
+ip route vrf clabbr220 0.0.0.0 0.0.0.0 eth8 192.168.220.1

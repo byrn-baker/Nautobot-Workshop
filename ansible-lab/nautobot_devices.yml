@@ -274,7 +274,7 @@ devices:
     role: Provider Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -317,7 +317,7 @@ devices:
     role: Provider Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -360,7 +360,7 @@ devices:
     role: Provider Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -403,7 +403,7 @@ devices:
     role: Provider Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -446,7 +446,7 @@ devices:
     role: Provider Edge Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -483,7 +483,7 @@ devices:
     role: Provider Edge Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
@@ -520,7 +520,7 @@ devices:
     role: Provider Edge Router
     location: Backbone
     device_type: iol
-    platform: IOS-XR
+    platform: IOS
     software_version: 17.12.01
     interfaces:
       - name: Ethernet0/0
