@@ -4,6 +4,7 @@ username admin privilege 15 role network-admin secret 0 admin
 !
 management api http-commands
    vrf clab-mgmt
+      no shutdown
    protocol http
    protocol https
    no shutdown
