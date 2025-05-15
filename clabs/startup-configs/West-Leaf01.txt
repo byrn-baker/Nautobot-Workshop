@@ -3,6 +3,9 @@ no aaa root
 username admin privilege 15 role network-admin secret 0 admin
 !
 management api http-commands
+   vrf clab-mgmt
+   protocol http
+   protocol https
    no shutdown
 !
 no service interface inactive port-id allocation disabled
