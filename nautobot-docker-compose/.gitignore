@@ -299,7 +299,7 @@ fabric.properties
 *.code-workspace
 
 # Rando
-# creds.env
+creds.env
 
 
 # Invoke overrides
