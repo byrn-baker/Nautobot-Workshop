@@ -3,6 +3,9 @@
 {% set global_delay = [0] %}
 
 name: nautobot_workshop
+mgmt:
+  network: clab-mgmt
+  ipv4-subnet: 192.168.220.0/24
 
 topology:
   nodes:
@@ -20,17 +23,16 @@ topology:
     {{ device.name }}:
       kind: {{ kind }}
       image: {{ image }}
-      startup-config: ./startup-configs/{{ device.name }}.txt.partial
+      mgmt-ipv4: {{ device.primary_ip4.address | ansible.utils.ipaddr('address') }}
+      {% if "ceos" in model %}
+      startup-config: ./startup-configs/{{ device.name }}.txt
+      {% endif %}
       {% if image_base is defined and image_base in delay_targets %}
       startup-delay: {{ global_delay[0] * 30 }}
       {% set _ = global_delay.append(global_delay.pop() + 1) %}
       {% endif %}
       env:
         HOSTNAME: {{ device.name }}
-  {% endif %}
-  {% if device.name == "clabbr220" %}
-    clabbr220:
-      kind: bridge
   {% endif %}
 {% endfor %}
 

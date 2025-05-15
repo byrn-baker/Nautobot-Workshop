@@ -1,5 +1,3 @@
-#jinja2: lstrip_blocks: True, trim_blocks: True
-{% if item.device_type.model == "ceos" %}
 no aaa root
 !
 username admin privilege 15 role network-admin secret 0 admin
@@ -16,7 +14,7 @@ service routing protocols model multi-agent
 vrf instance clab-mgmt
    description clab-mgmt
 !
-hostname {{ item.name }}
+hostname West-Leaf01
 !
 spanning-tree mode mstp
 !
@@ -30,18 +28,13 @@ management api gnmi
 management api netconf
    transport ssh default
 !
-{% for int in item.interfaces if int.mgmt_only == true %}
-interface {{ int.name}}
+interface Management0
  vrf forwarding clab-mgmt
- ip address {{ int.ip_addresses[0].address }}
+ ip address 192.168.220.14/24
 !
-{% endfor %}
 !
 ip routing
 !
 ip routing vrf clab-mgmt
 !
-{% for int in item.interfaces if int.mgmt_only == true %}
-ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 {{ int.name }} 192.168.220.1
-{% endfor %}
-{% endif %}
+ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 Management0 192.168.220.1

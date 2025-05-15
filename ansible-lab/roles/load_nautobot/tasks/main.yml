@@ -239,6 +239,17 @@
   loop: "{{ devices | subelements('interfaces', 'skip_missing=True') }}"
   when: item.1.ipv6_address is defined
 
+- name: Assign Primary IPv4 to Device
+  networktocode.nautobot.device:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    primary_ip4: "{{ item.primary_ip4 }}"
+    status: Active
+    state: present
+  loop: "{{ devices }}"
+
 - name: Create cable within Nautobot
   networktocode.nautobot.cable:
     url: "{{ nb_url }}"
@@ -263,33 +274,3 @@
     cable_result.failed and
     ('already has a cable attached' not in (cable_result.msg | default('')) and
      'cable dcim.interface' not in (cable_result.msg | default('')))
-
-- name: Pull mgmt interfaces from Nautobot
-  networktocode.nautobot.query_graphql:
-    url: "{{ nb_url }}"
-    token: "{{ nb_token }}"
-    validate_certs: false
-    query: |
-      {
-        interfaces (mgmt_only: true) {
-          name
-          ip_addresses {
-            address
-          }
-          device {
-            name
-          }
-        }
-      }
-  register: "nb_interfaces"
-  
-- name: Assign Primary IPv4 to Device
-  networktocode.nautobot.device:
-    url: "{{ nb_url }}"
-    token: "{{ nb_token }}"
-    validate_certs: false
-    name: "{{ item.device.name }}"
-    primary_ip4: "{{ item.ip_addresses[0].address }}"
-    status: Active
-    state: present
-  loop: "{{ nb_interfaces.data.interfaces }}"
