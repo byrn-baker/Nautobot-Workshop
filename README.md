@@ -3,6 +3,7 @@
 
 # Blog Posts
 I've documented step by step instructions [here](https://blog.byrnbaker.me/posts/Nautobot-Workshop/)
+Fork this Repo so you can easily use it on your end.
 
 # License
 This project is Licensed under Apache License, Version 2.0.

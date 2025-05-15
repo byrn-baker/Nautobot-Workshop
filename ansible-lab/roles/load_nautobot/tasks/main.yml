@@ -1,5 +1,5 @@
 ---
-- include_vars: ./origanization_data.yml
+- include_vars: ./nautobot-data/origanization_data.yml
 
 - name: Create location types
   networktocode.nautobot.location_type:
@@ -36,7 +36,7 @@
     state: present
   loop: "{{ roles }}"
 
-- include_vars: ./ipam_data.yml
+- include_vars: ./nautobot-data/ipam_data.yml
 
 - name: Create a namespace
   networktocode.nautobot.namespace:
@@ -95,7 +95,7 @@
   loop: "{{ ip_addresses }}"
   when: "'/32' in item.address or '/128' in item.address"
 
-- include_vars: ./nautobot_devices.yml
+- include_vars: ./nautobot-data/nautobot_devices.yml
 
 - name: Create manufacturers
   networktocode.nautobot.manufacturer:
@@ -263,3 +263,33 @@
     cable_result.failed and
     ('already has a cable attached' not in (cable_result.msg | default('')) and
      'cable dcim.interface' not in (cable_result.msg | default('')))
+
+- name: Pull mgmt interfaces from Nautobot
+  networktocode.nautobot.query_graphql:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    query: |
+      {
+        interfaces (mgmt_only: true) {
+          name
+          ip_addresses {
+            address
+          }
+          device {
+            name
+          }
+        }
+      }
+  register: "nb_interfaces"
+  
+- name: Assign Primary IPv4 to Device
+  networktocode.nautobot.device:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.device.name }}"
+    primary_ip4: "{{ item.ip_addresses[0].address }}"
+    status: Active
+    state: present
+  loop: "{{ nb_interfaces.data.interfaces }}"
