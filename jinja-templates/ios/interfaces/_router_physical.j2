@@ -6,7 +6,7 @@ interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["ip_addresses"] | length > 0 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
- ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+ ip address {{ addr["address"] | ipv4_address }} {{ addr["address"] | netmask }}
  {% endif %}
  {% endfor %}
  {% endif %}
@@ -21,7 +21,7 @@ interface {{ interface["name"] }}
 {% if interface["ip_addresses"] | length > 0 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
- ip address {{ addr["address"] | ipaddr('address') }} {{ addr.address | ipaddr('netmask') }}
+ ip address {{ addr["address"] | ipv4_address }} {{ addr.address | netmask }}
  no cdp enable
  no shutdown
 !
