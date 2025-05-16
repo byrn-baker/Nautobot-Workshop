@@ -1,8 +1,8 @@
 {% set os = "jinja-templates" %}
 {% if role["name"] == "Provider Router" %}
-{% include os ~  "ios/platform_templates/provider_router.j2" %}
+{% include os ~ "ios/platform_templates/provider_router.j2" %}
 {% elif role["name"] == "Provider Edge Router" %}
-{% include os ~  "ios/platform_templates/provider_edge_router.j2" %}
+{% include os ~ "ios/platform_templates/provider_edge_router.j2" %}
 {% elif role["name"] == "Customer Edge Router" %}
-{% include os ~  "ios/platform_templates/customer_edge_router.j2" %}
+{% include os ~ "ios/platform_templates/customer_edge_router.j2" %}
 {% endif %}
