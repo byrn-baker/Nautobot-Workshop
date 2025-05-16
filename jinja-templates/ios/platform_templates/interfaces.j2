@@ -1,0 +1,11 @@
+{% for interface in interfaces %}
+{% if 'Loop' in interface["name"] %}
+{% include "./ios/interfaces/_loopback.j2" %}
+{% elif device_role["name"] == "Provider Router" %}
+{% include "./ios/interfaces/_router_physical.j2"%}
+{% elif device_role["name"] == "Provider Edge Router" %}
+{% include "./ios/interfaces/_router_physical.j2"%}
+{% elif device_role["name"] == "Customer Edge Router" %}
+{% include "./ios/interfaces/_router_physical.j2"%}
+{% endif %}
+{% endfor %}

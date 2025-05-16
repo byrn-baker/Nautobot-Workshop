@@ -1,0 +1,36 @@
+{% if interface["label"] == "layer3" and interface["enabled"] == true and 'GigabitEthernet' in interface["name"] %}
+interface {{ interface["name"]["split"]('.')[0] }}
+{% if interface["description"] is defined %}
+ description {{ interface.description }}
+{% endif %}
+{% if interface["ip_addresses"] | length > 0 %}
+{% for addr in interface["ip_addresses"] %}
+{% if addr["address"] is defined %}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+ {% endif %}
+ {% endfor %}
+ {% endif %}
+ no shutdown
+!
+{% elif interface["mgmt_only"] == True %}
+interface {{ interface["name"] }}
+{% if interface["description"] is defined %}
+ description {{ interface["description"] }}    
+{% endif %}
+ vrf forwarding clab-mgmt
+{% if interface["ip_addresses"] | length > 0 %}
+{% for addr in interface["ip_addresses"] %}
+{% if addr["address"] is defined %}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr.address | ipaddr('netmask') }}
+ no cdp enable
+ no shutdown
+!
+{% endif %}
+{% endfor %}
+{% endif %}
+{% else %}
+interface {{ interface["name"] }}
+ description NOT IN USE
+ shutdown
+!
+{% endif %}
