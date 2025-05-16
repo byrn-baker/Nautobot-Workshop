@@ -10,10 +10,10 @@ interface {{ interface["name"]["split"]('.')[0] }}
  ip address {{ addr["address"] | ipv4_address }} {{ addr["address"] | netmask }}
 {% elif ':' in addr["address"] %}
  ipv6 address {{ addr["address"] }}
- {% endif %}
- {% endif %}
- {% endfor %}
- {% endif %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
  no shutdown
 !
 {% elif interface["mgmt_only"] == True %}
