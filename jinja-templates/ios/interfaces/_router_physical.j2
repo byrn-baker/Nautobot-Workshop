@@ -9,7 +9,7 @@ interface {{ interface["name"]["split"]('.')[0] }}
 {% if '.' in addr["address"] %}
  ip address {{ addr["address"] | ipv4_address }} {{ addr["address"] | netmask }}
 {% elif ':' in addr["address"] %}
- ipv6 address {{ addr["address"] | ipv6_address }}
+ ipv6 address {{ addr["address"] }}
  {% endif %}
  {% endif %}
  {% endfor %}
