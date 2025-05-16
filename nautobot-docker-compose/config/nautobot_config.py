@@ -6,6 +6,7 @@ import sys
 
 from nautobot.core.settings import *  # noqa: F403  # pylint: disable=wildcard-import,unused-wildcard-import
 from nautobot.core.settings_funcs import is_truthy, parse_redis_connection
+from custom_jinja_filters import netaddr_filters  # noqa: F401
 
 #
 # Debug

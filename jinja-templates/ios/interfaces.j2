@@ -1,11 +1,11 @@
 {% for interface in interfaces %}
 {% if 'Loop' in interface["name"] %}
-{% include "jinja-templates/ios/interfaces/_loopback.j2" %}
+{% include "ios/interfaces/_loopback.j2" %}
 {% elif role["name"] == "Provider Router" %}
-{% include "jinja-templates/ios/interfaces/_router_physical.j2"%}
+{% include "ios/interfaces/_router_physical.j2"%}
 {% elif role["name"] == "Provider Edge Router" %}
-{% include "jinja-templates/ios/interfaces/_router_physical.j2"%}
+{% include "ios/interfaces/_router_physical.j2"%}
 {% elif role["name"] == "Customer Edge Router" %}
-{% include "jinja-templates/ios/interfaces/_router_physical.j2"%}
+{% include "ios/interfaces/_router_physical.j2"%}
 {% endif %}
 {% endfor %}
