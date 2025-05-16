@@ -1,4 +1,4 @@
-{% if interface["enabled"] == true and 'Ethernet' in interface["name"] %}
+{% if interface["enabled"] == true and 'Ethernet' in interface["name"] and interface["mgmt_only"] == False %}
 interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["description"] is defined %}
  description {{ interface.description }}
