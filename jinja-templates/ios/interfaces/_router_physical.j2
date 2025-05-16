@@ -1,4 +1,4 @@
-{% if interface["label"] == "layer3" and interface["enabled"] == true and 'GigabitEthernet' in interface["name"] %}
+{% if interface["enabled"] == true and 'GigabitEthernet' in interface["name"] %}
 interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["description"] is defined %}
  description {{ interface.description }}
