@@ -1,0 +1,9 @@
+{% if device['role']["name"] == "Provider Router" %}
+{% include "/ios/platform_templates/provider_router.j2" %}
+{% elif device['role']["name"] == "Provider Edge Router" %}
+{% include "/ios/platform_templates/provider_edge_router.j2" %}
+{% elif device['role']["name"] == "Customer Edge Router" %}
+{% include "/ios/platform_templates/customer_edge_router.j2" %}
+{% elif device['role']["name"] == "Provider Route Reflector" %}
+{% include "/ios/platform_templates/provider_route_reflector.j2" %}
+{% endif %}

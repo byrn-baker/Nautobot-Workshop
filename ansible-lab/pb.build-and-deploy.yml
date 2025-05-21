@@ -1,0 +1,8 @@
+---
+- name: Generate full lab configurations and deploy
+  hosts: P1
+  gather_facts: false
+
+  roles:
+    - build_lab_config
+    # - deploy_lab

@@ -1,0 +1,17 @@
+---
+- name: Pull Data from Nautobot
+  delegate_to: localhost
+  run_once: false
+  networktocode.nautobot.query_graphql:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    query: "{{ query_string }}"
+    update_hostvars: true
+
+- name: Template the router configurations
+  delegate_to: localhost
+  run_once: false
+  template:
+    src: "{{ ansible_network_os }}.j2"
+    dest: "./configs/{{ inventory_hostname }}.conf"

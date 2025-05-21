@@ -1,0 +1,22 @@
+interface {{ interface.name }}
+{% if interface.description | length > 1 %}
+ description {{ interface.description }}
+{% else %}
+ description Protocol Loopback
+{% endif %}
+{% set valid_addrs = interface.ip_addresses | selectattr("address", "defined") | list %}
+{% if valid_addrs | length > 0 %}
+{% for addr in valid_addrs %}
+{% if '.' in addr["address"] %}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+{% elif ':' in addr["address"] %}
+ ipv6 address {{ addr["address"] }}
+{% endif %}
+{% endfor %}
+{% else %}
+ no ip address
+{% endif %}
+{% if interface.enabled == false %}
+ shutdown
+{% endif %}
+!

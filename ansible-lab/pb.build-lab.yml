@@ -1,5 +1,5 @@
 ---
-- name: Populate Nautobot & Generate Containerlab topology from Nautobot
+- name: Populate Nautobot, Generate Containerlab topology from Nautobot, and generate full lab configurations and deploy them
   hosts: localhost
   gather_facts: false
 

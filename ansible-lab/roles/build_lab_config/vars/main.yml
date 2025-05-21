@@ -1,0 +1,72 @@
+---
+query_string: |
+  query {
+    device(id: "{{ id}}") {
+      config_context
+      hostname: name
+      position
+      serial
+      role {
+        name
+      }
+      primary_ip4 {
+        id
+        primary_ip4_for {
+          id
+          name
+        }
+      }
+      tenant {
+        name
+      }
+      tags {
+        name
+      }
+      role {
+        name
+      }
+      platform {
+        name
+        network_driver
+        manufacturer {
+          name
+        }
+        network_driver
+        napalm_driver
+      }
+      location {
+        name
+        parent {
+          name
+        }
+      }
+      interfaces {
+        description
+        mac_address
+        enabled
+        mgmt_only
+        name
+        ip_addresses {
+          address
+          tags {
+            id
+          }
+        }
+        tagged_vlans {
+          id
+        }
+        untagged_vlan {
+          id
+        }
+        connected_interface {
+          name
+          device {
+            name
+          }
+        }
+        tags {
+          id
+        }
+      }
+    }
+  }
