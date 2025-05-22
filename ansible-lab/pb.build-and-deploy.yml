@@ -1,8 +1,11 @@
 ---
 - name: Generate full lab configurations and deploy
-  hosts: P1
+  hosts: ios
   gather_facts: false
+  connection: network_cli
+  vars_files:
+    - vault.yml
 
   roles:
     - build_lab_config
-    # - deploy_lab
+    - deploy_lab_configs

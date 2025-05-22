@@ -9,7 +9,7 @@ interface {{ interface["name"]["split"]('.')[0] }}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
 {% if '.' in addr["address"] %}
- ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+ ip address {{ addr["address"] | ansible.utils.ipaddr('address') }} {{ addr["address"] | ansible.utils.ipaddr('netmask') }}
 {% elif ':' in addr["address"] %}
  ipv6 address {{ addr["address"] }}
 {% endif %}
@@ -29,7 +29,7 @@ interface {{ interface["name"] }}
 {% if interface["ip_addresses"] | length > 0 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
- ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+ ip address {{ addr["address"] | ansible.utils.ipaddr('address') }} {{ addr["address"] | ansible.utils.ipaddr('netmask') }}
  no cdp enable
  no shutdown
 !

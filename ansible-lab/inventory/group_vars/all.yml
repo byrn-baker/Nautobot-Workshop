@@ -1,2 +1,5 @@
 nb_url: "http://localhost:8080/"
-nb_token: "dcfed8822c1c918531c98d8244932acdad515517"
+nb_token: "{{ nautobot_token }}"
+
+ansible_user: "{{ router_username }}"
+ansible_password: "{{ router_password }}"

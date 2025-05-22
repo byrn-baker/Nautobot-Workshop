@@ -1,16 +1,13 @@
 ---
 plugin: networktocode.nautobot.gql_inventory
 api_endpoint: http://localhost:8080
-token: "dcfed8822c1c918531c98d8244932acdad515517"
 validate_certs: false
 query:
   devices:
     id:
-    platform: network_driver
+    platform: napalm_driver
   virtual_machines:
     filters:
       name: EXCLUDE ALL
 group_by:
-  - platform.name
-compose:
-  ansible_network_os: platform.network_driver
+  - platform.napalm_driver
