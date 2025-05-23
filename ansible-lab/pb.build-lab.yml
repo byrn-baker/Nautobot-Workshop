@@ -1,7 +1,14 @@
 ---
 - name: Populate Nautobot, Generate Containerlab topology from Nautobot, and generate full lab configurations and deploy them
   hosts: localhost
+  connection: local
   gather_facts: false
+
+  vars_files:
+  - nautobot-data/extensible_data.yml
+  - nautobot-data/origanization_data.yml
+  - nautobot-data/ipam_data.yml
+  - nautobot-data/nautobot_devices.yml
 
   roles:
     - load_nautobot

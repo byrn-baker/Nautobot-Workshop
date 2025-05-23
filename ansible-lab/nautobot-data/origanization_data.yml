@@ -29,7 +29,7 @@ locations:
     location_type: HomeLab
     parent: Nautobot Workshop
 
-roles:
+nb_roles:
   - name: Customer Edge Router
     color: 6c5734
     content_types:

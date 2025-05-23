@@ -1,0 +1,35 @@
+---
+- name: Create location types
+  networktocode.nautobot.location_type:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    nestable: true
+    content_types: "{{ item.content_type }}"
+  loop: "{{ location_types }}"
+
+- name: Create locations
+  networktocode.nautobot.location:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    status: Active
+    location_type:
+      name: "{{ item.location_type }}"
+    parent: "{{ item.parent |default(omit) }}"
+    description: "{{ item.description |default(omit) }}"
+    state: present
+  loop: "{{ locations }}"
+
+- name: Create roles
+  networktocode.nautobot.role:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    name: "{{ item.name }}"
+    color: "{{ item.color }}"
+    content_types: "{{ item.content_types }}"
+    state: present
+  loop: "{{ nb_roles }}"

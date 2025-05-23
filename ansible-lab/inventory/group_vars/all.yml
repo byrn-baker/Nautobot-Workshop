@@ -1,5 +1,5 @@
 nb_url: "http://localhost:8080/"
-nb_token: "{{ nautobot_token }}"
+nb_token: "{{ lookup('env', 'NAUTOBOT_TOKEN') }}"
 
-ansible_user: "{{ router_username }}"
-ansible_password: "{{ router_password }}"
+# ansible_user: "{{ router_username }}"
+# ansible_password: "{{ router_password }}"

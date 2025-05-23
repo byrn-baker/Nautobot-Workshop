@@ -1,0 +1,34 @@
+---
+- name: Create custom field within Nautobot with all information
+  networktocode.nautobot.custom_field:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    label: "{{ item.name }}"
+    grouping: "{{ item.grouping }}"
+    key: "{{ item.key }}"
+    type: "{{ item.type }}"
+    weight: 100
+    description: "{{ item.description }}"
+    required: false
+    default: "{{ item.default | default(omit) }}"
+    filter_logic: loose
+    advanced_ui: false
+    content_types: "{{ item.content_types }}"
+    validation_minimum: "{{ item.validation_minimum | default(omit) }}"
+    validation_maximum: "{{ item.validation_maximum | default(omit) }}"
+    validation_regex: "{{ item.validation_regex | default(omit) }}"
+    state: present
+  loop: "{{ custom_fields }}"
+
+- name: Create a custom field choice
+  networktocode.nautobot.custom_field_choice:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    value: "{{ item.1 }}"
+    weight: 100
+    custom_field: "{{ item.0.key }}"
+    state: present
+  loop: "{{ custom_fields | subelements('choices', 'skip_missing=True') }}"
+  when: item.0.choices is defined

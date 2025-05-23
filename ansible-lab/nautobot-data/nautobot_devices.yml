@@ -275,30 +275,40 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.2/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.12.1/24
         ipv6_address: 2001:db8:100:12::1/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P2
         z_interface: Ethernet0/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.13.1/24
         ipv6_address: 2001:db8:100:13::1/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P3
         z_interface: Ethernet0/2
-      - name: Ethernet1/0
+      - name: Ethernet0/3
         type: 1000base-t
         ipv4_address: 100.0.101.1/24
         ipv6_address: 2001:db8:100:101::1/64
+        ospf_area: 10
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: RR1
         z_interface: Ethernet0/1
-      - name: Ethernet1/1
+      - name: Ethernet1/0
         type: 1000base-t
         ipv4_address: 100.0.11.1/24
         ipv6_address: 2001:db8:100:11::1/64
+        ospf_area: 1
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE1
         z_interface: Ethernet0/1
       - name: Ethernet0/0
@@ -317,30 +327,40 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.3/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.12.2/24
         ipv6_address: 2001:db8:100:12::2/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P1
         z_interface: Ethernet0/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.24.2/24
         ipv6_address: 2001:db8:100:24::2/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P4
         z_interface: Ethernet0/2
       - name: Ethernet0/3
         type: 1000base-t
         ipv4_address: 100.0.102.2/24
         ipv6_address: 2001:db8:100:102::2/64
+        ospf_area: 10
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: RR1
         z_interface: Ethernet0/2
       - name: Ethernet1/0
         type: 1000base-t
         ipv4_address: 100.0.22.2/24
         ipv6_address: 2001:db8:100:22::2/64
+        ospf_area: 3
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE3
         z_interface: Ethernet0/1
       - name: Ethernet0/0
@@ -359,30 +379,40 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.4/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.34.3/24
         ipv6_address: 2001:db8:100:34::3/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P4
         z_interface: Ethernet0/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.13.3/24
         ipv6_address: 2001:db8:100:13::3/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P1
         z_interface: Ethernet0/2
       - name: Ethernet0/3
         type: 1000base-t
         ipv4_address: 100.0.31.3/24
         ipv6_address: 2001:db8:100:31::3/64
+        ospf_area: 1
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE1
         z_interface: Ethernet0/2
       - name: Ethernet1/0
         type: 1000base-t
         ipv4_address: 100.0.33.3/24
         ipv6_address: 2001:db8:100:33::3/64
+        ospf_area: 2
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE2
         z_interface: Ethernet0/1
       - name: Ethernet0/0
@@ -401,30 +431,40 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.5/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.34.4/24
         ipv6_address: 2001:db8:100:34::4/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P3
         z_interface: Ethernet0/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.24.4/24
         ipv6_address: 2001:db8:100:24::4/64
+        ospf_area: 0
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P2
         z_interface: Ethernet0/2
       - name: Ethernet0/3
         type: 1000base-t
         ipv4_address: 100.0.42.4/24
         ipv6_address: 2001:db8:100:42::4/64
+        ospf_area: 2
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE2
         z_interface: Ethernet0/2
       - name: Ethernet1/0
         type: 1000base-t
         ipv4_address: 100.0.43.4/24
         ipv6_address: 2001:db8:100:43::4/64
+        ospf_area: 3
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: PE3
         z_interface: Ethernet0/2
       - name: Ethernet0/0
@@ -443,18 +483,22 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.6/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.11.11/24
         ipv6_address: 2001:db8:100:11::11/64
+        ospf_area: 1
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P1
         z_interface: Ethernet1/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.31.11/24
         ipv6_address: 2001:db8:100:31::11/64
+        ospf_area: 1
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P3
         z_interface: Ethernet0/3
       - name: Ethernet0/3
@@ -479,18 +523,22 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.7/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.33.33/24
         ipv6_address: 2001:db8:100:33::33/64
+        ospf_area: 2
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P3
         z_interface: Ethernet1/0
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.42.12/24
         ipv6_address: 2001:db8:100:42::12/64
+        ospf_area: 2
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P4
         z_interface: Ethernet0/3
       - name: Ethernet0/3
@@ -515,18 +563,22 @@ devices:
     software_version: 17.12.01
     primary_ip4: 192.168.220.8/24
     interfaces:
-      - name: Ethernet0/0
-        type: 1000base-t
       - name: Ethernet0/1
         type: 1000base-t
         ipv4_address: 100.0.22.12/24
         ipv6_address: 2001:db8:100:22::12/64
+        ospf_area: 3
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P2
         z_interface: Ethernet1/0
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.43.43/24
         ipv6_address: 2001:db8:100:43::43/64
+        ospf_area: 3
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P4
         z_interface: Ethernet1/0
       - name: Ethernet0/3
@@ -551,12 +603,18 @@ devices:
         type: 1000base-t
         ipv4_address: 100.0.101.101/24
         ipv6_address: 2001:db8:100:101::101/64
+        ospf_area: 10
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P1
         z_interface: Ethernet1/0
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.102.101/24
         ipv6_address: 2001:db8:100:102::101/64
+        ospf_area: 10
+        ospf_network_type: point-to-point
+        mpls_enabled: true
         z_device: P2
         z_interface: Ethernet0/3
       - name: Ethernet0/3
