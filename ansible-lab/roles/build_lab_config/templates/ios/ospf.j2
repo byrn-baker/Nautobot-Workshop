@@ -1,0 +1,29 @@
+{% set ospf = device['config_context']['ospf'] %}
+{% if ospf['ipv4'] is defined %}
+router ospf {{ ospf['ipv4']['process_id'] }}
+{% for interface in device['interfaces'] if 'Loopback0' in interface["name"] %}
+{% for addr in interface['ip_addresses'] if '.' in addr["address"] %}
+ router-id {{ addr['address'] | ansible.utils.ipaddr('address') }}
+{% endfor %}
+{% endfor %}
+{% if ospf['ipv4']['passive_interfaces'] is defined %}
+{% for int in ospf['ipv4']['passive_interfaces'] %}
+ passive-interface {{ int }}
+{% endfor %}
+{% endif %}
+!
+{% endif %}
+{% if ospf['ipv6'] is defined %}
+ipv6 router ospf {{ ospf['ipv6']['process_id'] }}
+{% for interface in device['interfaces'] if 'Loopback0' in interface["name"] %}
+{% for addr in interface['ip_addresses'] if '.' in addr["address"] %}
+ router-id {{ addr['address'] | ansible.utils.ipaddr('address') }}
+{% endfor %}
+{% endfor %}
+{% if ospf['ipv6']['passive_interfaces'] is defined %}
+{% for int in ospf['ipv4']['passive_interfaces'] %}
+ passive-interface {{ int }}
+{% endfor %}
+{% endif %}
+!
+{% endif %}

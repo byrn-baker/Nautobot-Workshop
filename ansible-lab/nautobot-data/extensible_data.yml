@@ -4,7 +4,7 @@ custom_fields:
     grouping: OSPF
     description: Network type for OSPF
     key: ospf_network_type
-    type: multi-select
+    type: select
     choices:
       - point-to-point
       - broadcast
@@ -34,7 +34,7 @@ custom_fields:
     grouping: OSPF
     description: OSPF authentication type on the interface
     key: ospf_auth_type
-    type: multi-select
+    type: select
     choices:
       - none
       - simple

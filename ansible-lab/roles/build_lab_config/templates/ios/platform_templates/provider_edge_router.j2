@@ -39,7 +39,9 @@ login on-success log
 ipv6 unicast-routing
 ipv6 cef
 !
-!
+{% if device['config_context']['mpls']['enabled'] is defined and device['config_context']['mpls']['enabled'] == True %}
+mpls ip
+{% endif %}
 !
 !
 !
@@ -95,6 +97,13 @@ ipv6 route vrf clab-mgmt ::/0 Ethernet0/0
 !
 !
 !
+{% if device['config_context']['ospf'] is defined %}
+{% include '/ios/ospf.j2' %}
+{% endif %}
+!
+{% if device['config_context']['mpls'] is defined %}
+{% include '/ios/mpls.j2' %}
+{% endif %}
 !
 control-plane
 !

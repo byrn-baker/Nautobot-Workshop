@@ -45,6 +45,9 @@ query_string: |
         mac_address
         enabled
         mgmt_only
+        cf_ospf_network_type
+        cf_ospf_area
+        cf_mpls_enabled
         name
         ip_addresses {
           address

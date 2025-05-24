@@ -6,6 +6,13 @@
   vars_files:
     - vault.yml
 
-  roles:
-    - build_lab_config
-    - deploy_lab_configs
+  tasks:
+    - name: Build Router Configurations 
+      import_role: 
+        name: build_lab_config
+      tags: build
+    
+    - name: Deploy Router Configurations
+      import_role: 
+        name: deploy_lab_configs
+      tags: deploy

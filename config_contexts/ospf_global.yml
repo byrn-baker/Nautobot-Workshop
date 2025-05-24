@@ -5,6 +5,8 @@ _metadata:
   is_active: true
   roles:
     - name: "Provider Router"
+    - name: "Provider Edge Router"
+    - name: "Provider Route Reflector"
 ospf:
   ipv4:
     process_id: 1
