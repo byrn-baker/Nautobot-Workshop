@@ -1,0 +1,91 @@
+---
+_metadata:
+  name: "Global OSPF Config Schema"
+  description: "Schema for global OSPF process-level settings for both IPv4 (OSPFv2) and IPv6 (OSPFv3)."
+data_schema:
+  title: "Global OSPF Settings"
+  type: object
+  properties:
+    ospf:
+      type: object
+      properties:
+        router_id:
+          type: string
+          format: ipv4
+          description: "Common router ID for OSPFv2 and OSPFv3"
+        ipv4:
+          type: object
+          properties:
+            process_id:
+              type: integer
+              description: "OSPFv2 process ID"
+            redistribute:
+              type: array
+              description: "Protocols to redistribute into OSPFv2"
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                    enum: ["connected", "static", "bgp", "eigrp"]
+                  metric:
+                    type: integer
+                  route_map:
+                    type: string
+                required:
+                  - protocol
+            passive_interfaces:
+              type: array
+              description: "OSPFv2 interfaces to be marked as passive"
+              items:
+                type: string
+            log_adjacency_changes:
+              type: boolean
+              default: true
+            bfd:
+              type: boolean
+              default: false
+            timers:
+              type: object
+              properties:
+                throttle_spf:
+                  type: string
+                  pattern: "^[0-9]+ [0-9]+ [0-9]+$"
+                  description: "SPF throttle timers: start hold max"
+          required:
+            - process_id
+        ipv6:
+          type: object
+          properties:
+            process_id:
+              type: integer
+              description: "OSPFv3 process ID"
+            redistribute:
+              type: array
+              description: "Protocols to redistribute into OSPFv3"
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                    enum: ["connected", "static", "bgp"]
+                  metric:
+                    type: integer
+                  route_map:
+                    type: string
+                required:
+                  - protocol
+            log_adjacency_changes:
+              type: boolean
+              default: true
+            bfd:
+              type: boolean
+              default: false
+          required:
+            - process_id
+      required:
+        - router_id
+        - ipv4
+        - ipv6
+  required:
+    - ospf

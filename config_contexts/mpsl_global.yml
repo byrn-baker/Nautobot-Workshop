@@ -1,0 +1,14 @@
+_metadata:
+  name: MPLS Global Context
+  description: MPLS Global Context for all devices
+  weight: 100
+  is_active: true
+  roles:
+    - name: "Provider Router"
+  
+mpls:
+  enabled: true
+  label_protocol: "ldp"
+  ldp:
+    enabled: true
+    force: true

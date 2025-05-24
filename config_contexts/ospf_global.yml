@@ -1,0 +1,20 @@
+_metadata:
+  name: OSPF Global Context
+  description: OSPF Global Context for all devices
+  weight: 100
+  is_active: true
+  roles:
+    - name: "Provider Router"
+ospf:
+  ipv4:
+    process_id: 1
+    passive_interfaces:
+      - Loopback0
+    log_adjacency_changes: true
+    bfd: false
+  ipv6:
+    process_id: 1
+    passive_interfaces:
+      - Loopback0
+    log_adjacency_changes: true
+    bfd: false

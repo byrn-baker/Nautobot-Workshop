@@ -1,0 +1,44 @@
+---
+_metadata:
+  name: "Global MPLS Config Schema"
+  description: "Schema for global MPLS configuration including LDP settings."
+data_schema:
+  title: "Global MPLS Settings"
+  type: object
+  properties:
+    mpls:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+          description: "Globally enable MPLS forwarding"
+        label_protocol:
+          type: string
+          enum: ["ldp", "rsvp", "segment-routing"]
+          default: "ldp"
+          description: "Label distribution protocol"
+        ldp:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              default: true
+              description: "Enable MPLS LDP"
+            router_id:
+              type: string
+              format: ipv4
+              description: "Router ID to use for LDP"
+            force:
+              type: boolean
+              default: true
+              description: "Force the LDP router ID assignment"
+          required:
+            - enabled
+            - router_id
+      required:
+        - enabled
+        - label_protocol
+        - ldp
+  required:
+    - mpls
