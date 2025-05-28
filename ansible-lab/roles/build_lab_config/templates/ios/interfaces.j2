@@ -1,13 +1,13 @@
-{% for interface in device['interfaces'] %}
+{% for interface in interfaces %}
 {% if 'Loop' in interface["name"] %}
 {% include "/ios/interfaces/_loopback.j2" %}
-{% elif device['role']["name"] == "Provider Router" %}
+{% elif role["name"] == "Provider Router" %}
 {% include "/ios/interfaces/_router_physical.j2"%}
-{% elif device['role']["name"] == "Provider Edge Router" %}
+{% elif role["name"] == "Provider Edge Router" %}
 {% include "/ios/interfaces/_router_physical.j2"%}
-{% elif device['role']["name"] == "Customer Edge Router" %}
+{% elif role["name"] == "Customer Edge Router" %}
 {% include "/ios/interfaces/_router_physical.j2"%}
-{% elif device['role']["name"] == "Provider Route Reflector" %}
+{% elif role["name"] == "Provider Route Reflector" %}
 {% include "/ios/interfaces/_router_physical.j2"%}
 {% endif %}
 {% endfor %}

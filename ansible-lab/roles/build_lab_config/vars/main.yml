@@ -10,16 +10,9 @@ query_string: |
         name
       }
       primary_ip4 {
-        id
-        primary_ip4_for {
-          id
-          name
-        }
+        address
       }
       tenant {
-        name
-      }
-      tags {
         name
       }
       role {
@@ -51,9 +44,6 @@ query_string: |
         name
         ip_addresses {
           address
-          tags {
-            id
-          }
         }
         tagged_vlans {
           id
@@ -66,9 +56,6 @@ query_string: |
           device {
             name
           }
-        }
-        tags {
-          id
         }
       }
     }

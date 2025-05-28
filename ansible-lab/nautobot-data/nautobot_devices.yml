@@ -319,6 +319,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.1/32
         ipv6_address: 2001:db8:100:254::1/128
+        ospf_area: 0
   - name: P2
     role: Provider Router
     location: Backbone
@@ -371,6 +372,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.2/32
         ipv6_address: 2001:db8:100:254::2/128
+        ospf_area: 0
   - name: P3
     role: Provider Router
     location: Backbone
@@ -423,6 +425,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.3/32
         ipv6_address: 2001:db8:100:254::3/128
+        ospf_area: 0
   - name: P4
     role: Provider Router
     location: Backbone
@@ -475,6 +478,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.4/32
         ipv6_address: 2001:db8:100:254::4/128
+        ospf_area: 0
   - name: PE1
     role: Provider Edge Router
     location: Backbone
@@ -515,6 +519,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.11/32
         ipv6_address: 2001:db8:100:254::11/128
+        ospf_area: 1
   - name: PE2
     role: Provider Edge Router
     location: Backbone
@@ -555,6 +560,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.12/32
         ipv6_address: 2001:db8:100:254::12/128
+        ospf_area: 2
   - name: PE3
     role: Provider Edge Router
     location: Backbone
@@ -591,6 +597,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.13/32
         ipv6_address: 2001:db8:100:254::13/128
+        ospf_area: 3
   - name: RR1
     role: Provider Route Reflector
     location: Backbone
@@ -627,6 +634,7 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.0.254.5/32
         ipv6_address: 2001:db8:100:254::5/128
+        ospf_area: 10
   - name: West-Leaf01
     role: Datacenter Leaf
     location: West Side Data Center 

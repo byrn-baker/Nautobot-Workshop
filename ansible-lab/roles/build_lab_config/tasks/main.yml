@@ -1,17 +1,26 @@
 ---
 - name: Pull Data from Nautobot
   delegate_to: localhost
-  run_once: false
+  run_once: true
   networktocode.nautobot.query_graphql:
     url: "{{ nb_url }}"
     token: "{{ nb_token }}"
     validate_certs: false
     query: "{{ query_string }}"
     update_hostvars: true
+    
+
+- name: Flatten device data into top-level hostvars
+  set_fact:
+    "{{ item.key }}": "{{ item.value }}"
+  loop: "{{ hostvars[inventory_hostname].device | dict2items }}"
+  when: hostvars[inventory_hostname].device is defined
+
+- debug:
+    msg: "role is: {{ role.name }}"
 
 - name: Template the router configurations
-  delegate_to: localhost
-  run_once: false
   template:
     src: "{{ ansible_network_os }}.j2"
     dest: "./configs/{{ inventory_hostname }}.conf"
+  delegate_to: localhost

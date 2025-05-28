@@ -3,7 +3,7 @@ version 17.12
 service timestamps debug datetime msec
 service timestamps log datetime msec
 !
-hostname {{ device['hostname'] }}
+hostname {{ hostname }}
 !
 boot-start-marker
 boot-end-marker
@@ -39,7 +39,7 @@ login on-success log
 ipv6 unicast-routing
 ipv6 cef
 !
-{% if device['config_context']['mpls']['enabled'] is defined and device['config_context']['mpls']['enabled'] == True %}
+{% if config_context['mpls']['enabled'] is defined and config_context['mpls']['enabled'] == True %}
 mpls ip
 {% endif %}
 !
@@ -96,11 +96,11 @@ ip ssh bulk-mode 131072
 ipv6 route vrf clab-mgmt ::/0 Ethernet0/0
 !
 !
-{% if device['config_context']['ospf'] is defined %}
+{% if config_context['ospf'] is defined %}
 {% include '/ios/ospf.j2' %}
 {% endif %}
 !
-{% if device['config_context']['mpls'] is defined %}
+{% if config_context['mpls'] is defined %}
 {% include '/ios/mpls.j2' %}
 {% endif %}
 !
