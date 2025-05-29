@@ -1,0 +1,19 @@
+_metadata:
+  name: "Global Backbone Route Maps"
+  description: "Backbone Route Maps"
+  weight: 100
+  is_active: true
+  roles:
+    - name: "Provider Router"
+    - name: "Provider Edge Router"
+    - name: "Provider Route Reflector"
+
+route_maps:
+  - name: ALLOW_ALL_IN
+    sequence: 10
+    action: permit
+    match_prefix_list: ALLOW_ALL_IN_PREFIX
+  - name: ALLOW_ALL_OUT
+    sequence: 10
+    action: permit
+    match_prefix_list: ALLOW_ALL_OUT_PREFIX

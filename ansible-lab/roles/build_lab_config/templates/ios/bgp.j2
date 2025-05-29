@@ -1,0 +1,43 @@
+{% for instance in bgp_routing_instances %}
+router bgp {{ instance['autonomous_system']['asn'] }}
+ bgp log-neighbor-changes
+{# Configure all neighbors #}
+{% for ep in instance['endpoints'] %}
+{% set peer = ep['peer'] %}
+{% set peer_ip = peer['source_ip']['address'] | ipaddr('address') %}
+{% set peer_asn = peer['autonomous_system']['asn'] %}
+{% set peer_desc = peer['description'] %}
+{% if peer_desc %}
+ neighbor {{ peer_ip }} description {{ peer_desc }}
+{% endif %}
+ neighbor {{ peer_ip }} remote-as {{ peer_asn }}
+{% endfor %}
+{# Address-family level config #}
+{% for afi in instance['address_families'] %}
+ address-family {{ 'ipv4' if 'IPV4_UNICAST' in afi['afi_safi'] else 'ipv6' }} unicast
+{% if afi['extra_attributes'] is defined and afi['extra_attributes'] is not none %}
+{% for redist in afi['extra_attributes']['redistribute'] %}
+  redistribute {{ redist }}
+{% endfor %}
+{% endif %}
+{# Per-neighbor address-family settings #}
+{% for ep in instance['endpoints'] %}
+{% set peer = ep['peer'] %}
+{% set peer_ip = peer['source_ip']['address'] | ipaddr('address') %}
+{% for af in peer['address_families'] %}
+{% if af['afi_safi'] == afi['afi_safi'] %}
+  neighbor {{ peer_ip }} activate
+{% if af['import_policy'] %}
+  neighbor {{ peer_ip }} route-map {{ af['import_policy'] }} in
+{% endif %}
+{% if af['export_policy'] %}
+  neighbor {{ peer_ip }} route-map {{ af['export_policy'] }} out
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+ exit-address-family
+{% endfor %}
+
+!
+{% endfor %}

@@ -1,0 +1,23 @@
+---
+_metadata:
+  name: route_maps
+  description: Route-maps for BGP neighbors (used for in/out policy).
+data_schema:
+  type: object
+  properties:
+    route_maps:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          sequence:
+            type: integer
+          action:
+            type: string
+            enum: ["permit", "deny"]
+          match_prefix_list:
+            type: string
+        required: ["name", "sequence", "action", "match_prefix_list"]
+  required: ["route_maps"]

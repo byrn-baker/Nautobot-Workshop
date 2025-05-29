@@ -2,14 +2,14 @@
 interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["description"] | length > 1 %}
  description {{ interface.description }}
-{% elif interface.connected_interface is defined and interface.connected_interface and interface.connected_interface.device is defined and interface.connected_interface.device.name is defined %}
+{% elif interface['connected_interface'] is defined and interface['connected_interface'] and interface['connected_interface']['device'] is defined and interface['connected_interface']['device']['name'] is defined %}
  description To {{ interface["connected_interface"]["device"]["name"] }}-{{ interface["connected_interface"]["name"] }}
 {% endif %}
 {% if interface["ip_addresses"] | length > 1 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
 {% if '.' in addr["address"] %}
- ip address {{ addr["address"] | ansible.utils.ipaddr('address') }} {{ addr["address"] | ansible.utils.ipaddr('netmask') }}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
 {% elif ':' in addr["address"] %}
  ipv6 address {{ addr["address"] }}
  ipv6 enable
@@ -45,7 +45,7 @@ interface {{ interface["name"] }}
 {% if interface["ip_addresses"] | length > 0 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
- ip address {{ addr["address"] | ansible.utils.ipaddr('address') }} {{ addr["address"] | ansible.utils.ipaddr('netmask') }}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr.address | ipaddr('netmask') }}
  no cdp enable
  no shutdown
 !

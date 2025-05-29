@@ -1,0 +1,20 @@
+_metadata:
+  name: "Global Backbone Prefix Lists"
+  description: "Prefix lists for global use in route-maps and other configurations."
+  weight: 100
+  is_active: true
+  roles:
+    - name: "Provider Router"
+    - name: "Provider Edge Router"
+    - name: "Provider Route Reflector"
+prefix_lists:
+  - name: ALLOW_ALL_IN_PREFIX
+    afi: ipv4
+    entries:
+      - seq: 5
+        permit: "0.0.0.0/0 le 32"
+  - name: ALLOW_ALL_OUT_PREFIX
+    afi: ipv4
+    entries:
+      - seq: 5
+        permit: "0.0.0.0/0 le 32"

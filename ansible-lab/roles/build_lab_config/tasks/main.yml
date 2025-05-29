@@ -1,7 +1,7 @@
 ---
 - name: Pull Data from Nautobot
   delegate_to: localhost
-  run_once: true
+  run_once: false
   networktocode.nautobot.query_graphql:
     url: "{{ nb_url }}"
     token: "{{ nb_token }}"
@@ -15,9 +15,6 @@
     "{{ item.key }}": "{{ item.value }}"
   loop: "{{ hostvars[inventory_hostname].device | dict2items }}"
   when: hostvars[inventory_hostname].device is defined
-
-- debug:
-    msg: "role is: {{ role.name }}"
 
 - name: Template the router configurations
   template:

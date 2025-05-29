@@ -1,0 +1,29 @@
+---
+_metadata:
+  name: prefix_lists
+  description: Prefix-lists used for BGP route-maps.
+data_schema:
+  type: object
+  properties:
+    prefix_lists:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          afi:
+            type: string
+            enum: ["ipv4", "ipv6"]
+          entries:
+            type: array
+            items:
+              type: object
+              properties:
+                seq:
+                  type: integer
+                permit:
+                  type: string
+              required: ["seq", "permit"]
+        required: ["name", "afi", "entries"]
+  required: ["prefix_lists"]
