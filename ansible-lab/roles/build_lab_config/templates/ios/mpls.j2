@@ -1,5 +1,5 @@
 {% set mpls = config_context['mpls'] %}
-{% if mpls['label_protocol'] == True %}
+{% if mpls['enabled'] == true %}
 {% if mpls['ldp']['force'] == True %}
 mpls ldp router-id Loopback0 force
 {% endif %}
