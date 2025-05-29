@@ -1,0 +1,5 @@
+{% for map in config_context['route_maps'] %}
+route-map {{ map['name'] }} {{ map['action'] }} {{ map['sequence'] }}
+ match ip address prefix-list {{ map['match_prefix_list'] }}
+!
+{% endfor %}

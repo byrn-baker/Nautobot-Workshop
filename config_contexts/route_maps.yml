@@ -10,10 +10,22 @@ _metadata:
 
 route_maps:
   - name: ALLOW_ALL_IN
-    sequence: 10
+    afi: ipv4
     action: permit
+    sequence: 10
     match_prefix_list: ALLOW_ALL_IN_PREFIX
   - name: ALLOW_ALL_OUT
-    sequence: 10
+    afi: ipv4
     action: permit
+    sequence: 10
     match_prefix_list: ALLOW_ALL_OUT_PREFIX
+  - name: ALLOW_ALL_IN
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_IN_PREFIX
+  - name: ALLOW_ALL_OUT
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_OUT_PREFIX
