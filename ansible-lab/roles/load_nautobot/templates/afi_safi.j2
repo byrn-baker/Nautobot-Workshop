@@ -1,0 +1,26 @@
+---
+bgp:
+{% for res in routing_instance_result.results if res.changed == true %}
+{%   set instance_id = res['routing-instances']['id'] %}
+{%   set item = res['item'][0] %}
+  - device: {{ item.name }}
+    id: {{ instance_id }}
+    afi_safi:
+{%     if item.bgp is defined and item.bgp.afi_safi is defined %}
+{%       for afi in item.bgp.afi_safi %}
+      - afi: {{ afi.afi }}
+        extra_attributes:
+{{ afi.extra_attributes | default({}) | to_nice_yaml(indent=10) | indent(10, true) }}
+{%       endfor %}
+{%     endif %}
+    bgp_peers:
+{%     if item.bgp is defined and item.bgp.bgp_peers is defined %}
+{%       for peer in item.bgp.bgp_peers %}
+      - peer_address: {{ peer.peer_address }}
+        peer_asn: {{ peer.peer_asn }}
+        description: {{ peer.description | default('') }}
+        in_route_map: {{ peer.in_route_map | default('') }}
+        out_route_map: {{ peer.out_route_map | default('') }}
+{%       endfor %}
+{%     endif %}
+{% endfor %}

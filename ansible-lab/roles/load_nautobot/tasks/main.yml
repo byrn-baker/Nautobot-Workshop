@@ -14,3 +14,7 @@
 - name: Build Nautobot device data
   import_tasks: devices.yml
   tags: [devices]
+
+- name: Build Nautobot BGP routing instances
+  import_tasks: bgp.yml
+  tags: [bgp]

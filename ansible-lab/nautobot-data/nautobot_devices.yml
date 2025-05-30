@@ -274,6 +274,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.2/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -327,6 +350,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.3/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -380,6 +426,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.4/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -433,6 +502,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.5/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -486,6 +578,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.6/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -527,6 +642,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.7/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -568,6 +706,29 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.8/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.5
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::5
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -605,6 +766,89 @@ devices:
     platform: IOS
     software_version: 17.12.01
     primary_ip4: 192.168.220.11/24
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peers:
+        - peer_address: 100.0.254.1
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::1
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.2
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::2
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.3
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::3
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.4
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::4
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.11
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::11
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.12
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::12
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.254.13
+          peer_asn: 65000
+          description: "IPV4-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:254::13
+          peer_asn: 65000
+          description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t

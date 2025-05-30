@@ -1,0 +1,78 @@
+---
+# - name: Create Nautobot BGP Autobomous Systems
+#   networktocode.nautobot.plugin:
+#     url: "{{ nb_url }}"
+#     token: "{{ nb_token }}"
+#     validate_certs: false
+#     plugin: bgp
+#     endpoint: autonomous-systems
+#     identifiers:
+#       asn: "{{ item.0.bgp.asn }}"
+#     attrs:
+#       description: "{{ item.0.bgp.description | default('') }}"
+#       status: Active
+#     state: present
+#   loop: "{{ devices }}"
+#   when: item.0.bgp is defined
+
+# - name: Create Nautobot BGP Routing Instances
+#   networktocode.nautobot.plugin:
+#     url: "{{ nb_url }}"
+#     token: "{{ nb_token }}"
+#     validate_certs: false
+#     plugin: bgp
+#     endpoint: routing-instances
+#     identifiers:
+#       device: "{{ item.0.name }}"
+#     attrs:
+#       autonomous_system: "{{ item.0.bgp.asn }}"
+#       router_id: 
+#         address: "{{ item.1.ipv4_address }}"
+#       status: Active
+#     state: present
+#   loop: "{{ devices | subelements('interfaces', 'skip_missing=True') }}"
+#   when: item.0.bgp is defined and item.1.name == 'Loopback0' and item.1.ipv4_address is defined
+#   register: routing_instance_result
+
+# - name: Flatten results so we can easily assign address families to routing instances
+#   template:
+#     src: afi_safi.j2
+#     dest: "./nautobot-data/routing_instances.yml"
+
+- include_vars: "./nautobot-data/routing_instances.yml"
+
+# - name: Assign address families to BGP Routing Instances
+#   networktocode.nautobot.plugin:
+#     url: "{{ nb_url }}"
+#     token: "{{ nb_token }}"
+#     validate_certs: false
+#     plugin: bgp
+#     endpoint: address-families
+#     identifiers:
+#       routing_instance: "{{ item.0.id }}"
+#       afi_safi: "{{ item.1.afi }}"
+#     attrs:
+#       extra_attributes: "{{ item.1.extra_attributes | default({}) }}"
+#     state: present
+#   loop: "{{ bgp | subelements('afi_safi', skip_missing=True) }}"
+
+- name: Create BGP PeerEndpoints
+  networktocode.nautobot.plugin:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    plugin: bgp
+    endpoint: peer-endpoints
+    identifiers:
+      source_ip:
+        address: "{{ item.1.peer_address }}"
+      autonomous_system: "{{ item.1.peer_asn }}"
+    attrs:
+      routing_instance: "{{ item.0.id }}"
+      autonomous_system: "{{ item.1.peer_asn }}"
+      source_ip:
+        address: "{{ item.1.peer_address }}"
+      description: "{{ item.1.description }}"
+    state: present
+  loop: "{{ bgp | subelements('bgp_peers', skip_missing=True) }}"
+
