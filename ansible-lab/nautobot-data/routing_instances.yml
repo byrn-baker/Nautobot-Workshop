@@ -19,11 +19,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: P2
     id: 602b5f5e-a00a-45b9-8882-f066db8ee935
     afi_safi:
@@ -43,11 +45,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: P3
     id: 37a8f372-ec8b-4c9f-a1df-a0a2d78e9dde
     afi_safi:
@@ -67,11 +71,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: P4
     id: 0f52c6b5-808e-4e7d-bb63-9dcc5dd9337a
     afi_safi:
@@ -91,11 +97,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: PE1
     id: 16134441-475a-4666-b439-68884f197726
     afi_safi:
@@ -115,11 +123,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: PE2
     id: da7f2cd1-ea95-44ef-ba0b-3cfe246b437c
     afi_safi:
@@ -139,11 +149,13 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast
   - device: PE3
     id: 3074954c-c195-4ae5-bf8c-afd15183fb2e
     afi_safi:
@@ -163,92 +175,10 @@ bgp:
         description: IPV4-BACKBONE-RR
         in_route_map: ALLOW_ALL_V4_IN
         out_route_map: ALLOW_ALL_V4_OUT
+        afi: ipv4_unicast
       - peer_address: 2001:db8:100:254::5
         peer_asn: 65000
         description: IPV6-BACKBONE-RR
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
-  - device: RR1
-    id: 97654d50-3dd7-4cf7-a13d-6966ef3117bb
-    afi_safi:
-      - afi: ipv4_unicast
-        extra_attributes:
-          redistribute:
-          - connected
-
-      - afi: ipv6_unicast
-        extra_attributes:
-          redistribute:
-          - connected
-
-    bgp_peers:
-      - peer_address: 100.0.254.1
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::1
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.2
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::2
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.3
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::3
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.4
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::4
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.11
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::11
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.12
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::12
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
-      - peer_address: 100.0.254.13
-        peer_asn: 65000
-        description: IPV4-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V4_IN
-        out_route_map: ALLOW_ALL_V4_OUT
-      - peer_address: 2001:db8:100:254::13
-        peer_asn: 65000
-        description: IPV6-BACKBONE-RR
-        in_route_map: ALLOW_ALL_V6_IN
-        out_route_map: ALLOW_ALL_V6_OUT
+        afi: ipv6_unicast

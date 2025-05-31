@@ -56,23 +56,6 @@
 #     state: present
 #   loop: "{{ bgp | subelements('afi_safi', skip_missing=True) }}"
 
-- name: Create BGP PeerEndpoints
-  networktocode.nautobot.plugin:
-    url: "{{ nb_url }}"
-    token: "{{ nb_token }}"
-    validate_certs: false
-    plugin: bgp
-    endpoint: peer-endpoints
-    identifiers:
-      source_ip:
-        address: "{{ item.1.peer_address }}"
-      autonomous_system: "{{ item.1.peer_asn }}"
-    attrs:
-      routing_instance: "{{ item.0.id }}"
-      autonomous_system: "{{ item.1.peer_asn }}"
-      source_ip:
-        address: "{{ item.1.peer_address }}"
-      description: "{{ item.1.description }}"
-    state: present
+- name: Iterate over BGP Peers
+  include_tasks: bgp_peers.yml
   loop: "{{ bgp | subelements('bgp_peers', skip_missing=True) }}"
-

@@ -19,6 +19,11 @@ bgp:
       - peer_address: {{ peer.peer_address }}
         peer_asn: {{ peer.peer_asn }}
         description: {{ peer.description | default('') }}
+        {% if "." in peer.peer_address %}
+        afi: ipv4_unicast
+        {% elif ":" in peer.peer_address %}
+        afi: ipv6_unicast
+        {% endif %}
         in_route_map: {{ peer.in_route_map | default('') }}
         out_route_map: {{ peer.out_route_map | default('') }}
 {%       endfor %}

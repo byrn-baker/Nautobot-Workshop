@@ -1,0 +1,37 @@
+---
+query_string: |
+  {
+    ip_addresses(address: "{{ item.1.peer_address }}") {
+      id
+      interface_assignments {
+      interface{
+        device {
+          name
+          bgp_routing_instances {
+            id
+          }
+        }
+      }
+    }
+    }
+    autonomous_systems(asn: {{ item.1.peer_asn | int }}) {
+      id
+    }
+    devices (name: "{{ item.0.device }}") {
+      interfaces (name: "Loopback0") {
+        ip_addresses {
+          address
+          id
+        }
+      }
+      bgp_routing_instances {
+        id
+        autonomous_system {
+          id
+        }
+      }
+    }
+    statuses (name: "Active") {
+      id
+    }
+  }

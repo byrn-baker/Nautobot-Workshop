@@ -1,0 +1,125 @@
+- name: Look up additional info
+  networktocode.nautobot.query_graphql:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    query: "{{ query_string }}"
+  register: graphql_results
+
+- name: setting facts
+  set_fact:
+    source_ipv4: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[0].address }}"
+    source_ipv6: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[1].address }}"
+    source_ipv4_id: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[0].id }}"
+    source_ipv6_id: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[1].id }}"
+    local_asn_id: "{{ graphql_results.data.devices[0].bgp_routing_instances[0].autonomous_system.id }}"
+    peer_device: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.device.name }}"
+    peer_routing_instance_id: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.device.bgp_routing_instances[0].id }}"
+    peer_address_id: "{{ graphql_results.data.ip_addresses[0].id }}"
+    peer_asn_id: "{{ graphql_results.data.autonomous_systems[0].id }}"
+    active_status_id: "{{ graphql_results.data.statuses[0].id }}"
+     
+- name: Create BGP Peering for both endpoints
+  ansible.builtin.uri:
+    url: "{{ nb_url }}/api/plugins/bgp/peerings/"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+      Authorization: "Token {{ nb_token }}"
+    body_format: json
+    body:
+      status:
+        id: "{{ active_status_id }}"
+    return_content: true
+    status_code: 201
+    validate_certs: false
+  register: bgp_peering_result
+
+- name: Create BGP PeerEndpoints for {{ item.0.device }}
+  ansible.builtin.uri:
+    url: "{{ nb_url }}/api/plugins/bgp/peer-endpoints/?format=json"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+      Authorization: "Token {{ nb_token }}"
+    body_format: json
+    body:
+      description: "{{ peer_device }}"
+      enabled: true
+      peering: "{{ bgp_peering_result.json.id }}"
+      routing_instance:
+        id: "{{ item.0.id}}"
+      autonomous_system:
+        id: "{{ local_asn_id }}"
+      source_ip:
+        id: "{{ source_ipv4_id if item.1.peer_address.startswith('100') else source_ipv6_id }}"
+    return_content: true
+    status_code: 201
+    validate_certs: false
+  register: bgp_peer_endpoint_result
+
+- name: Set AFI-SAFI for BGP PeerEndpoint-A
+  ansible.builtin.uri:
+    url: "{{ nb_url }}api/plugins/bgp/peer-endpoint-address-families/?format=json"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+      Authorization: "Token {{ nb_token }}"
+    body_format: json
+    body:
+      afi_safi: "{{ item.1.afi }}"
+      import_policy: "{{ item.1.in_route_map }}"
+      export_policy: "{{ item.1.out_route_map }}"
+      multipath: false
+      peer_endpoint:
+        id: "{{ bgp_peer_endpoint_result.json.id }}"
+    return_content: true
+    status_code: 201
+    validate_certs: false
+  
+- name: Create BGP PeerEndpoint for {{ peer_device }}
+  ansible.builtin.uri:
+    url: "{{ nb_url }}/api/plugins/bgp/peer-endpoints/?format=json"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+      Authorization: "Token {{ nb_token }}"
+    body_format: json
+    body:
+      description: "{{ peer_device }}"
+      enabled: true
+      peering: "{{ bgp_peering_result.json.id }}"
+      routing_instance:
+        id: "{{ peer_routing_instance_id}}"
+      autonomous_system:
+        id: "{{ peer_asn_id }}"
+      source_ip:
+        id: "{{ peer_address_id }}"
+    return_content: true
+    status_code: 201
+    validate_certs: false
+  register: bgp_peer_endpoint_result
+
+- name: Set AFI-SAFI for BGP PeerEndpoint-Z
+  ansible.builtin.uri:
+    url: "{{ nb_url }}api/plugins/bgp/peer-endpoint-address-families/?format=json"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+      Authorization: "Token {{ nb_token }}"
+    body_format: json
+    body:
+      afi_safi: "{{ item.1.afi }}"
+      import_policy: "{{ item.1.in_route_map }}"
+      export_policy: "{{ item.1.out_route_map }}"
+      multipath: false
+      peer_endpoint:
+        id: "{{ bgp_peer_endpoint_result.json.id }}"
+    return_content: true
+    status_code: 201
+    validate_certs: false
