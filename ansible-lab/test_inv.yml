@@ -1,0 +1,222 @@
+all:
+  children:
+    eos:
+      hosts:
+        East-Leaf01:
+          ansible_host: East-Leaf01
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 15b3ab93-d145-4286-8602-dda1d4e18611
+          name: East-Leaf01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        East-Leaf02:
+          ansible_host: East-Leaf02
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 98cc963e-8f0d-4238-b1d4-46306bc35db5
+          name: East-Leaf02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        East-Spine01:
+          ansible_host: East-Spine01
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 09da5a16-b090-4023-903a-43fa0651f4fa
+          name: East-Spine01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        East-Spine02:
+          ansible_host: East-Spine02
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 404d7eb7-e4c4-434c-ba1c-5c5a57b94198
+          name: East-Spine02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        West-Leaf01:
+          ansible_host: West-Leaf01
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 110bd409-cfde-4069-a5c5-10d351302909
+          name: West-Leaf01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        West-Leaf02:
+          ansible_host: West-Leaf02
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 42c8fafb-fcf9-461a-b936-61c6443bfac2
+          name: West-Leaf02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        West-Spine01:
+          ansible_host: West-Spine01
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 5cc64efd-88b0-4acb-b800-86a3787e4d54
+          name: West-Spine01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+        West-Spine02:
+          ansible_host: West-Spine02
+          ansible_network_os: arista.eos.eos
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: bb4305e1-eb63-49b9-ab28-d86921b6914d
+          name: West-Spine02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+    ios:
+      hosts:
+        CE1:
+          ansible_host: CE1
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: df8cd46e-97da-4c2f-a63b-aaac1b3cd083
+          name: CE1
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        CE2:
+          ansible_host: CE2
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: ee72048e-a7df-47a2-82b1-16607c6f4909
+          name: CE2
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        P1:
+          ansible_host: P1
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: d1d8451c-59e7-4b07-a1c2-a7e156a62116
+          name: P1
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        P2:
+          ansible_host: P2
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 29e02283-6558-49af-ac62-62bd436f69a2
+          name: P2
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        P3:
+          ansible_host: P3
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 57c12e92-f3ed-4629-a44b-a5f6d5dd5d00
+          name: P3
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        P4:
+          ansible_host: P4
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: d78e9eb7-a3cc-4971-aa30-8f90710323f0
+          name: P4
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        PE1:
+          ansible_host: PE1
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: 9c6bde3e-bb69-4017-8c4d-94d4550ba8be
+          name: PE1
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        PE2:
+          ansible_host: PE2
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: a576767d-b1ef-4a22-8332-5e735dff88bc
+          name: PE2
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        PE3:
+          ansible_host: PE3
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: bc3ad58e-8ee9-4e19-a8e7-5dcbc1849a2b
+          name: PE3
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios
+        RR1:
+          ansible_host: RR1
+          ansible_network_os: cisco.ios.ios
+          ansible_password: '{{ router_password }}'
+          ansible_user: '{{ router_username }}'
+          id: be28e57d-ad42-4821-be95-9c8a472a5665
+          name: RR1
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: ios
+            network_driver: cisco_ios

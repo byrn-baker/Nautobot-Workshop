@@ -1,27 +1,20 @@
----
 query_string: |
   {
-    ip_addresses(address: "{{ item.1.peer_address }}") {
-      id
-      interface_assignments {
-      interface{
-        device {
-          name
-          bgp_routing_instances {
-            id
-          }
-        }
-      }
-    }
-    }
-    autonomous_systems(asn: {{ item.1.peer_asn | int }}) {
-      id
-    }
-    devices (name: "{{ item.0.device }}") {
-      interfaces (name: "Loopback0") {
+    devices(name: "{{ item.0.device }}") {
+      interfaces {
+        name
+        id
         ip_addresses {
           address
           id
+        }
+        connected_interface {
+          name
+          id
+          ip_addresses {
+            address
+            id
+          }
         }
       }
       bgp_routing_instances {
@@ -31,7 +24,28 @@ query_string: |
         }
       }
     }
-    statuses (name: "Active") {
+    ip_addresses(address: "{{ item.1.peer_address }}") {
+      id
+      interface_assignments {
+        interface {
+          name
+          id
+          device {
+            name
+            bgp_routing_instances {
+              id
+              autonomous_system {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+    autonomous_systems(asn: {{ item.1.peer_asn | int }}) {
+      id
+    }
+    statuses(name: "Active") {
       id
     }
   }

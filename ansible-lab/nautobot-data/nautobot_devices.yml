@@ -28,245 +28,7 @@ software_versions:
   - version: 17.12.01
     platform: IOS
 
-devices:
-  - name: CE1
-    role: Customer Edge Router
-    location: West Side Data Center
-    device_type: iol
-    platform: IOS
-    software_version: 17.12.01
-    primary_ip4: 192.168.220.9/24
-    interfaces:
-      - name: Ethernet0/1
-        type: 1000base-t
-        ipv4_address: 100.0.111.101/24
-        ipv6_address: 2001:db8:100:111::101/64
-        z_device: PE1
-        z_interface: Ethernet0/3
-      - name: Ethernet0/2
-        type: 1000base-t
-        ipv4_address: 100.2.11.1/24
-        ipv6_address: 2001:db8:102:11::1/64
-        z_device: West-Leaf01
-        z_interface: eth7
-      - name: Ethernet0/3
-        type: 1000base-t
-        ipv4_address: 100.2.12.1/24
-        ipv6_address: 2001:db8:102:12::1/64
-        z_device: West-Spine02
-        z_interface: eth7
-      - name: Ethernet0/0
-        type: 1000base-t
-        vrf: clab-mgmt
-        ipv4_address: 192.168.220.9/24
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.0.254.111/32
-        ipv6_address: 2001:db8:100:254::111/128
-  - name: CE2
-    role: Customer Edge Router
-    location: East Side Data Center
-    device_type: iol
-    platform: IOS
-    software_version: 17.12.01
-    primary_ip4: 192.168.220.10/24
-    interfaces:
-      - name: Ethernet0/1
-        type: 1000base-t
-        ipv4_address: 100.1.222.22/24
-        ipv6_address: 2001:db8:100:222::22/64
-        z_device: PE2
-        z_interface: Ethernet0/3
-      - name: Ethernet0/2
-        type: 1000base-t
-        ipv4_address: 100.1.11.2/24
-        ipv6_address: 2001:db8:101:11::2/64
-        z_device: East-Spine01
-        z_interface: eth7
-      - name: Ethernet0/3
-        type: 1000base-t
-        ipv4_address: 100.1.12.1/24
-        ipv6_address: 2001:db8:101:12::1/64
-        z_device: East-Spine02
-        z_interface: eth7
-      - name: Ethernet0/0
-        type: 1000base-t
-        vrf: clab-mgmt
-        ipv4_address: 192.168.220.10/24
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.0.254.112/32
-        ipv6_address: 2001:db8:100:254::112/128
-  - name: East-Leaf01
-    role: Datacenter Leaf
-    location: East Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.18/24
-    interfaces:
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.1.254.3/32
-        ipv6_address: 2001:db8:101:254::3/128
-      - name: Port-Channel1
-        type: LAG
-        mode: Access
-      - name: Port-Channel2
-        type: LAG
-        mode: Access
-      - name: Port-Channel3
-        type: LAG
-        mode: Access
-      - name: Port-Channel4
-        type: LAG
-        mode: Access
-      - name: Vlan253
-        type: VIRTUAL
-        ipv4_address: 100.1.253.1/24
-        ipv6_address: 2001:db8:101:253::1/64
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.1.101.2/24
-        ipv6_address: 2001:db8:102:101::2/64
-        z_device: East-Spine01
-        z_interface: eth1
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.1.201.21/24
-        ipv6_address: 2001:db8:102:201::21/64
-        z_device: East-Spine02
-        z_interface: eth1
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: Management0
-        type: 1000base-t
-        vrf: clab-mgmt
-        ipv4_address: 192.168.220.18/24
-  - name: East-Leaf02
-    role: Datacenter Leaf
-    location: East Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.19/24
-    interfaces:
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.1.102.12/24
-        ipv6_address: 2001:db8:102:102::12/64
-        z_device: East-Spine01
-        z_interface: eth2
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.1.202.22/24
-        ipv6_address: 2001:db8:102:202::22/64
-        z_device: East-Spine02
-        z_interface: eth2
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: eth7
-        type: 1000base-t
-      - name: Management0
-        type: 1000base-t
-        vrf: clab-mgmt
-        ipv4_address: 192.168.220.19/24
-  - name: East-Spine01
-    role: Datacenter Spine
-    location: East Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.16/24
-    interfaces:
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.1.254.1/32
-        ipv6_address: 2001:db8:101:254::1/128
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.1.101.1/24
-        ipv6_address: 2001:db8:102:101::1/64
-        z_device: East-Leaf01
-        z_interface: eth1
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.1.102.1/24
-        ipv6_address: 2001:db8:102:102::1/64
-        z_device: East-Leaf02
-        z_interface: eth1
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: eth7
-        type: 1000base-t
-        ipv4_address: 100.1.11.11/24
-        ipv6_address: 2001:db8:102:11::11/64
-        z_device: CE2
-        z_interface: Ethernet0/2
-      - name: Management0
-        type: 1000base-t
-        vrf: clab-mgmt
-        ipv4_address: 192.168.220.16/24
-  - name: East-Spine02
-    role: Datacenter Spine
-    location: East Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.17/24
-    interfaces:
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.1.254.2/32
-        ipv6_address: 2001:db8:101:254::2/128
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.1.201.2/24
-        ipv6_address: 2001:db8:102:201::2/64
-        z_device: East-Leaf01
-        z_interface: eth2
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.1.202.2/24
-        ipv6_address: 2001:db8:102:202::2/64
-        z_device: East-Leaf02
-        z_interface: eth2
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: eth7
-        type: 1000base-t
-        ipv4_address: 100.1.12.12/24
-        ipv6_address: 2001:db8:102:12::12/64
-        z_device: CE2
-        z_interface: Ethernet0/3
-      - name: Management0
-        type: 1000base-t
-        ipv4_address: 192.168.220.17/24
-        vrf: clab-mgmt
+devices:       
   - name: P1
     role: Provider Router
     location: Backbone
@@ -278,14 +40,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -354,14 +110,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -430,14 +180,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -506,14 +250,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -582,14 +320,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -601,6 +333,16 @@ devices:
           description: "IPV6-BACKBONE-RR"
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.111.2
+          peer_asn: 65200
+          description: "IPV4-CE2"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:111::2
+          peer_asn: 65200
+          description: "IPV6-CE2"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
@@ -610,7 +352,7 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P1
-        z_interface: Ethernet1/1
+        z_interface: Ethernet0/1
       - name: Ethernet0/2
         type: 1000base-t
         ipv4_address: 100.0.31.11/24
@@ -622,8 +364,8 @@ devices:
         z_interface: Ethernet0/3
       - name: Ethernet0/3
         type: 1000base-t
-        ipv4_address: 100.0.111.11/24
-        ipv6_address: 2001:db8:100:111::11/64
+        ipv4_address: 100.0.111.1/24
+        ipv6_address: 2001:db8:100:111::1/64
         z_device: CE1
         z_interface: Ethernet0/1
       - name: Ethernet0/0
@@ -646,14 +388,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -686,10 +422,6 @@ devices:
         z_interface: Ethernet0/3
       - name: Ethernet0/3
         type: 1000base-t
-        ipv4_address: 100.0.222.22/24
-        ipv6_address: 2001:db8:100:222::22/64
-        z_device: CE2
-        z_interface: Ethernet0/1
       - name: Ethernet0/0
         type: 1000base-t
         vrf: clab-mgmt
@@ -710,14 +442,8 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5
           peer_asn: 65000
@@ -727,6 +453,16 @@ devices:
         - peer_address: 2001:db8:100:254::5
           peer_asn: 65000
           description: "IPV6-BACKBONE-RR"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.0.222.2
+          peer_asn: 65100
+          description: "IPV4-CE2"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:100:222::2
+          peer_asn: 65100
+          description: "IPV6-CE2"
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
@@ -750,6 +486,10 @@ devices:
         z_interface: Ethernet1/0
       - name: Ethernet0/3
         type: 1000base-t
+        ipv4_address: 100.0.222.1/24
+        ipv6_address: 2001:db8:100:222::1/64
+        z_device: CE2
+        z_interface: Ethernet0/1
       - name: Ethernet0/0
         type: 1000base-t
         vrf: clab-mgmt
@@ -759,6 +499,318 @@ devices:
         ipv4_address: 100.0.254.13/32
         ipv6_address: 2001:db8:100:254::13/128
         ospf_area: 3
+  
+  - name: CE2
+    role: Customer Edge Router
+    location: East Side Data Center
+    device_type: iol
+    platform: IOS
+    software_version: 17.12.01
+    primary_ip4: 192.168.220.10/24
+    bgp:
+      asn: 65100
+      description: "Customer Edge 2"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.1.11.2
+          peer_asn: 65101
+          description: "EAST_SPINE01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:101:11::2
+          peer_asn: 65101
+          description: "EAST_SPINE01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.2.11.2
+          peer_asn: 65101
+          description: "EAST_SPINE02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:101:12::2
+          peer_asn: 65101
+          description: "EAST_SPINE02_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Ethernet0/1
+        type: 1000base-t
+        ipv4_address: 100.0.222.2/24
+        ipv6_address: 2001:db8:100:222::2/64
+        z_device: PE3
+        z_interface: Ethernet0/3
+      - name: Ethernet0/2
+        type: 1000base-t
+        ipv4_address: 100.1.11.1/24
+        ipv6_address: 2001:db8:101:11::1/64
+        z_device: East-Spine01
+        z_interface: eth7
+      - name: Ethernet0/3
+        type: 1000base-t
+        ipv4_address: 100.1.12.1/24
+        ipv6_address: 2001:db8:101:12::1/64
+        z_device: East-Spine02
+        z_interface: eth7
+      - name: Ethernet0/0
+        type: 1000base-t
+        vrf: clab-mgmt
+        ipv4_address: 192.168.220.10/24
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.0.254.112/32
+        ipv6_address: 2001:db8:100:254::112/128
+
+  - name: East-Spine01
+    role: Datacenter Spine
+    location: East Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.16/24
+    bgp:
+      asn: 65101
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.1.101.2
+          peer_asn: 65102
+          description: "EAST_LEAF01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:101::2
+          peer_asn: 65102
+          description: "EAST_LEAF01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.1.102.2
+          peer_asn: 65102
+          description: "EAST_LEAF02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:102::2
+          peer_asn: 65102
+          description: "EAST_LEAF02_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.1.254.1/32
+        ipv6_address: 2001:db8:101:254::1/128
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.1.101.1/24
+        ipv6_address: 2001:db8:102:101::1/64
+        z_device: East-Leaf01
+        z_interface: eth1
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.1.102.1/24
+        ipv6_address: 2001:db8:102:102::1/64
+        z_device: East-Leaf02
+        z_interface: eth1
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: eth7
+        type: 1000base-t
+        ipv4_address: 100.1.11.2/24
+        ipv6_address: 2001:db8:101:11::2/64
+        z_device: CE2
+        z_interface: Ethernet0/2
+      - name: Management0
+        type: 1000base-t
+        vrf: clab-mgmt
+        ipv4_address: 192.168.220.16/24
+
+  - name: East-Spine02
+    role: Datacenter Spine
+    location: East Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.17/24
+    bgp:
+      asn: 65101
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.1.201.2
+          peer_asn: 65102
+          description: "EAST_LEAF01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:201::2
+          peer_asn: 65102
+          description: "EAST_LEAF01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.1.202.2
+          peer_asn: 65102
+          description: "EAST_LEAF02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:202::2
+          peer_asn: 65102
+          description: "EAST_LEAF02_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.1.254.2/32
+        ipv6_address: 2001:db8:101:254::2/128
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.1.201.1/24
+        ipv6_address: 2001:db8:102:201::1/64
+        z_device: East-Leaf01
+        z_interface: eth2
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.1.202.1/24
+        ipv6_address: 2001:db8:102:202::1/64
+        z_device: East-Leaf02
+        z_interface: eth2
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: eth7
+        type: 1000base-t
+        ipv4_address: 100.1.12.2/24
+        ipv6_address: 2001:db8:101:12::2/64
+        z_device: CE2
+        z_interface: Ethernet0/3
+      - name: Management0
+        type: 1000base-t
+        ipv4_address: 192.168.220.17/24
+        vrf: clab-mgmt
+  
+  - name: East-Leaf01
+    role: Datacenter Leaf
+    location: East Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.18/24
+    bgp:
+      asn: 65102
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+    interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.1.254.3/32
+        ipv6_address: 2001:db8:101:254::3/128
+      - name: Port-Channel1
+        type: LAG
+        mode: Access
+      - name: Port-Channel2
+        type: LAG
+        mode: Access
+      - name: Port-Channel3
+        type: LAG
+        mode: Access
+      - name: Port-Channel4
+        type: LAG
+        mode: Access
+      - name: Vlan253
+        type: VIRTUAL
+        ipv4_address: 100.1.253.1/24
+        ipv6_address: 2001:db8:101:253::1/64
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.1.101.2/24
+        ipv6_address: 2001:db8:102:101::2/64
+        z_device: East-Spine01
+        z_interface: eth1
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.1.201.2/24
+        ipv6_address: 2001:db8:102:201::2/64
+        z_device: East-Spine02
+        z_interface: eth1
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: Management0
+        type: 1000base-t
+        vrf: clab-mgmt
+        ipv4_address: 192.168.220.18/24
+
+  - name: East-Leaf02
+    role: Datacenter Leaf
+    location: East Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.19/24
+    bgp:
+      asn: 65102
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+    interfaces:
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.1.102.2/24
+        ipv6_address: 2001:db8:102:102::2/64
+        z_device: East-Spine01
+        z_interface: eth2
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.1.202.2/24
+        ipv6_address: 2001:db8:102:202::2/64
+        z_device: East-Spine02
+        z_interface: eth2
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: eth7
+        type: 1000base-t
+      - name: Management0
+        type: 1000base-t
+        vrf: clab-mgmt
+        ipv4_address: 192.168.220.19/24
+
   - name: RR1
     role: Provider Route Reflector
     location: Backbone
@@ -770,18 +822,12 @@ devices:
       asn: 65000
       description: "Backbone AS"
       afi_safi:
-        - afi: ipv4_unicast
-          extra_attributes:
-            redistribute:
-              - connected
-        - afi: ipv6_unicast
-          extra_attributes:
-            redistribute:
-              - connected
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
     interfaces:
       - name: Ethernet0/1
         type: 1000base-t
-        ipv4_address: 100.0.101.101/24
+        ipv4_address: 100.0.101.2/24
         ipv6_address: 2001:db8:100:101::101/64
         ospf_area: 10
         ospf_network_type: point-to-point
@@ -790,7 +836,7 @@ devices:
         z_interface: Ethernet1/0
       - name: Ethernet0/2
         type: 1000base-t
-        ipv4_address: 100.0.102.101/24
+        ipv4_address: 100.0.102.2/24
         ipv6_address: 2001:db8:100:102::101/64
         ospf_area: 10
         ospf_network_type: point-to-point
@@ -808,6 +854,207 @@ devices:
         ipv4_address: 100.0.254.5/32
         ipv6_address: 2001:db8:100:254::5/128
         ospf_area: 10
+  
+  - name: CE1
+    role: Customer Edge Router
+    location: West Side Data Center
+    device_type: iol
+    platform: IOS
+    software_version: 17.12.01
+    primary_ip4: 192.168.220.9/24
+    bgp:
+      asn: 65200
+      description: "Customer Edge 1"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.2.11.2
+          peer_asn: 65201
+          description: "WEST_SPINE01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:11::2
+          peer_asn: 65201
+          description: "WEST_SPINE01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.2.12.2
+          peer_asn: 65201
+          description: "WEST_SPINE02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:102:12::2
+          peer_asn: 65201
+          description: "WEST_SPINE01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Ethernet0/1
+        type: 1000base-t
+        ipv4_address: 100.0.111.2/24
+        ipv6_address: 2001:db8:100:111::2/64
+        z_device: PE1
+        z_interface: Ethernet0/3
+      - name: Ethernet0/2
+        type: 1000base-t
+        ipv4_address: 100.2.11.1/24
+        ipv6_address: 2001:db8:102:11::1/64
+        z_device: West-Leaf01
+        z_interface: eth7
+      - name: Ethernet0/3
+        type: 1000base-t
+        ipv4_address: 100.2.12.1/24
+        ipv6_address: 2001:db8:102:12::1/64
+        z_device: West-Spine02
+        z_interface: eth7
+      - name: Ethernet0/0
+        type: 1000base-t
+        vrf: clab-mgmt
+        ipv4_address: 192.168.220.9/24
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.0.254.111/32
+        ipv6_address: 2001:db8:100:254::111/128
+
+  - name: West-Spine01
+    role: Datacenter Spine
+    location: West Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.12/24
+    bgp:
+      asn: 65201
+      description: "WEST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.2.101.2
+          peer_asn: 65202
+          description: "WEST_LEAF01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:202:101::2
+          peer_asn: 65202
+          description: "WEST_LEAF01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.2.102.2
+          peer_asn: 65202
+          description: "WEST_LEAF02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:202:102::2
+          peer_asn: 65202
+          description: "WEST_LEAF02_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.2.254.1/32
+        ipv6_address: 2001:db8:102:254::1/128
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.2.101.1/24
+        ipv6_address: 2001:db8:202:101::1/64
+        z_device: West-Leaf01
+        z_interface: eth1
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.2.102.1/24
+        ipv6_address: 2001:db8:202:102::1/64
+        z_device: West-Leaf02
+        z_interface: eth1
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: eth7
+        type: 1000base-t
+        ipv4_address: 100.2.11.2/24
+        ipv6_address: 2001:db8:102:11::2/64
+      - name: Management0
+        type: 1000base-t
+        ipv4_address: 192.168.220.12/24
+        vrf: clab-mgmt
+
+  - name: West-Spine02
+    role: Datacenter Spine
+    location: West Side Data Center 
+    device_type: ceos
+    platform: EOS
+    software_version: 4.34.0F
+    primary_ip4: 192.168.220.13/24
+    bgp:
+      asn: 65201
+      description: "WEST_SPINE02"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.2.201.2
+          peer_asn: 65202
+          description: "WEST_LEAF01_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:202:201::2
+          peer_asn: 65202
+          description: "WEST_LEAF01_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+        - peer_address: 100.2.202.2
+          peer_asn: 65202
+          description: "WEST_LEAF02_V4"
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+        - peer_address: 2001:db8:202:202::2
+          peer_asn: 65202
+          description: "WEST_LEAF02_V6"
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+    interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.2.254.2/32
+        ipv6_address: 2001:db8:102:254::2/128
+      - name: eth1
+        type: 1000base-t
+        ipv4_address: 100.2.201.2/24
+        ipv6_address: 2001:db8:202:201::2/64
+        z_device: West-Leaf01
+        z_interface: eth2
+      - name: eth2
+        type: 1000base-t
+        ipv4_address: 100.2.202.1/24
+        ipv6_address: 2001:db8:202:202::1/64
+        z_device: West-Leaf02
+        z_interface: eth2
+      - name: eth3
+        type: 1000base-t
+      - name: eth4
+        type: 1000base-t
+      - name: eth5
+        type: 1000base-t
+      - name: eth6
+        type: 1000base-t
+      - name: eth7
+        type: 1000base-t
+        ipv4_address: 100.2.12.2/24
+        ipv6_address: 2001:db8:102:12::2/64
+        z_device: CE1
+        z_interface: Ethernet0/3
+      - name: Management0
+        type: 1000base-t
+        ipv4_address: 192.168.220.13/24
+        vrf: clab-mgmt
+
   - name: West-Leaf01
     role: Datacenter Leaf
     location: West Side Data Center 
@@ -815,6 +1062,18 @@ devices:
     platform: EOS
     software_version: 4.34.0F
     primary_ip4: 192.168.220.14/24
+    bgp:
+      asn: 65202
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
     interfaces:
       - name: Loopback0
         type: VIRTUAL
@@ -839,13 +1098,13 @@ devices:
       - name: eth1
         type: 1000base-t
         ipv4_address: 100.2.101.2/24
-        ipv6_address: 2001:db8:102:101::2/64
+        ipv6_address: 2001:db8:202:101::2/64
         z_device: West-Spine01
         z_interface: eth1
       - name: eth2
         type: 1000base-t
         ipv4_address: 100.2.201.21/24
-        ipv6_address: 2001:db8:102:201::21/64
+        ipv6_address: 2001:db8:202:201::21/64
         z_device: West-Spine02
         z_interface: eth1
       - name: eth3
@@ -871,6 +1130,18 @@ devices:
     platform: EOS
     software_version: 4.34.0F
     primary_ip4: 192.168.220.15/24
+    bgp:
+      asn: 65202
+      description: "EAST_SPINE01"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
     interfaces:
       - name: Loopback0
         type: VIRTUAL
@@ -894,14 +1165,14 @@ devices:
         ipv6_address: 2001:db8:102:253::2/64
       - name: eth1
         type: 1000base-t
-        ipv4_address: 100.2.102.12/24
-        ipv6_address: 2001:db8:102:102::12/64
+        ipv4_address: 100.2.102.2/24
+        ipv6_address: 2001:db8:202:102::2/64
         z_device: West-Spine01
         z_interface: eth2
       - name: eth2
         type: 1000base-t
-        ipv4_address: 100.2.202.22/24
-        ipv6_address: 2001:db8:102:202::22/64
+        ipv4_address: 100.2.202.2/24
+        ipv6_address: 2001:db8:202:202::2/64
         z_device: West-Spine02
         z_interface: eth2
       - name: eth3
@@ -917,86 +1188,4 @@ devices:
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.15/24
-        vrf: clab-mgmt
-  - name: West-Spine01
-    role: Datacenter Spine
-    location: West Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.12/24
-    interfaces:
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.2.254.1/32
-        ipv6_address: 2001:db8:102:254::1/128
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.2.101.1/24
-        ipv6_address: 2001:db8:102:101::1/64
-        z_device: West-Leaf01
-        z_interface: eth1
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.2.102.1/24
-        ipv6_address: 2001:db8:102:102::1/64
-        z_device: West-Leaf02
-        z_interface: eth1
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: eth7
-        type: 1000base-t
-        ipv4_address: 100.2.11.11/24
-        ipv6_address: 2001:db8:102:11::11/64
-      - name: Management0
-        type: 1000base-t
-        ipv4_address: 192.168.220.12/24
-        vrf: clab-mgmt
-  - name: West-Spine02
-    role: Datacenter Spine
-    location: West Side Data Center 
-    device_type: ceos
-    platform: EOS
-    software_version: 4.34.0F
-    primary_ip4: 192.168.220.13/24
-    interfaces:
-      - name: Loopback0
-        type: VIRTUAL
-        ipv4_address: 100.2.254.2/32
-        ipv6_address: 2001:db8:102:254::2/128
-      - name: eth1
-        type: 1000base-t
-        ipv4_address: 100.2.201.2/24
-        ipv6_address: 2001:db8:102:201::2/64
-        z_device: West-Leaf01
-        z_interface: eth2
-      - name: eth2
-        type: 1000base-t
-        ipv4_address: 100.2.202.2/24
-        ipv6_address: 2001:db8:102:202::2/64
-        z_device: West-Leaf02
-        z_interface: eth2
-      - name: eth3
-        type: 1000base-t
-      - name: eth4
-        type: 1000base-t
-      - name: eth5
-        type: 1000base-t
-      - name: eth6
-        type: 1000base-t
-      - name: eth7
-        type: 1000base-t
-        ipv4_address: 100.2.12.12/24
-        ipv6_address: 2001:db8:102:12::12/64
-        z_device: CE1
-        z_interface: Ethernet0/3
-      - name: Management0
-        type: 1000base-t
-        ipv4_address: 192.168.220.13/24
         vrf: clab-mgmt

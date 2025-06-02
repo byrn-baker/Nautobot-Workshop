@@ -5,7 +5,10 @@ validate_certs: false
 query:
   devices:
     id:
-    platform: napalm_driver
+    platform: 
+      napalm_driver
+      network_driver
+    primary_ip4: address
   virtual_machines:
     filters:
       name: EXCLUDE ALL

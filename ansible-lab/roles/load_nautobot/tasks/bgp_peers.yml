@@ -1,3 +1,10 @@
+- name: Reset source facts at the start of this peer iteration
+  set_fact:
+    source_interface: ""
+    source_interface_id: ""
+    source_address: ""
+    source_address_id: ""
+
 - name: Look up additional info
   networktocode.nautobot.query_graphql:
     url: "{{ nb_url }}"
@@ -6,19 +13,114 @@
     query: "{{ query_string }}"
   register: graphql_results
 
-- name: setting facts
+- name: Getting peer device data
   set_fact:
-    source_ipv4: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[0].address }}"
-    source_ipv6: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[1].address }}"
-    source_ipv4_id: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[0].id }}"
-    source_ipv6_id: "{{ graphql_results.data.devices[0].interfaces[0].ip_addresses[1].id }}"
-    local_asn_id: "{{ graphql_results.data.devices[0].bgp_routing_instances[0].autonomous_system.id }}"
     peer_device: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.device.name }}"
     peer_routing_instance_id: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.device.bgp_routing_instances[0].id }}"
+    peer_interface: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.name }}"
+    peer_interface_id: "{{ graphql_results.data.ip_addresses[0].interface_assignments[0].interface.id }}"
     peer_address_id: "{{ graphql_results.data.ip_addresses[0].id }}"
     peer_asn_id: "{{ graphql_results.data.autonomous_systems[0].id }}"
+
+# 1. Set the peer_address fact for use in this iteration
+- name: Set peer_address variable for this loop iteration
+  set_fact:
+    peer_address: "{{ item.1.peer_address }}"
+
+# 2. Try to find a local interface with a connected_interface IP matching the peer_address (eBGP)
+- name: Find eBGP source interface (directly connected to peer)
+  set_fact:
+    source_interface: "{{ item.name }}"
+    source_interface_id: "{{ item.id }}"
+    source_address: "{{ local_ip.address }}"
+    source_address_id: "{{ local_ip.id }}"
+  vars:
+    local_ip: >-
+      {{
+        (item.ip_addresses | selectattr('address', 'search', '\\.' if ':' not in peer_address else ':') | list | first)
+        if item.ip_addresses is defined else {}
+      }}
+  loop: "{{ graphql_results.data.devices[0].interfaces }}"
+  when: >
+    item.connected_interface is defined and
+    item.connected_interface.ip_addresses is defined and
+    (
+      item.connected_interface.ip_addresses
+      | selectattr('address', 'equalto', peer_address) | list | length > 0
+    )
+    and (source_address_id is not defined or source_address_id == '')
+
+# 3. Fallback: Use Loopback0 for iBGP (if eBGP not found)
+- name: Fallback to Loopback0 for iBGP if no interface match found
+  set_fact:
+    source_interface: "{{ loopback.name }}"
+    source_interface_id: "{{ loopback.id }}"
+    source_address: "{{ found_loopback_ip.address }}"
+    source_address_id: "{{ found_loopback_ip.id }}"
+  vars:
+    interfaces: "{{ graphql_results.data.devices[0].interfaces }}"
+    loopback: "{{ interfaces | selectattr('name', 'equalto', 'Loopback0') | list | first }}"
+    peer_af: "{{ 'v6' if ':' in peer_address else 'v4' }}"
+    found_loopback_ip: >-
+      {{
+        (
+          loopback.ip_addresses
+          | selectattr(
+              'address',
+              'search',
+              (
+                peer_address.split('/')[0].split(':')[0]
+                if peer_af == 'v6'
+                else peer_address.split('/')[0].rsplit('.', 1)[0]
+              )
+            )
+          | list
+          | first
+        )
+        if loopback is defined and loopback.ip_addresses is defined else {}
+      }}
+  when:
+    - (source_address_id is not defined or source_address_id == '')
+    - loopback is defined
+    - found_loopback_ip is defined and found_loopback_ip != {}
+
+# 4. Debug: Show selection for troubleshooting
+- name: Debug what will be used for this PeerEndpoint
+  debug:
+    msg:
+      - "Device: {{ item.0.device }}"
+      - "Peer address: {{ peer_address }}"
+      - "Source interface: {{ source_interface | default('NOT FOUND') }} ({{ source_interface_id | default('NOT FOUND') }})"
+      - "Source address: {{ source_address | default('NOT FOUND') }} ({{ source_address_id | default('NOT FOUND') }})"
+
+# 5. Fail clearly if nothing was found (should never trigger with your data)
+- name: Fail if source_address_id is not set
+  fail:
+    msg: "No valid source_address_id for {{ item.0.device }} peering to {{ peer_address }}! Loopback: {{ loopback | default('NOT FOUND') }}, Peer: {{ peer_address }}"
+  when: source_address_id is not defined or source_address_id == ''
+
+
+- name: Set local ASN ID
+  set_fact:
+    local_asn_id: "{{ graphql_results.data.devices[0].bgp_routing_instances[0].autonomous_system.id }}" 
+
+- name: Set Active Status ID
+  set_fact:
     active_status_id: "{{ graphql_results.data.statuses[0].id }}"
-     
+
+- name: Debug PeerEndpoint API payload
+  debug:
+    msg:
+      - "device: {{ item.0.device }}"
+      - "routing_instance: {{ item.0.id }}"
+      - "source_ip: {{ source_address }}"
+      - "source_ip_id: {{ source_address_id }}"
+      - "source_interface: {{ source_interface_id }}"
+      - "peer_address: {{ item.1.peer_address }}"
+      - "peer_device: {{ peer_device }}"
+      - "peer_routing_instance: {{ peer_routing_instance_id }}"
+
+
 - name: Create BGP Peering for both endpoints
   ansible.builtin.uri:
     url: "{{ nb_url }}/api/plugins/bgp/peerings/"
@@ -54,7 +156,9 @@
       autonomous_system:
         id: "{{ local_asn_id }}"
       source_ip:
-        id: "{{ source_ipv4_id if item.1.peer_address.startswith('100') else source_ipv6_id }}"
+        id: "{{ source_address_id }}"
+      source_interface:
+        id: "{{ source_interface_id }}"
     return_content: true
     status_code: 201
     validate_certs: false
@@ -99,6 +203,8 @@
         id: "{{ peer_asn_id }}"
       source_ip:
         id: "{{ peer_address_id }}"
+      source_interface:
+        id: "{{ peer_interface_id }}"
     return_content: true
     status_code: 201
     validate_certs: false

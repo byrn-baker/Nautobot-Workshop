@@ -1,7 +1,7 @@
 ---
 - name: Build Nautobot Extensibility
   import_tasks: extensibility.yml
-  tags: extensibility
+  tags: [extensibility]
 
 - name: Build Nautobot organizational data
   import_tasks: organizational.yml
