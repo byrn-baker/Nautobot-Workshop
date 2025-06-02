@@ -1103,8 +1103,8 @@ devices:
         z_interface: eth1
       - name: eth2
         type: 1000base-t
-        ipv4_address: 100.2.201.21/24
-        ipv6_address: 2001:db8:202:201::21/64
+        ipv4_address: 100.2.201.2/24
+        ipv6_address: 2001:db8:202:201::2/64
         z_device: West-Spine02
         z_interface: eth1
       - name: eth3
