@@ -524,7 +524,7 @@ devices:
           description: "EAST_SPINE01_V6"
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
-        - peer_address: 100.2.11.2
+        - peer_address: 100.1.12.2
           peer_asn: 65101
           description: "EAST_SPINE02_V4"
           in_route_map: ALLOW_ALL_V4_IN
@@ -783,7 +783,14 @@ devices:
             redistribute:
               - connected
         - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
     interfaces:
+      - name: Loopback0
+        type: VIRTUAL
+        ipv4_address: 100.1.254.4/32
+        ipv6_address: 2001:db8:101:254::4/128
       - name: eth1
         type: 1000base-t
         ipv4_address: 100.1.102.2/24

@@ -4,6 +4,12 @@
     source_interface_id: ""
     source_address: ""
     source_address_id: ""
+    peer_device: ""
+    peer_routing_instance_id: ""
+    peer_interface: ""
+    peer_interface_id: ""
+    peer_address_id: ""
+    peer_asn_id: ""
 
 - name: Look up additional info
   networktocode.nautobot.query_graphql:
@@ -27,28 +33,73 @@
   set_fact:
     peer_address: "{{ item.1.peer_address }}"
 
-# 2. Try to find a local interface with a connected_interface IP matching the peer_address (eBGP)
-- name: Find eBGP source interface (directly connected to peer)
-  set_fact:
-    source_interface: "{{ item.name }}"
-    source_interface_id: "{{ item.id }}"
-    source_address: "{{ local_ip.address }}"
-    source_address_id: "{{ local_ip.id }}"
+- name: Debug peer_address, interface data, and peer_ip_matches
+  debug:
+    msg:
+      - "Processing peer_address: {{ peer_address }}"
+      - "Current interface: {{ intf.name }}"
+      - "Connected interface: {{ intf.connected_interface | default('None') }}"
+      - "Connected interface IPs: {{ intf.connected_interface.ip_addresses | default([]) | map(attribute='address') | list }}"
+      - "Regex used: {{ '^' + (peer_address | regex_escape) + '(/|$)' }}"
+      - "Peer IP matches: {{ peer_ip_matches }}"
+      - "Peer AF: {{ peer_af }}"
+      - "Local IPs: {{ intf.ip_addresses | map(attribute='address') | list }}"
+      - "Local IP list: {{ local_ip_list }}"
+      - "Matching local IP: {{ matching_local_ip }}"
   vars:
-    local_ip: >-
+    peer_af: "{{ 'v6' if ':' in peer_address else 'v4' }}"
+    local_ip_list: >-
       {{
-        (item.ip_addresses | selectattr('address', 'search', '\\.' if ':' not in peer_address else ':') | list | first)
-        if item.ip_addresses is defined else {}
+        intf.ip_addresses | selectattr(
+          'address',
+          'contains',
+          ':' if peer_af == 'v6' else '.'
+        ) | list
+      }}
+    matching_local_ip: "{{ local_ip_list | first | default({}) }}"
+    peer_ip_matches: >-
+      {{
+        intf.connected_interface.ip_addresses
+        | selectattr('address', 'search', '^' + (peer_address | regex_escape) + '(/|$)' )
+        | list
       }}
   loop: "{{ graphql_results.data.devices[0].interfaces }}"
-  when: >
-    item.connected_interface is defined and
-    item.connected_interface.ip_addresses is defined and
-    (
-      item.connected_interface.ip_addresses
-      | selectattr('address', 'equalto', peer_address) | list | length > 0
-    )
-    and (source_address_id is not defined or source_address_id == '')
+  loop_control:
+    loop_var: intf
+  when: intf.connected_interface is defined and intf.connected_interface.ip_addresses is defined
+
+- name: Find eBGP source interface (directly connected to peer)
+  set_fact:
+    source_interface: "{{ intf.name }}"
+    source_interface_id: "{{ intf.id }}"
+    source_address: "{{ matching_local_ip.address }}"
+    source_address_id: "{{ matching_local_ip.id }}"
+  vars:
+    peer_af: "{{ 'v6' if ':' in peer_address else 'v4' }}"
+    local_ip_list: >-
+      {{
+        intf.ip_addresses | selectattr(
+          'address',
+          'contains',
+          ':' if peer_af == 'v6' else '.'
+        ) | list
+      }}
+    matching_local_ip: "{{ local_ip_list | first | default({}) }}"
+    peer_ip_matches: >-
+      {{
+        intf.connected_interface.ip_addresses
+        | selectattr('address', 'search', '^' + (peer_address | regex_escape) + '(/|$)' )
+        | list
+      }}
+  loop: "{{ graphql_results.data.devices[0].interfaces }}"
+  loop_control:
+    loop_var: intf
+  when:
+    - intf.connected_interface is defined
+    - intf.connected_interface.ip_addresses is defined
+    - peer_ip_matches | length > 0
+    - matching_local_ip is defined and matching_local_ip != {}
+    - source_address_id is not defined or source_address_id == ''
 
 # 3. Fallback: Use Loopback0 for iBGP (if eBGP not found)
 - name: Fallback to Loopback0 for iBGP if no interface match found
