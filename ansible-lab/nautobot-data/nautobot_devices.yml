@@ -907,7 +907,7 @@ devices:
         type: 1000base-t
         ipv4_address: 100.2.11.1/24
         ipv6_address: 2001:db8:102:11::1/64
-        z_device: West-Leaf01
+        z_device: West-Spine01
         z_interface: eth7
       - name: Ethernet0/3
         type: 1000base-t
@@ -987,6 +987,8 @@ devices:
         type: 1000base-t
         ipv4_address: 100.2.11.2/24
         ipv6_address: 2001:db8:102:11::2/64
+        z_device: CE1
+        z_interface: Ethernet0/2
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.12/24
