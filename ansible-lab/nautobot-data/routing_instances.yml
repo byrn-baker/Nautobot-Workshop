@@ -1,7 +1,7 @@
 ---
 bgp:
   - device: P1
-    id: f8cc9a8d-c172-494c-8a0e-a1d3cdbe28a0
+    id: 9a599a0d-5cb1-41b9-bd23-56db275ced8b
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -19,7 +19,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: P2
-    id: de4dd24f-9902-449b-9b34-2992f007ff9d
+    id: b15108b9-cb2f-43ae-bf02-2c8e9d5780f1
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -37,7 +37,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: P3
-    id: ebd513fe-97d2-4f19-b86c-0f86c419f29c
+    id: 98870dd1-1545-4e45-9651-52f1ada99a97
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -55,7 +55,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: P4
-    id: 75b9ff2d-134f-4253-81cd-d7b0d6561f42
+    id: 7832adee-f896-41f8-8ad5-837e9d286cad
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -73,7 +73,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: PE1
-    id: d80618e6-576b-47d1-93b6-376f71717e65
+    id: 4e5d84af-632f-4782-b0b5-c1c164fe929f
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -103,7 +103,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: PE2
-    id: 77311da3-7fdf-4595-8f9f-c1ff1cdd5f43
+    id: b06cb3e6-f726-4b71-bf7f-c5e5d6608907
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -121,7 +121,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: PE3
-    id: 38aa37c0-e7de-452f-9df7-6e3ebb216a99
+    id: 05c38417-8351-47b1-891f-61863af7ef6f
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -151,7 +151,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: CE2
-    id: b7784947-4e9a-466e-b5a6-a638383c17af
+    id: 51087a05-0779-4e1d-b276-744018513e70
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -181,7 +181,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: East-Spine01
-    id: 071a058c-b819-4c04-b963-8215b27e3349
+    id: 70a547f6-85c4-451a-91f2-f934cf929dde
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -211,7 +211,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: East-Spine02
-    id: 8168e59f-2ab7-49e2-9554-c5e3aa06d8af
+    id: c0b117b5-ebe0-42b4-97c4-f5875c84c209
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -241,7 +241,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: CE1
-    id: 0f8524bc-4c30-4cdd-9379-2aede5a7665f
+    id: 5ef2663f-1bba-4ddb-8941-56766d09fbdb
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -271,7 +271,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: West-Spine01
-    id: 09944278-ffd9-4f6f-a3b7-fdef6b41737c
+    id: d2f298bf-8924-4b2c-88b6-aa4f06f40cf1
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast
@@ -301,7 +301,7 @@ bgp:
         in_route_map: ALLOW_ALL_V6_IN
         out_route_map: ALLOW_ALL_V6_OUT
   - device: West-Spine02
-    id: 18ed900a-5eb7-4bae-96f1-08fcf82da322
+    id: a194fb7e-ce92-4c18-a1cb-a30b2a5b5d8e
     afi_safi:
       - afi: ipv4_unicast
       - afi: ipv6_unicast

@@ -15,9 +15,9 @@ router bgp {{ instance['autonomous_system']['asn'] }}
 {# Address-family level config #}
 {% for afi in instance['address_families'] %}
  address-family {{ 'ipv4' if 'IPV4_UNICAST' in afi['afi_safi'] else 'ipv6' }} unicast
-{% if afi['extra_attributes'] is defined and afi['extra_attributes'] is not none %}
+{% if afi['extra_attributes'] is mapping and 'redistribute' in afi['extra_attributes'] and afi['extra_attributes']['redistribute'] %}
 {% for redist in afi['extra_attributes']['redistribute'] %}
-  redistribute {{ redist }}
+    redistribute {{ redist }}
 {% endfor %}
 {% endif %}
 {# Per-neighbor address-family settings #}

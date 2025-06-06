@@ -19,3 +19,6 @@ services:
       - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
       - "../jobs:/opt/nautobot/jobs"
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+  celery_beat:
+    volumes:
+      - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
