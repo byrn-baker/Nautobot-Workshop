@@ -1,15 +1,11 @@
 {% for plist in config_context['prefix_lists'] %}
 {% if plist['afi'] == "ipv4" %}
-ip prefix-list {{ plist['name'] }}
-{% for entry in plist['entries'] %}
- seq {{ entry['seq'] }} permit {{ entry['permit'] }}
-{% endfor %}
+ip prefix-list {{ plist['name'] }}{% for entry in plist['entries'] %} seq {{ entry['seq'] }} permit {{ entry['permit'] }}{% endfor %}
+
 !
 {% elif plist['afi'] == "ipv6" %}
-ipv6 prefix-list {{ plist['name'] }}
-{% for entry in plist['entries'] %}
- seq {{ entry['seq'] }} permit {{ entry['permit'] }}
-{% endfor %}
+ipv6 prefix-list {{ plist['name'] }}{% for entry in plist['entries'] %} seq {{ entry['seq'] }} permit {{ entry['permit'] }}{% endfor %}
+
 !
 {% endif %}
 {% endfor %}

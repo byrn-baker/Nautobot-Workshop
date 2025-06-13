@@ -35,6 +35,9 @@ query_string: |
         source_ip {
           address
         }
+        source_interface {
+          name
+        }
         peer {
           description          
           source_ip {

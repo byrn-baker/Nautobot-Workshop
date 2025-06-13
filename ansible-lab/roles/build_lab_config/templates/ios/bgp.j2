@@ -3,14 +3,18 @@ router bgp {{ instance['autonomous_system']['asn'] }}
  bgp log-neighbor-changes
 {# Configure all neighbors #}
 {% for ep in instance['endpoints'] %}
+{% set peer_int = ep['source_interface']['name'] %}
 {% set peer = ep['peer'] %}
 {% set peer_ip = peer['source_ip']['address'] | ipaddr('address') %}
 {% set peer_asn = peer['autonomous_system']['asn'] %}
 {% set peer_desc = peer['description'] %}
+ neighbor {{ peer_ip }} remote-as {{ peer_asn }}
 {% if peer_desc %}
  neighbor {{ peer_ip }} description {{ peer_desc }}
 {% endif %}
- neighbor {{ peer_ip }} remote-as {{ peer_asn }}
+{% if 'Loopback' in peer_int %}
+ neighbor {{ peer_ip }} update-source {{ peer_int }}
+{% endif %}
 {% endfor %}
 {# Address-family level config #}
 {% for afi in instance['address_families'] %}
