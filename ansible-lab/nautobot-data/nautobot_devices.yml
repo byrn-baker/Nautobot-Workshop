@@ -728,7 +728,7 @@ devices:
         ipv6_address: 2001:db8:101:254::3/128
       - name: Port-Channel1
         type: LAG
-        mode: Access
+        mode: TAGED_ALL
       - name: Port-Channel2
         type: LAG
         mode: Access
@@ -756,8 +756,14 @@ devices:
         z_interface: eth1
       - name: eth3
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: East-Leaf02
+        z_interface: eth3
       - name: eth4
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: East-Leaf02
+        z_interface: eth4
       - name: eth5
         type: 1000base-t
       - name: eth6
@@ -787,6 +793,17 @@ devices:
             redistribute:
               - connected
     interfaces:
+      - name: Port-Channel1
+        type: LAG
+        mode: TAGGED_ALL
+      - name: Port-Channel2
+        type: LAG
+        mode: Access
+      - name: Port-Channel3
+        type: LAG
+        mode: Access
+      - name: Port-Channel4
+        type: LAG
       - name: Loopback0
         type: VIRTUAL
         ipv4_address: 100.1.254.4/32
@@ -805,8 +822,14 @@ devices:
         z_interface: eth2
       - name: eth3
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: East-Leaf01
+        z_interface: eth3
       - name: eth4
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: East-Leaf01
+        z_interface: eth4
       - name: eth5
         type: 1000base-t
       - name: eth6
@@ -1089,7 +1112,7 @@ devices:
         ipv4_address: 100.2.254.3/32
         ipv6_address: 2001:db8:102:254::3/128
       - name: Port-Channel1
-        type: LAG
+        type: TAGED_ALL
         mode: Access
       - name: Port-Channel2
         type: LAG
@@ -1118,8 +1141,14 @@ devices:
         z_interface: eth1
       - name: eth3
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: West-Leaf02
+        z_interface: eth3
       - name: eth4
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: West-Leaf02
+        z_interface: eth4
       - name: eth5
         type: 1000base-t
       - name: eth6
@@ -1158,7 +1187,7 @@ devices:
         ipv6_address: 2001:db8:102:254::4/128
       - name: Port-Channel1
         type: LAG
-        mode: Access
+        mode: TAGGED_ALL
       - name: Port-Channel2
         type: LAG
         mode: Access
@@ -1186,8 +1215,14 @@ devices:
         z_interface: eth2
       - name: eth3
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: West-Leaf01
+        z_interface: eth3
       - name: eth4
         type: 1000base-t
+        lag: Port-Channel1
+        z_device: West-Leaf01
+        z_interface: eth4
       - name: eth5
         type: 1000base-t
       - name: eth6

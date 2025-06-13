@@ -36,6 +36,7 @@ query_string: |
           address
         }
         peer {
+          description          
           source_ip {
             address
           }
@@ -106,6 +107,7 @@ query_string: |
             id
           }
         }
+        mode
         tagged_vlans {
           id
         }

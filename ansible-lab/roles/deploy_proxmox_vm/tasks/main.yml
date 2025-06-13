@@ -1,0 +1,21 @@
+---
+- name: Include tasks for each host in the Proxmox cluster
+  include_tasks: build_vm.yml
+  loop: "{{ groups['Proxmox'] }}"
+  loop_control:
+    loop_var: target_host
+  vars:
+    host_ip: "{{ hostvars[target_host]['ansible_host'] }}"
+
+- name: Check if VMs are available
+  ansible.builtin.wait_for:
+    host: "{{ host_ip }}"
+    port: 22
+    state: started
+    delay: 10
+    timeout: 300
+  loop: "{{ groups['Proxmox'] }}"
+  loop_control:
+    loop_var: target_host
+  vars:
+    host_ip: "{{ hostvars[target_host]['ansible_host'] }}"

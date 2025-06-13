@@ -1,0 +1,6 @@
+---
+collections:
+  - name: arista.avd
+    version: ">=5.4.0S"
+  - name: networktocode.nautobot
+    version: ">=5.11.0"

@@ -1,0 +1,130 @@
+---
+- name: Print hostname
+  debug:
+    msg: "Running tasks for {{ target_host }}"
+
+- set_fact:
+    vmid: "{{ hostvars[target_host]['vmid'] }}"
+    storage: "{{ hostvars[target_host]['storage'] }}"
+    vcpus: "{{ hostvars[target_host]['vcpus'] }}"
+    memory: "{{ hostvars[target_host]['memory'] }}"
+    vlan: "{{ hostvars[target_host]['vlan'] }}"
+
+- name: Clone the Ubuntu VM Template for {{ target_host }}
+  uri:
+    url: "{{prox_api}}nodes/{{node}}/qemu/{{template_id}}/clone"
+    method: POST
+    headers:
+      Authorization: "{{ prox_auth }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      newid: "{{ vmid }}"
+      full: true
+      name: "{{ target_host }}"
+      storage: "{{ storage }}"
+    validate_certs: no
+  register: create_vm
+
+- name: Wait for {{ target_host }} VM cloning to finish
+  uri:
+    url: "{{prox_api}}nodes/{{node}}/qemu/{{ vmid }}/status/current"
+    method: GET
+    headers:
+      Authorization: "{{ prox_auth }}"
+    validate_certs: no
+  register: vm_status
+  until: vm_status.json.data.lock is not defined
+  retries: 100
+  delay: 10
+
+- set_fact: 
+    vm_ip: "{{ host_ip }}/24"
+- set_fact:
+    vm_network: "{{ vm_ip | ansible.utils.ipaddr('network') }}"
+- set_fact:
+    vm_gateway: "{{ vm_network | ansible.utils.ipaddr('address') | ipmath(1) }}"
+
+- name: Update {{ target_host }} vm IP to match the inventory
+  uri:
+    url: "{{ prox_api }}nodes/{{node}}/qemu/{{ vmid }}/config"
+    method: PUT
+    headers:
+      Authorization: "{{ prox_auth }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      cores: "{{ vcpus|int }}"
+      memory: "{{ memory|int }}"
+      ipconfig0: "ip={{ vm_ip }},gw={{ vm_gateway }}"
+      ciuser: "{{ ansible_user }}"
+      cipassword: "{{ ansible_pass }}"
+      nameserver: "{{ vm_gateway }}"
+      sshkeys: "{{ ssh_key }}"
+    validate_certs: no
+  register: modify_vm
+
+- name: Pull {{ target_host }} VM net0 MAC address
+  uri:
+    url: "{{ prox_api }}nodes/{{node}}/qemu/{{ vmid }}/config"
+    method: GET
+    headers:
+      Authorization : "{{ prox_auth }}"
+      Content-Type: "application/json"
+    validate_certs: no
+  register: vm_net0_config
+
+- name: Extract current net0 configuration
+  set_fact:
+    current_net0: "{{ vm_net0_config['json']['data']['net0'] }}"
+
+- name: Update only the VLAN tag in net0 configuration
+  set_fact:
+    updated_net0: "{{ current_net0 | regex_replace('tag=\\d+', 'tag=' + vlan|string) }}"
+
+- name: Update {{ target_host }} vm VLAN to match the inventory
+  uri:
+    url: "{{ prox_api }}nodes/{{node}}/qemu/{{ vmid }}/config"
+    method: PUT
+    headers:
+      Authorization: "{{ prox_auth }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      cores: "{{ vcpus|int }}"
+      memory: "{{ memory|int }}"
+      ipconfig0: "ip={{ vm_ip }},gw={{ vm_gateway }}"
+      ciuser: "{{ ansible_user }}"
+      cipassword: "{{ ansible_pass }}"
+      nameserver: "{{ vm_gateway }}"
+      sshkeys: "{{ ssh_key }}"
+      net0: "{{ updated_net0 }}"
+    validate_certs: no
+  register: modify_vm
+
+
+- name: Expanding the bootdisk on {{ target_host }}
+  uri:
+    url: "{{ prox_api }}nodes/{{node}}/qemu/{{ vmid }}/resize"
+    method: PUT
+    headers:
+      Authorization: "{{ prox_auth }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      disk: "scsi0"
+      size: "+38G"
+    validate_certs: no
+  register: expand_bootdisk
+
+- name: Start {{ target_host }}
+  uri:
+    url: "{{prox_api}}nodes/{{node}}/qemu/{{ vmid }}/status/start"
+    method: POST
+    headers:
+      Authorization: "{{ prox_auth }}"
+      Content-Type: "application/json"
+    body: "{}"
+    validate_certs: no
+  register: start_vm
+  

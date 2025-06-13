@@ -13,14 +13,16 @@ interface {{ interface.name }}
  ipv6 address {{ addr["address"] }}
 {% endif %}
 {% endfor %}
-{% if config_context['ospf'] is defined and interface['cf_ospf_area'] is not none %}
-  {% set ospf = config_context['ospf'] %}
-{% if ospf['ipv4'] is defined %}
+    {# OSPF configuration if relevant #}
+{% if 'ospf' in config_context and interface['cf_ospf_area'] is not none %}
+{% set ospf = config_context['ospf'] %}
+{% if 'ipv4' in ospf %}
  ip ospf {{ ospf['ipv4']['process_id'] }} area {{ interface['cf_ospf_area'] }}
 {% if interface['cf_ospf_network_type'] is not none %}
  ip ospf network {{ interface['cf_ospf_network_type'] }}
 {% endif %}
-{% if ospf['ipv6'] is defined %}
+{% endif %}
+{% if 'ipv6' in ospf %}
  ipv6 ospf {{ ospf['ipv6']['process_id'] }} area {{ interface['cf_ospf_area'] }}
 {% endif %}
 {% endif %}
@@ -31,4 +33,3 @@ interface {{ interface.name }}
  shutdown
 {% endif %}
 !
-{% endif %}

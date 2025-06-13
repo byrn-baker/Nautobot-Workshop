@@ -8,3 +8,14 @@ Blog Series drops starting June 5, 2025
 
 # License
 This project is Licensed under Apache License, Version 2.0.
+
+
+# Usage
+```bash
+ansible-playbook pb.build-lab.yml --vault-password ~/.vault-pass.txt --tags organizational,ipam
+```
+
+Before starting the lab you need to make sure docker has your bridges network
+```bash
+docker network create   --driver=bridge   --subnet=192.168.220.0/24   --gateway=192.168.220.1   --opt "com.docker.network.bridge.name"="clab-mgmt"   clab-mgmt
+```

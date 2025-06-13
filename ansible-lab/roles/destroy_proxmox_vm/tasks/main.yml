@@ -1,0 +1,8 @@
+---
+- name: Include tasks for each host in Proxmox
+  include_tasks: destroy_vms.yml
+  loop: "{{ groups['Proxmox'] }}"
+  loop_control:
+    loop_var: target_host
+  vars:
+    host_ip: "{{ hostvars[target_host]['ansible_host'] }}"

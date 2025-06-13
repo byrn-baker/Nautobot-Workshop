@@ -1,0 +1,29 @@
+_metadata:
+  name: "Global Customer Route Maps"
+  description: "Customer Route Maps"
+  weight: 100
+  is_active: true
+  roles:
+    - name: Customer Edge Router
+
+route_maps:
+  - name: ALLOW_ALL_V4_IN
+    afi: ipv4
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_IN_PREFIX
+  - name: ALLOW_ALL_V4_OUT
+    afi: ipv4
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_OUT_PREFIX
+  - name: ALLOW_ALL_V6_IN
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_IN_PREFIX
+  - name: ALLOW_ALL_V6_OUT
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_OUT_PREFIX

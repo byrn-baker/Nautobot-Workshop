@@ -8,7 +8,7 @@ query:
     platform: 
       napalm_driver
       network_driver
-    primary_ip4: address
+    primary_ip4: host
   virtual_machines:
     filters:
       name: EXCLUDE ALL

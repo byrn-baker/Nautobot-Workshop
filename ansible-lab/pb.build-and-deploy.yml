@@ -1,5 +1,5 @@
 ---
-- name: Generate full lab configurations and deploy
+- name: Generate full Cisco lab configurations and deploy configurations
   hosts: ios
   gather_facts: false
   connection: network_cli
