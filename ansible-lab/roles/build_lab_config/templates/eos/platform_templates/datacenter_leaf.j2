@@ -58,8 +58,10 @@ ip routing vrf clab-mgmt
 ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
 !
 {% if config_context['prefix_lists'] is defined %}
-{% include '/ios/prefix_list.j2' %}
+{% include '/eos/prefix_list.j2' %}
 {% endif %}
+!
+{% include '/eos/mlag_config.j2' %}
 !
 router multicast
    ipv4
