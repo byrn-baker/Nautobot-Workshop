@@ -1,0 +1,47 @@
+---
+- name: Pull Data from Nautobot
+  delegate_to: localhost
+  run_once: true
+  networktocode.nautobot.query_graphql:
+    url: "{{ nb_url }}"
+    token: "{{ nb_token }}"
+    validate_certs: false
+    query: "{{ query_string }}"
+  register: "arista_devices"
+    
+- name: Build AVD fabric Inventory
+  template:
+    src: avd_inventory.j2
+    dest: "./inventory/avd_inventory.yml"
+
+- name: Ensure group_vars directory exists
+  file:
+    path: "{{ group_vars_dir }}"
+    state: directory
+
+- name: Extract unique location names (uppercase with underscores)
+  set_fact:
+    locations: >-
+      {{
+        arista_devices.data.devices
+        | map(attribute='location.name')
+        | map('replace', ' ', '_')
+        | map('upper')
+        | list
+        | unique
+      }}
+
+- name: Create role-based group_vars per location
+  vars:
+    roles:
+      - { suffix: "SPINES", type: "{{ spine_type }}" }
+      - { suffix: "L3_LEAVES", type: "{{ l3leaf_type }}" }
+      - { suffix: "L2_LEAVES", type: "{{ l2leaf_type }}" }
+  loop: "{{ locations | product(roles) | list }}"
+  loop_control:
+    label: "{{ item.0 }}_{{ item.1.suffix }}"
+  copy:
+    dest: "{{ group_vars_dir }}/{{ item.0 }}_{{ item.1.suffix }}.yml"
+    content: |
+      ---
+      type: {{ item.1.type }}

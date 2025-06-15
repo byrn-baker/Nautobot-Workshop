@@ -1,0 +1,11 @@
+{% if location.vlans is defined and location.vlans | length > 0 and location.vlans[0].vid is defined %}
+{% for vlan in location.vlans %}
+vlan {{ vlan['vid'] }}
+    name {{ vlan['name'] }}
+{% endfor %}
+{% elif location.parent.vlans is defined and location.parent.vlans | length > 0 and location.parent.vlans[0].vid is defined %}
+{% for vlan in location.parent.vlans %}
+vlan {{ vlan['vid'] }}
+    name {{ vlan['name'] }}
+{% endfor %}
+{% endif %}

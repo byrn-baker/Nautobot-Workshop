@@ -9,7 +9,6 @@
     query: "{{ query_string }}"
     update_hostvars: true
     
-
 - name: Flatten device data into top-level hostvars
   set_fact:
     "{{ item.key }}": "{{ item.value }}"

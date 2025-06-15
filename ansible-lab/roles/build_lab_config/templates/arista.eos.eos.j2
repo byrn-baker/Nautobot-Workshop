@@ -1,0 +1,6 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{% if role["name"] == "Datacenter Spine" %}
+{% include "/eos/platform_templates/datacenter_spine.j2" %}
+{% elif role["name"] == "Datacenter Leaf" %}
+{% include "/eos/platform_templates/datacenter_leaf.j2" %}
+{% endif %}

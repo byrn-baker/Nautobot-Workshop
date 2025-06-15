@@ -1,0 +1,54 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+---
+### group_vars/FABRIC.yml
+
+# Ansible connectivity definitions
+# eAPI connectivity via HTTPS is specified (as opposed to CLI via SSH)
+ansible_connection: ansible.netcommon.httpapi
+# Specifies that we are indeed using Arista EOS
+ansible_network_os: arista.eos.eos
+# This user/password must exist on the switches to enable Ansible access
+ansible_user: {{ router_username }}
+ansible_password: {{ router_password }}
+# User escalation (to enter enable mode)
+ansible_become: true
+ansible_become_method: enable
+# Use SSL (HTTPS)
+ansible_httpapi_use_ssl: true
+# Do not try to validate certs
+ansible_httpapi_validate_certs: false
+
+# Common AVD group variables
+fabric_name: FABRIC
+
+# Generate CSVs with fabric link info.
+eos_designs_documentation:
+  topology_csv: true
+  p2p_links_csv: true
+
+# Define underlay and overlay routing protocol to be used
+underlay_routing_protocol: ebgp
+overlay_routing_protocol: ebgp
+
+# Local users
+local_users:
+  # Define a new user, which is called "admin"
+  - name: {{ router_username }}
+    privilege: 15
+    role: network-admin
+    # Password set to "ansible". Same string as the device generates when configuring a username.
+    sha512_password: $6$vIVWaFAwuNl0Sn3q$krPseqSsELzdlHp7X3fMqQtoLTlRUgbHZAdTWEwMDSDqFOk3iKC3g2j/6BofhI9CV706VkKTr7GSst9.trUH21
+  - name: admin
+    privilege: 15
+    role: network-admin
+    no_password: true
+
+# BGP peer groups passwords
+bgp_peer_groups:
+  # all passwords set to "arista"
+  evpn_overlay_peers:
+    password: Q4fqtbqcZ7oQuKfuWtNGRQ==
+  ipv4_underlay_peers:
+    password: 7x4B4rnJhZB438m9+BrBfQ==
+  mlag_ipv4_underlay_peer:
+    password: 4b21pAdCvWeAqpcKDFMdWw==

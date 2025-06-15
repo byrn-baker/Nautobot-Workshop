@@ -1,0 +1,53 @@
+!
+no enable password
+no aaa root
+!
+username admin privilege 15 role network-admin secret sha512 $6$vIVWaFAwuNl0Sn3q$krPseqSsELzdlHp7X3fMqQtoLTlRUgbHZAdTWEwMDSDqFOk3iKC3g2j/6BofhI9CV706VkKTr7GSst9.trUH21
+!
+management api http-commands
+   protocol http
+   no shutdown
+   !
+   vrf clab-mgmt
+      no shutdown
+!
+no service interface inactive port-id allocation disabled
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname {{ hostname }}
+!
+spanning-tree mode none
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+vrf instance clab-mgmt
+   description clab-mgmt
+!
+management api http-commands
+   protocol https
+   no shutdown
+   !
+   vrf clab-mgmt
+       no shutdown
+!
+{% include '/eos/interfaces.j2' %}
+
+!
+ip routing
+ip routing vrf clab-mgmt
+!
+ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
+!
+router multicast
+   ipv4
+      software-forwarding kernel
+   !
+   ipv6
+      software-forwarding kernel
+!
+end

@@ -1,0 +1,45 @@
+{% if interface.enabled == true %}
+interface {{ interface.name }}
+    {% if interface.description | length > 1 %}
+   description {{ interface.description }}
+    {% else %}
+   description {{ interface.name }}
+    {% endif %}
+    {% set valid_addrs = interface.ip_addresses | selectattr("address", "defined") | list %}
+    {% if valid_addrs | length > 0 %}
+        {% for addr in valid_addrs %}
+            {% if '.' in addr["address"] %}
+   ip address {{ addr["address"] }}
+            {% elif ':' in addr["address"] %}
+   ipv6 address {{ addr["address"] }}
+            {% endif %}
+        {% endfor %}
+    {# OSPF configuration if relevant #}
+        {% if 'ospf' in config_context and interface['cf_ospf_area'] is not none %}
+        {% set ospf = config_context['ospf'] %}
+            {% if 'ipv4' in ospf %}
+   ip ospf {{ ospf['ipv4']['process_id'] }} area {{ interface['cf_ospf_area'] }}
+                {% if interface['cf_ospf_network_type'] is not none %}
+   ip ospf network {{ interface['cf_ospf_network_type'] }}
+                {% endif %}
+            {% endif %}
+            {% if 'ipv6' in ospf %}
+   ipv6 ospf {{ ospf['ipv6']['process_id'] }} area {{ interface['cf_ospf_area'] }}
+            {% endif %}
+        {% endif %}
+!
+    {% elif interface.mode == "TAGGED_ALL" %}
+   no shutdown
+   switchport mode trunk
+    {% if interface.label is not none and interface.label == 'MLAG' %}
+   switchport trunk group MLAG
+    {% endif %}
+   switchport
+    {% else %}
+   no ip address
+    {% endif %}
+!
+{% elif interface.enabled == false %}
+   shutdown
+!
+{% endif %}

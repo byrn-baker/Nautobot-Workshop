@@ -1,0 +1,18 @@
+interface {{ interface.name }}
+    description {{hostname}}_VTEP
+    vxlan source-interface Loopback1
+    vxlan virtual-router encapsulation mac-address mlag-system-id
+    vxlan udp-port 4789
+{% if location.vlans is defined and location.vlans | length > 0 and location.vlans[0].vid is defined %}
+    {% for vlan in location.vlans %}
+        {% if "MLAG" not in vlan.name %}
+    vxlan vlan {{ vlan.vid }} vni 1{{ "%04d" | format(vlan.vid) }}
+        {% endif %}
+    {% endfor %}
+{% elif location.parent.vlans is defined and location.parent.vlans | length > 0 and location.parent.vlans[0].vid is defined %}
+    {% for vlan in location.parent.vlans %}
+        {% if "MLAG" not in vlan.name %}
+    vxlan vlan {{ vlan.vid }} vni 1{{ "%04d" | format(vlan.vid) }}
+        {% endif %}
+    {% endfor %}
+{% endif %}

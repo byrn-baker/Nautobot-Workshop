@@ -15,8 +15,8 @@
     - build_clab_topology
 
 
-- name: Generate full Cisco lab configurations and deploy configurations
-  hosts: ios
+- name: Generate full Cisco & Arista lab configurations and deploy configurations
+  hosts: all
   gather_facts: false
   connection: network_cli
   vars_files:

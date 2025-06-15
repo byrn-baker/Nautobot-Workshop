@@ -1,0 +1,160 @@
+all:
+  children:
+    East Side Data Center:
+      hosts:
+        East-Leaf01:
+          ansible_host: 192.168.220.18
+          ansible_network_os: arista.eos.eos
+          id: d469d9f8-923c-4699-9b1b-8fcd007f2598
+          location:
+            name: East Side Data Center
+            parent:
+              name: FABRIC
+          name: East-Leaf01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.18
+          role:
+            name: Datacenter Leaf
+        East-Leaf02:
+          ansible_host: 192.168.220.19
+          ansible_network_os: arista.eos.eos
+          id: dcaf9e42-4628-4a9f-9119-f88480eedd3a
+          location:
+            name: East Side Data Center
+            parent:
+              name: FABRIC
+          name: East-Leaf02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.19
+          role:
+            name: Datacenter Leaf
+        East-Spine01:
+          ansible_host: 192.168.220.16
+          ansible_network_os: arista.eos.eos
+          id: 8ac85189-3851-48ab-bab0-d751d51357d9
+          location:
+            name: East Side Data Center
+            parent:
+              name: FABRIC
+          name: East-Spine01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.16
+          role:
+            name: Datacenter Spine
+        East-Spine02:
+          ansible_host: 192.168.220.17
+          ansible_network_os: arista.eos.eos
+          id: 8a684bca-5a84-4dd0-bdd3-9b81d95d2b55
+          location:
+            name: East Side Data Center
+            parent:
+              name: FABRIC
+          name: East-Spine02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.17
+          role:
+            name: Datacenter Spine
+    FABRIC:
+      hosts:
+        East-Leaf01: {}
+        East-Leaf02: {}
+        East-Spine01: {}
+        East-Spine02: {}
+        West-Leaf01:
+          ansible_host: 192.168.220.14
+          ansible_network_os: arista.eos.eos
+          id: 8963bca8-15c9-41ca-90f5-abc2f2f7ef12
+          location:
+            name: West Side Data Center
+            parent:
+              name: FABRIC
+          name: West-Leaf01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.14
+          role:
+            name: Datacenter Leaf
+        West-Leaf02:
+          ansible_host: 192.168.220.15
+          ansible_network_os: arista.eos.eos
+          id: 4f05f87f-b51b-40e6-baa3-8eaed137b477
+          location:
+            name: West Side Data Center
+            parent:
+              name: FABRIC
+          name: West-Leaf02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.15
+          role:
+            name: Datacenter Leaf
+        West-Spine01:
+          ansible_host: 192.168.220.12
+          ansible_network_os: arista.eos.eos
+          id: 18568872-9244-4e51-8e31-f94bcfe99839
+          location:
+            name: West Side Data Center
+            parent:
+              name: FABRIC
+          name: West-Spine01
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.12
+          role:
+            name: Datacenter Spine
+        West-Spine02:
+          ansible_host: 192.168.220.13
+          ansible_network_os: arista.eos.eos
+          id: 951b91c3-dfdc-45e0-bfb0-05cda27736ac
+          location:
+            name: West Side Data Center
+            parent:
+              name: FABRIC
+          name: West-Spine02
+          nb_token: '{{ lookup(''env'', ''NAUTOBOT_TOKEN'') }}'
+          nb_url: http://localhost:8080/
+          platform:
+            napalm_driver: eos
+            network_driver: arista_eos
+          primary_ip4:
+            host: 192.168.220.13
+          role:
+            name: Datacenter Spine
+    West Side Data Center:
+      hosts:
+        West-Leaf01: {}
+        West-Leaf02: {}
+        West-Spine01: {}
+        West-Spine02: {}

@@ -1,0 +1,71 @@
+!
+no enable password
+no aaa root
+!
+username admin privilege 15 role network-admin secret sha512 $6$vIVWaFAwuNl0Sn3q$krPseqSsELzdlHp7X3fMqQtoLTlRUgbHZAdTWEwMDSDqFOk3iKC3g2j/6BofhI9CV706VkKTr7GSst9.trUH21
+!
+management api http-commands
+   protocol http
+   no shutdown
+   !
+   vrf clab-mgmt
+      no shutdown
+!
+no service interface inactive port-id allocation disabled
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname {{ hostname }}
+!
+spanning-tree mode mstp
+no spanning-tree vlan-id 4093-4094
+spanning-tree mst 0 priority 4096
+!
+{% if location.vlans is defined and location.vlans | length > 0 and location.vlans[0].vid is defined %}
+{% include '/eos/vlans.j2' %}
+{% elif location.parent.vlans is defined and location.parent.vlans | length > 0 and location.parent.vlans[0].vid is defined %}
+{% include '/eos/vlans.j2' %}
+{% endif %}
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+vrf instance clab-mgmt
+   description clab-mgmt
+!
+management api http-commands
+   protocol https
+   no shutdown
+   !
+   vrf clab-mgmt
+       no shutdown
+!
+{% include '/eos/interfaces.j2' %}
+!
+{% set h = inventory_hostname | hash('md5') %}
+{% set mac = "00:1c:73" %}
+{% set suffix1 = h[0:2] %}
+{% set suffix2 = h[2:4] %}
+{% set suffix3 = h[4:6] %}
+ip virtual-router mac-address {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }}
+!
+ip routing
+ip routing vrf clab-mgmt
+!
+ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
+!
+{% if config_context['prefix_lists'] is defined %}
+{% include '/ios/prefix_list.j2' %}
+{% endif %}
+!
+router multicast
+   ipv4
+      software-forwarding kernel
+   !
+   ipv6
+      software-forwarding kernel
+!
+end

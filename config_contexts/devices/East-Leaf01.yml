@@ -1,0 +1,9 @@
+---
+prefix_lists:
+  - name: PL-LOOPBACKS-EVPN-OVERLAY
+    afi: ipv4
+    entries:
+      - seq: 5
+        permit: "10.255.254.0/24 eq 32"
+      - seq: 10
+        permit: "100.1.254.0/24 eq 32"

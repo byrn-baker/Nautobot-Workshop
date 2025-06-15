@@ -36,8 +36,8 @@ query_string: |
           address
         }
         source_interface {
-          name
-        }
+            name
+          }
         peer {
           description          
           source_ip {
@@ -91,19 +91,31 @@ query_string: |
       }
       location {
         name
+        vlans {
+          name
+          vid
+        }
         parent {
           name
+          vlans {
+          name
+          vid
+        }
         }
       }
       interfaces {
+        name
         description
         mac_address
         enabled
         mgmt_only
+        label
+        lag {
+          name
+        }
         cf_ospf_network_type
         cf_ospf_area
         cf_mpls_enabled
-        name
         ip_addresses {
           address
           tags {

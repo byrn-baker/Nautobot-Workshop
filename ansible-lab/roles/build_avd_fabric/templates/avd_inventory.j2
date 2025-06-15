@@ -1,0 +1,49 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+---
+all:
+  children:
+    FABRIC:
+      children:
+{% set raw_locations = arista_devices['data']['devices'] | map(attribute='location') | map(attribute='name') | list %}
+{% set locations = raw_locations | map('replace', ' ', '_') | map('upper') | unique | list %}
+{% for location in locations %}
+        {{ location }}:
+          children:
+{% for role in ['SPINES', 'L3_LEAVES', 'L2_LEAVES'] %}
+{% set role_group = location ~ '_' ~ role %}
+            {{ role_group }}:
+              hosts:
+{% for device in arista_devices['data']['devices'] %}
+{% set loc = device.location.name.replace(' ', '_').upper() %}
+{% if loc == location %}
+{% set hostname = device.hostname %}
+{% set ip = device.primary_ip4.host %}
+{% set role_name = device.role.name | lower %}
+{% if role == 'SPINES' and 'spine' in hostname | lower %}
+                {{ hostname | lower }}:
+                  ansible_host: {{ ip }}
+{% elif role == 'L3_LEAVES' and 'leaf' in hostname | lower and 'c' not in hostname | lower %}
+                {{ hostname | lower }}:
+                  ansible_host: {{ ip }}
+{% elif role == 'L2_LEAVES' and 'leaf' in hostname | lower and 'c' in hostname | lower %}
+                {{ hostname | lower }}:
+                  ansible_host: {{ ip }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+    NETWORK_SERVICES:
+      children:
+{% for location in locations %}
+        {{ location }}_L3_LEAVES:
+        {{ location }}_L2_LEAVES:
+{% endfor %}
+
+    CONNECTED_ENDPOINTS:
+      children:
+{% for location in locations %}
+        {{ location }}_L3_LEAVES:
+        {{ location }}_L2_LEAVES:
+{% endfor %}

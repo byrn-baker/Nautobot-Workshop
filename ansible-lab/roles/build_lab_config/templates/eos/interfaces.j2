@@ -1,0 +1,24 @@
+{# Port-Channels #}
+{% for interface in interfaces if 'Port-Channel' in interface.name %}
+{%   include "/eos/interfaces/_port_channel.j2" %}
+{% endfor %}
+{# Ethernet interfaces #}
+{% for interface in interfaces if 'eth' in interface.name %}
+{%   include "/eos/interfaces/_ethernet_physical.j2" %}
+{% endfor %}
+{# Loopbacks #}
+{% for interface in interfaces if 'Loop' in interface.name %}
+{%   include "/eos/interfaces/_loopback.j2" %}
+{% endfor %}
+{# Management interface last #}
+{% for interface in interfaces if 'Management0' in interface.name %}
+{%   include "/eos/interfaces/_mgmt.j2" %}
+{% endfor %}
+{# VLAN interfaces #}
+{% for interface in interfaces if 'Vlan' in interface.name %}
+{%   include "/eos/interfaces/_virtual.j2" %}
+{% endfor %}
+{# VXLAN interfaces #}
+{% for interface in interfaces if 'Vxlan' in interface.name %}
+{%   include "/eos/interfaces/_vxlan.j2" %}
+{% endfor %}
