@@ -7,5 +7,5 @@ prefix_lists:
         permit: "10.255.255.0/24 eq 32"
       - seq: 10
         permit: "100.2.254.0/24 eq 32"
-peer_link: Vlan4094
+peer_link: Port-Channel1
 peer_ip: 10.255.2.3
