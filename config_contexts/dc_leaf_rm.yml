@@ -9,7 +9,7 @@ _metadata:
 route_maps:
   - name: RM-CONN-2-BGP
     afi: ipv4
-    action: match
+    action: permit
     sequence: 10
     match_prefix_list: PL-LOOPBACKS-EVPN-OVERLAY
   - name: RM-MLAG-PEER-IN
