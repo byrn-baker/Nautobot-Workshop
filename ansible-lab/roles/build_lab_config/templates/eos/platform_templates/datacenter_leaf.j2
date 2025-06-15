@@ -55,13 +55,17 @@ ip virtual-router mac-address {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }
 ip routing
 ip routing vrf clab-mgmt
 !
-ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
-!
 {% if config_context['prefix_lists'] is defined %}
 {% include '/eos/prefix_list.j2' %}
 {% endif %}
 !
 {% include '/eos/mlag_config.j2' %}
+!
+ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
+!
+{% if config_context['route_maps'] is defined %}
+{% include '/eos/route_map.j2' %}
+{% endif %}
 !
 router multicast
    ipv4

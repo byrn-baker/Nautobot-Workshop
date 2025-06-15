@@ -1,0 +1,20 @@
+_metadata:
+  name: "Datacenter Leaf Route Maps"
+  description: "Datacenter Leaf Route Maps"
+  weight: 100
+  is_active: true
+  roles:
+    - name: Datacenter Leaf
+
+route_maps:
+  - name: RM-CONN-2-BGP
+    afi: ipv4
+    action: match
+    sequence: 10
+    match_prefix_list: PL-LOOPBACKS-EVPN-OVERLAY
+  - name: RM-MLAG-PEER-IN
+    description: "Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing"
+    afi: ipv4
+    action: permit
+    sequence: 10
+    set: "origin incomplete" 

@@ -1,0 +1,12 @@
+{% for map in config_context['route_maps'] %}
+route-map {{ map['name'] }} {{ map['action'] }} {{ map['sequence'] }}
+    {% if map['description'] is defined %}
+    description {{ map['description'] }}
+    {% endif %}
+    {% if map['match_prefix_list'] is defined %}
+    match ip address prefix-list {{ map['match_prefix_list'] }}
+    {% elif map['set'] is defined %}
+    set {{ map['set'] }}
+    {% endif %}
+!
+{% endfor %}
