@@ -67,6 +67,9 @@ ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
 {% include '/eos/route_map.j2' %}
 {% endif %}
 !
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+!
 router multicast
    ipv4
       software-forwarding kernel

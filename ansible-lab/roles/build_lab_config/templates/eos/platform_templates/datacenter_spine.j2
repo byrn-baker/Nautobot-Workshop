@@ -36,12 +36,22 @@ management api http-commands
        no shutdown
 !
 {% include '/eos/interfaces.j2' %}
-
 !
 ip routing
 ip routing vrf clab-mgmt
 !
+{% if config_context['prefix_lists'] is defined %}
+{% include '/eos/prefix_list.j2' %}
+{% endif %}
+!
 ip route vrf clab-mgmt 0.0.0.0/0 Management0 192.168.220.1
+!
+{% if config_context['route_maps'] is defined %}
+{% include '/eos/route_map.j2' %}
+{% endif %}
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
 !
 router multicast
    ipv4
