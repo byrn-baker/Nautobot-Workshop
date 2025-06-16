@@ -1,0 +1,14 @@
+_metadata:
+  name: "Datacenter Spine Route Maps"
+  description: "Datacenter Spine Route Maps"
+  weight: 100
+  is_active: true
+  roles:
+    - name: Datacenter Spine
+
+route_maps:
+  - name: RM-CONN-2-BGP
+    afi: ipv4
+    action: permit
+    sequence: 10
+    match_prefix_list: PL-LOOPBACKS-EVPN-OVERLAY
