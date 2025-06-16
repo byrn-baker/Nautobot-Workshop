@@ -15,7 +15,13 @@ query_string: |
       }
       peer_groups {
         name
+        source_interface {
+          name
+        }
         extra_attributes
+        secret {
+          name
+        }
         peergroup_template {
           autonomous_system {
             asn
