@@ -45,7 +45,7 @@ management api http-commands
 !
 {% include '/eos/interfaces.j2' %}
 !
-{% set h = inventory_hostname | hash('md5') %}
+{% set h = hostname | hash('md5') %}
 {% set mac = "00:1c:73" %}
 {% set suffix1 = h[0:2] %}
 {% set suffix2 = h[2:4] %}

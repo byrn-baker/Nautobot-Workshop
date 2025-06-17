@@ -1,5 +1,12 @@
 from netaddr import IPNetwork
 from django_jinja import library
+from jinja2 import Environment, FileSystemLoader
+
+env = Environment(
+    loader=FileSystemLoader('templates'),
+    trim_blocks=True,
+    lstrip_blocks=True,
+)
 
 @library.filter
 def ipaddr(value, operation=None):

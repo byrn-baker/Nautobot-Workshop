@@ -100,12 +100,18 @@ query_string: |
         vlans {
           name
           vid
+          vlan_group {
+            name
+          }
         }
         parent {
           name
           vlans {
           name
           vid
+          vlan_group {
+            name
+          }
         }
         }
       }
