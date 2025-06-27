@@ -42,6 +42,7 @@ PLUGINS = [
     "nautobot_plugin_nornir", 
     "nautobot_bgp_models", 
     "nautobot_golden_config",
+    "nautobot_design_builder",
     ]
 
 # Plugins configuration settings. These settings are used by various plugins that the user may have installed.

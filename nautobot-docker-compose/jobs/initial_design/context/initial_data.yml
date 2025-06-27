@@ -1,18 +1,367 @@
+---
+custom_fields:
+  - name: OSPF Network Type
+    grouping: OSPF
+    description: Network type for OSPF
+    key: ospf_network_type
+    type: select
+    choices:
+      - point-to-point
+      - broadcast
+      - non-broadcast
+      - point-to-multipoint
+    content_types:
+      - dcim.interface
+
+  - name: OSPF Area
+    grouping: OSPF
+    description: OSPF Area ID assigned to this interface (decimal or dotted format)
+    key: ospf_area
+    type: text
+    validation_regex: ^([0-9]{1,10}|([0-9]{1,3}\.){3}[0-9]{1,3})$
+    content_types:
+      - dcim.interface
+      
+  - name: OSPF Cost
+    grouping: OSPF
+    description: Cost of the OSPF interface
+    key: ospf_cost
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: OSPF Authentication Type
+    grouping: OSPF
+    description: OSPF authentication type on the interface
+    key: ospf_auth_type
+    type: select
+    choices:
+      - none
+      - simple
+      - md5
+    content_types:
+      - dcim.interface
+
+  - name: OSPF Hello Interval
+    grouping: OSPF
+    description: Hello interval in seconds
+    key: ospf_hello_interval
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: OSPF Dead Interval
+    grouping: OSPF
+    description: Dead interval in seconds
+    key: ospf_dead_interval
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: OSPF BFD Enabled
+    grouping: OSPF
+    description: Enable BFD for OSPF on this interface
+    key: ospf_bfd
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: MPLS Enabled
+    grouping: MPLS
+    description: Enable MPLS on this interface
+    key: mpls_enabled
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+namespaces:
+  - name: clabbr220
+    description: "Containerlab namespace for the in-band MGMT"
+    status: Active
+
+vrfs:
+  - name: clab-mgmt
+    namespace: clabbr220
+    description: "in-band MGMT"
+    rd: "65000:1"
+
+prefixes:
+  - prefix: 100.0.11.0/24
+  - prefix: 100.0.12.0/24
+  - prefix: 100.0.13.0/24
+  - prefix: 100.0.22.0/24
+  - prefix: 100.0.24.0/24
+  - prefix: 100.0.31.0/24
+  - prefix: 100.0.33.0/24
+  - prefix: 100.0.34.0/24
+  - prefix: 100.0.42.0/24
+  - prefix: 100.0.43.0/24
+  - prefix: 100.0.101.0/24
+  - prefix: 100.0.102.0/24
+  - prefix: 100.0.111.0/24
+  - prefix: 100.0.222.0/24
+  - prefix: 100.0.254.0/24
+  - prefix: 100.1.11.0/24
+  - prefix: 100.1.12.0/24
+  - prefix: 100.1.101.0/24
+  - prefix: 100.1.102.0/24
+  - prefix: 100.1.201.0/24
+  - prefix: 100.1.202.0/24
+  - prefix: 100.1.222.0/24
+  - prefix: 100.1.253.0/24
+  - prefix: 100.1.254.0/24
+  - prefix: 100.2.11.0/24
+  - prefix: 100.2.12.0/24
+  - prefix: 100.2.101.0/24
+  - prefix: 100.2.102.0/24
+  - prefix: 100.2.201.0/24
+  - prefix: 100.2.202.0/24
+  - prefix: 100.2.253.0/24
+  - prefix: 100.2.254.0/24
+  - prefix: 2001:db8:100:11::/64
+  - prefix: 2001:db8:100:12::/64
+  - prefix: 2001:db8:100:13::/64
+  - prefix: 2001:db8:100:22::/64
+  - prefix: 2001:db8:100:24::/64
+  - prefix: 2001:db8:100:31::/64
+  - prefix: 2001:db8:100:33::/64
+  - prefix: 2001:db8:100:34::/64
+  - prefix: 2001:db8:100:42::/64
+  - prefix: 2001:db8:100:43::/64
+  - prefix: 2001:db8:100:101::/64
+  - prefix: 2001:db8:100:102::/64
+  - prefix: 2001:db8:100:111::/64
+  - prefix: 2001:db8:100:222::/64
+  - prefix: 2001:db8:100:254::/64
+  - prefix: 2001:db8:101:11::/64
+  - prefix: 2001:db8:101:12::/64
+  - prefix: 2001:db8:101:253::/64
+  - prefix: 2001:db8:101:254::/64
+  - prefix: 2001:db8:102:11::/64
+  - prefix: 2001:db8:102:12::/64
+  - prefix: 2001:db8:102:101::/64
+  - prefix: 2001:db8:102:102::/64
+  - prefix: 2001:db8:102:201::/64
+  - prefix: 2001:db8:102:202::/64
+  - prefix: 2001:db8:202:101::/64
+  - prefix: 2001:db8:202:102::/64
+  - prefix: 2001:db8:202:201::/64
+  - prefix: 2001:db8:202:202::/64
+  - prefix: 2001:db8:102:253::/64
+  - prefix: 2001:db8:102:254::/64
+  - prefix: 192.168.220.0/24
+    namespace: clabbr220
+    vrf: clab-mgmt
+
+ip_addresses:
+  - address: 100.0.11.1/24
+  - address: 100.0.11.11/24
+  - address: 100.0.12.1/24
+  - address: 100.0.12.2/24
+  - address: 100.0.13.1/24
+  - address: 100.0.13.3/24
+  - address: 100.0.22.2/24
+  - address: 100.0.22.12/24
+  - address: 100.0.24.2/24
+  - address: 100.0.24.4/24
+  - address: 100.0.31.3/24
+  - address: 100.0.31.11/24
+  - address: 100.0.33.3/24
+  - address: 100.0.33.33/24
+  - address: 100.0.34.3/24
+  - address: 100.0.34.4/24
+  - address: 100.0.42.4/24
+  - address: 100.0.42.12/24
+  - address: 100.0.43.4/24
+  - address: 100.0.43.43/24
+  - address: 100.0.101.1/24
+  - address: 100.0.101.2/24
+  - address: 100.0.102.1/24
+  - address: 100.0.102.2/24
+  - address: 100.0.111.1/24
+  - address: 100.0.111.2/24
+  - address: 100.0.222.1/24
+  - address: 100.0.222.2/24
+  - address: 100.0.254.1/32
+  - address: 100.0.254.2/32
+  - address: 100.0.254.3/32
+  - address: 100.0.254.4/32
+  - address: 100.0.254.5/32
+  - address: 100.0.254.11/32
+  - address: 100.0.254.12/32
+  - address: 100.0.254.13/32
+  - address: 100.0.254.111/32
+  - address: 100.0.254.112/32
+  - address: 100.1.11.1/24
+  - address: 100.1.11.2/24
+  - address: 100.1.12.1/24
+  - address: 100.1.12.2/24
+  - address: 100.1.101.1/24
+  - address: 100.1.101.2/24
+  - address: 100.1.102.1/24
+  - address: 100.1.102.2/24
+  - address: 100.1.201.1/24
+  - address: 100.1.201.2/24
+  - address: 100.1.202.1/24
+  - address: 100.1.202.2/24
+  - address: 100.1.222.22/24
+  - address: 100.1.253.1/24
+  - address: 100.1.253.2/24
+  - address: 100.1.253.4/24
+  - address: 100.1.253.5/24
+  - address: 100.1.253.6/24
+  - address: 100.1.253.7/24
+  - address: 100.1.254.1/32
+  - address: 100.1.254.2/32
+  - address: 100.1.254.3/32
+  - address: 100.1.254.4/32
+  - address: 100.2.11.1/24
+  - address: 100.2.11.2/24
+  - address: 100.2.12.1/24
+  - address: 100.2.12.2/24
+  - address: 100.2.101.1/24
+  - address: 100.2.101.2/24
+  - address: 100.2.102.1/24
+  - address: 100.2.102.2/24
+  - address: 100.2.201.1/24
+  - address: 100.2.201.2/24
+  - address: 100.2.202.1/24
+  - address: 100.2.202.2/24
+  - address: 100.2.253.1/24
+  - address: 100.2.253.2/24
+  - address: 100.2.253.4/24
+  - address: 100.2.253.5/24
+  - address: 100.2.253.6/24
+  - address: 100.2.253.7/24
+  - address: 100.2.254.1/32
+  - address: 100.2.254.2/32
+  - address: 100.2.254.3/32
+  - address: 100.2.254.4/32
+  - address: 192.168.220.2/24
+    namespace: clabbr220
+  - address: 192.168.220.3/24
+    namespace: clabbr220
+  - address: 192.168.220.4/24
+    namespace: clabbr220
+  - address: 192.168.220.5/24
+    namespace: clabbr220
+  - address: 192.168.220.6/24
+    namespace: clabbr220
+  - address: 192.168.220.7/24
+    namespace: clabbr220
+  - address: 192.168.220.8/24
+    namespace: clabbr220
+  - address: 192.168.220.9/24
+    namespace: clabbr220
+  - address: 192.168.220.10/24
+    namespace: clabbr220
+  - address: 192.168.220.11/24
+    namespace: clabbr220
+  - address: 192.168.220.12/24
+    namespace: clabbr220
+  - address: 192.168.220.13/24
+    namespace: clabbr220
+  - address: 192.168.220.14/24
+    namespace: clabbr220
+  - address: 192.168.220.15/24
+    namespace: clabbr220
+  - address: 192.168.220.16/24
+    namespace: clabbr220
+  - address: 192.168.220.17/24
+    namespace: clabbr220
+  - address: 192.168.220.18/24
+    namespace: clabbr220
+  - address: 192.168.220.19/24
+    namespace: clabbr220
+  - address: 2001:db8:100:11::1/64
+  - address: 2001:db8:100:11::11/64
+  - address: 2001:db8:100:12::1/64
+  - address: 2001:db8:100:12::2/64
+  - address: 2001:db8:100:13::1/64
+  - address: 2001:db8:100:13::3/64
+  - address: 2001:db8:100:22::2/64
+  - address: 2001:db8:100:22::12/64
+  - address: 2001:db8:100:24::2/64
+  - address: 2001:db8:100:24::4/64
+  - address: 2001:db8:100:31::3/64
+  - address: 2001:db8:100:31::11/64
+  - address: 2001:db8:100:33::3/64
+  - address: 2001:db8:100:33::33/64
+  - address: 2001:db8:100:34::3/64
+  - address: 2001:db8:100:34::4/64
+  - address: 2001:db8:100:42::4/64
+  - address: 2001:db8:100:42::12/64
+  - address: 2001:db8:100:43::4/64
+  - address: 2001:db8:100:43::43/64
+  - address: 2001:db8:100:101::1/64
+  - address: 2001:db8:100:101::101/64
+  - address: 2001:db8:100:102::2/64
+  - address: 2001:db8:100:102::101/64
+  - address: 2001:db8:100:111::1/64
+  - address: 2001:db8:100:111::2/64
+  - address: 2001:db8:100:222::1/64
+  - address: 2001:db8:100:222::2/64
+  - address: 2001:db8:100:254::1/128
+  - address: 2001:db8:100:254::2/128
+  - address: 2001:db8:100:254::3/128
+  - address: 2001:db8:100:254::4/128
+  - address: 2001:db8:100:254::5/128
+  - address: 2001:db8:100:254::11/128
+  - address: 2001:db8:100:254::12/128
+  - address: 2001:db8:100:254::13/128
+  - address: 2001:db8:100:254::111/128
+  - address: 2001:db8:100:254::112/128
+  - address: 2001:db8:101:11::1/64
+  - address: 2001:db8:101:11::2/64
+  - address: 2001:db8:101:12::1/64
+  - address: 2001:db8:101:12::2/64
+  - address: 2001:db8:101:253::1/64
+  - address: 2001:db8:101:253::2/64
+  - address: 2001:db8:101:253::4/64
+  - address: 2001:db8:101:253::5/64
+  - address: 2001:db8:101:253::6/64
+  - address: 2001:db8:101:253::7/64
+  - address: 2001:db8:101:254::1/128
+  - address: 2001:db8:101:254::2/128
+  - address: 2001:db8:101:254::3/128
+  - address: 2001:db8:101:254::4/128
+  - address: 2001:db8:102:11::1/64
+  - address: 2001:db8:102:11::2/64
+  - address: 2001:db8:102:12::1/64
+  - address: 2001:db8:102:12::2/64
+  - address: 2001:db8:102:101::1/64
+  - address: 2001:db8:102:101::2/64
+  - address: 2001:db8:102:102::1/64
+  - address: 2001:db8:102:102::2/64
+  - address: 2001:db8:102:201::1/64
+  - address: 2001:db8:102:201::2/64
+  - address: 2001:db8:102:202::1/64
+  - address: 2001:db8:102:202::2/64
+  - address: 2001:db8:202:101::1/64
+  - address: 2001:db8:202:101::2/64
+  - address: 2001:db8:202:102::1/64
+  - address: 2001:db8:202:102::2/64
+  - address: 2001:db8:202:201::1/64
+  - address: 2001:db8:202:201::2/64
+  - address: 2001:db8:202:202::1/64
+  - address: 2001:db8:202:202::2/64
+  - address: 2001:db8:102:253::1/64
+  - address: 2001:db8:102:253::2/64
+  - address: 2001:db8:102:253::4/64
+  - address: 2001:db8:102:253::5/64
+  - address: 2001:db8:102:253::6/64
+  - address: 2001:db8:102:253::7/64
+  - address: 2001:db8:102:254::1/128
+  - address: 2001:db8:102:254::2/128
+  - address: 2001:db8:102:254::3/128
+  - address: 2001:db8:102:254::4/128
+
 manufacturers:
   - name: Arista
   - name: Cisco
   - name: docker
-
-device_types:
-  - model: ceos
-    u_height: 1
-    manufacturer: Arista
-  - model: iol
-    u_height: 1
-    manufacturer: Cisco
-  - model: network
-    u_height: 1
-    manufacturer: docker
 
 platforms:
   - name: EOS
@@ -27,6 +376,86 @@ software_versions:
     platform: EOS
   - version: 17.12.01
     platform: IOS
+
+device_types:
+  - model: ceos
+    u_height: 1
+    manufacturer: Arista
+  - model: iol
+    u_height: 1
+    manufacturer: Cisco
+  - model: network
+    u_height: 1
+    manufacturer: docker
+
+roles:
+  - name: Customer Edge Router
+    color: 3f51b5
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Datacenter Leaf
+    color: ffeb3b
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Datacenter Spine
+    color: d0530e
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Edge Router
+    color: 6c5734
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Route Reflector
+    color: 77e2f7
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: Provider Router
+    color: ac766f
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: mgmt_switch
+    color: 9e9e9e
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+
+location_types:
+  - name: Site
+    content_types:
+      - dcim.device
+      - dcim.rack
+      - ipam.prefix
+      - ipam.vlan
+      - dcim.controller
+      - circuits.circuittermination
+      - dcim.powerpanel
+      - dcim.rackgroup
+      - ipam.vlangroup
+      - ipam.namespace
+      - virtualization.cluster
+
+locations:
+  - name: Nautobot Workshop
+    location_type: Site
+    children:
+      - name: East Side Data Center
+        description: "Data Center on the East side of the drawing"
+        location_type: Site
+        parent: Nautobot Workshop
+      - name: West Side Data Center
+        description: "Data Center on the West side of the drawing"
+        location_type: Site
+        parent: Nautobot Workshop
+      - name: Backbone
+        description: "Backbone between the East and West Data Centers"
+        location_type: Site
+        parent: Nautobot Workshop
 
 devices:       
   - name: P1
@@ -728,7 +1157,7 @@ devices:
         ipv6_address: 2001:db8:101:254::3/128
       - name: Port-Channel1
         type: LAG
-        mode: TAGED_ALL
+        mode: tagged
       - name: Port-Channel2
         type: LAG
         mode: Access
@@ -795,7 +1224,7 @@ devices:
     interfaces:
       - name: Port-Channel1
         type: LAG
-        mode: TAGGED_ALL
+        mode: tagged
       - name: Port-Channel2
         type: LAG
         mode: Access
@@ -1112,8 +1541,8 @@ devices:
         ipv4_address: 100.2.254.3/32
         ipv6_address: 2001:db8:102:254::3/128
       - name: Port-Channel1
-        type: TAGED_ALL
-        mode: Access
+        type: LAG
+        mode: tagged
       - name: Port-Channel2
         type: LAG
         mode: Access
@@ -1187,7 +1616,7 @@ devices:
         ipv6_address: 2001:db8:102:254::4/128
       - name: Port-Channel1
         type: LAG
-        mode: TAGGED_ALL
+        mode: tagged
       - name: Port-Channel2
         type: LAG
         mode: Access

@@ -15,8 +15,15 @@
   loop: "{{ hostvars[inventory_hostname].device | dict2items }}"
   when: hostvars[inventory_hostname].device is defined
 
+- name: Ensure configs directory exists
+  ansible.builtin.file:
+    path: ./configs
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+
 - name: Template the router configurations
-  template:
+  ansible.builtin.template:
     src: "{{ ansible_network_os }}.j2"
     dest: "./configs/{{ inventory_hostname }}.conf"
   delegate_to: localhost
