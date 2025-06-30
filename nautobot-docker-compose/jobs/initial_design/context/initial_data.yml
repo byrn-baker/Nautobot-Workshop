@@ -1329,11 +1329,15 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.1/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::1/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
   - name: P2
@@ -1356,11 +1360,15 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.2/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::2/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
   - name: P3
@@ -1383,11 +1391,15 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.3/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::3/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
   - name: P4
@@ -1410,11 +1422,15 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.4/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::4/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
   - name: PE1
@@ -1447,19 +1463,27 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.11/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::11/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
         - peer_address: 100.0.111.2/24
+          peer_interface: Ethernet0/1
           local_address: 100.0.111.1/24
+          local_interface: Ethernet0/3
           peer_group: CUSTOMER-PEERS-V4
           description: CE1
         - peer_address: 2001:db8:100:111::2/64
+          peer_interface: Ethernet0/1
           local_address: 2001:db8:100:111::1/64
+          local_interface: Ethernet0/3
           peer_group: CUSTOMER-PEERS-V6
           description: CE1
   - name: PE2
@@ -1492,11 +1516,15 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.12/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::12/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
   - name: PE3
@@ -1529,21 +1557,29 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
           local_address: 100.0.254.13/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: RR1
         - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::13/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: RR1
         - peer_address: 100.0.222.2/24
+          peer_interface: Ethernet0/1
           local_address: 100.0.222.1/24
+          local_interface: Ethernet0/3
           peer_group: CUSTOMER-PEERS-V4
-          description: "CE2"
+          description: CE2
         - peer_address: 2001:db8:100:222::2/64
+          peer_interface: Ethernet0/1
           local_address: 2001:db8:100:222::1/64
+          local_interface: Ethernet0/3
           peer_group: CUSTOMER-PEERS-V6
-          description: "CE2"
+          description: CE2
   - name: CE2
     bgp:
       asn: 65100
@@ -1584,28 +1620,40 @@ bgp_routing:
             - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.222.1/24
+          peer_interface: Ethernet0/3
           local_address: 100.0.222.2/24
-          description: "PE3"
+          local_interface: Ethernet0/1
+          description: PE3
           peer_group: PROVIDER-IPV4-PEERS
         - peer_address: 2001:db8:100:222::1/64
+          peer_interface: Ethernet0/3
           local_address: 2001:db8:100:222::2/64
-          description: "PE3"
+          local_interface: Ethernet0/1
+          description: PE3
           peer_group: PROVIDER-IPV6-PEERS
         - peer_address: 100.1.11.2/24
+          peer_interface: eth7
           local_address: 100.1.11.1/24
+          local_interface: Ethernet0/2
           peer_group: FABRIC-PEERS-V4
-          description: "East-Spine01"
+          description: East-Spine01
         - peer_address: 2001:db8:101:11::2/64
+          peer_interface: eth7
           local_address: 2001:db8:101:11::1/64
-          description: "East-Spine01"
+          local_interface: Ethernet0/2
+          description: East-Spine01
           peer_group: FABRIC-PEERS-V6
         - peer_address: 100.1.12.2/24
+          peer_interface: eth7
           local_address: 100.1.12.1/24
+          local_interface: Ethernet0/3
           peer_group: FABRIC-PEERS-V4
-          description: "East-Spine02"
+          description: East-Spine02
         - peer_address: 2001:db8:101:12::2/64
+          peer_interface: eth7
           local_address: 2001:db8:101:12::1/64
-          description: "East-Spine02"
+          local_interface: Ethernet0/3
+          description: East-Spine02
           peer_group: FABRIC-PEERS-V6
   - name: East-Spine01
     bgp:
@@ -1659,37 +1707,53 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.1.11.1/24
+          peer_interface: Ethernet0/2
           local_address: 100.1.11.2/24
-          description: "CE2"
+          local_interface: eth7
+          description: CE2
           peer_group: IPv4-EDGE-PEERS
         - peer_address: 2001:db8:101:11::1/64
+          peer_interface: Ethernet0/2
           local_address: 2001:db8:101:11::2/64
-          description: "CE2"
+          local_interface: eth7
+          description: CE2
           peer_group: IPv6-EDGE-PEERS
         - peer_address: 100.1.101.2/24
+          peer_interface: eth1
           local_address: 100.1.101.1/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Leaf01"
+          description: East-Leaf01
         - peer_address: 2001:db8:102:101::2/64
+          peer_interface: eth1
           local_address: 2001:db8:102:101::1/64
-          description: "East-Leaf01"
+          local_interface: eth1
+          description: East-Leaf01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.102.2/24
+          peer_interface: eth1
           local_address: 100.1.102.1/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Leaf02"
+          description: East-Leaf02
         - peer_address: 2001:db8:102:102::2/64
+          peer_interface: eth1
           local_address: 2001:db8:102:102::1/64
-          description: "East-Leaf02"
+          local_interface: eth2
+          description: East-Leaf02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.254.3/32
+          peer_interface: Loopback0
           local_address: 100.1.254.1/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Leaf01"
+          description: East-Leaf01
         - peer_address: 100.1.254.4/32
+          peer_interface: Loopback0
           local_address: 100.1.254.1/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Leaf02"
+          description: East-Leaf02
   - name: East-Spine02
     bgp:
       asn: 65101
@@ -1742,37 +1806,53 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.1.12.1/24
+          peer_interface: Ethernet0/3
           local_address: 100.1.12.2/24
-          description: "CE2"
+          local_interface: eth7
+          description: CE2
           peer_group: IPv4-EDGE-PEERS
         - peer_address: 2001:db8:101:12::1/64
+          peer_interface: Ethernet0/3
           local_address: 2001:db8:101:12::2/64
-          description: "CE2"
+          local_interface: eth7
+          description: CE2
           peer_group: IPv6-EDGE-PEERS
         - peer_address: 100.1.201.2/24
+          peer_interface: eth2
           local_address: 100.1.201.1/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Leaf01"
+          description: East-Leaf01
         - peer_address: 2001:db8:102:201::2/64
+          peer_interface: eth2
           local_address: 2001:db8:102:201::1/64
-          description: "East-Leaf01"
+          local_interface: eth1
+          description: East-Leaf01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.202.2/24
+          peer_interface: eth2
           local_address: 100.1.202.1/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Leaf02"
+          description: East-Leaf02
         - peer_address: 2001:db8:102:202::2/64
+          peer_interface: eth2
           local_address: 2001:db8:102:202::1/64
-          description: "East-Leaf02"
+          local_interface: eth2
+          description: East-Leaf02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.254.3/32
+          peer_interface: Loopback0
           local_address: 100.1.254.2/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Leaf01"
+          description: East-Leaf01
         - peer_address: 100.1.254.4/32
+          peer_interface: Loopback0
           local_address: 100.1.254.2/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Leaf02"
+          description: East-Leaf02
   - name: East-Leaf01
     bgp:
       asn: 65102
@@ -1811,29 +1891,41 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.1.101.1/24
+          peer_interface: eth1
           local_address: 100.1.101.2/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Spine01"
+          description: East-Spine01
         - peer_address: 2001:db8:102:101::1/64
+          peer_interface: eth1
           local_address: 2001:db8:102:101::2/64
-          description: "East-Spine01"
+          local_interface: eth1
+          description: East-Spine01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.201.1/24
+          peer_interface: eth1
           local_address: 100.1.201.2/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Spine02"
+          description: East-Spine02
         - peer_address: 2001:db8:102:201::1/64
+          peer_interface: eth1
           local_address: 2001:db8:102:201::2/64
-          description: "East-Spine02"
+          local_interface: eth2
+          description: East-Spine02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.254.1/32
+          peer_interface: Loopback0
           local_address: 100.1.254.3/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Spine01"
+          description: East-Spine01
         - peer_address: 100.1.254.2/32
+          peer_interface: Loopback0
           local_address: 100.1.254.3/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Spine02"
+          description: East-Spine02
   - name: East-Leaf02
     bgp:
       asn: 65102
@@ -1872,29 +1964,41 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.1.102.1/24
+          peer_interface: eth2
           local_address: 100.1.102.2/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Spine01"
+          description: East-Spine01
         - peer_address: 2001:db8:102:102::1/64
+          peer_interface: eth2
           local_address: 2001:db8:102:102::2/64
-          description: "East-Spine01"
+          local_interface: eth1
+          description: East-Spine01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.202.1/24
+          peer_interface: eth2
           local_address: 100.1.202.2/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "East-Spine02"
+          description: East-Spine02
         - peer_address: 2001:db8:102:202::1/64
+          peer_interface: eth2
           local_address: 2001:db8:102:202::2/64
-          description: "East-Spine02"
+          local_interface: eth2
+          description: East-Spine02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.1.254.1/32
+          peer_interface: Loopback0
           local_address: 100.1.254.4/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Spine01"
+          description: East-Spine01
         - peer_address: 100.1.254.2/32
+          peer_interface: Loopback0
           local_address: 100.1.254.4/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "East-Spine02"
+          description: East-Spine02
   - name: RR1
     bgp:
       asn: 65000
@@ -1915,59 +2019,87 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
       bgp_peers:
         - peer_address: 100.0.254.1/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: P1
         - peer_address: 2001:db8:100:254::1/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: P1
         - peer_address: 100.0.254.2/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: P2
         - peer_address: 2001:db8:100:254::2/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: P2
         - peer_address: 100.0.254.3/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: P3
         - peer_address: 2001:db8:100:254::3/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: P3
         - peer_address: 100.0.254.4/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: P4
         - peer_address: 2001:db8:100:254::4/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: P4
         - peer_address: 100.0.254.11/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: PE1
         - peer_address: 2001:db8:100:254::11/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: PE1
         - peer_address: 100.0.254.12/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: PE2
         - peer_address: 2001:db8:100:254::12/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: PE2
         - peer_address: 100.0.254.13/32
+          peer_interface: Loopback0
           local_address: 100.0.254.5/32
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV4-PEERS
           description: PE3
         - peer_address: 2001:db8:100:254::13/128
+          peer_interface: Loopback0
           local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
           peer_group: BACKBONE-RR-IPV6-PEERS
           description: PE3
   - name: CE1
@@ -2010,28 +2142,40 @@ bgp_routing:
             - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.111.1/24
+          peer_interface: Ethernet0/3
           local_address: 100.0.111.2/24
-          description: "PE1"
+          local_interface: Ethernet0/1
+          description: PE1
           peer_group: PROVIDER-IPV4-PEERS
         - peer_address: 2001:db8:100:111::1/64
+          peer_interface: Ethernet0/3
           local_address: 2001:db8:100:111::2/64
-          description: "PE1"
+          local_interface: Ethernet0/1
+          description: PE1
           peer_group: PROVIDER-IPV6-PEERS
         - peer_address: 100.2.11.2/24
+          peer_interface: eth7
           local_address: 100.2.11.1/24
+          local_interface: Ethernet0/2
           peer_group: FABRIC-PEERS-V4
-          description: "West-Spine01"
+          description: West-Spine01
         - peer_address: 2001:db8:102:11::2/64
+          peer_interface: eth7
           local_address: 2001:db8:102:11::1/64
-          description: "West-Spine01"
+          local_interface: Ethernet0/2
+          description: West-Spine01
           peer_group: FABRIC-PEERS-V6
         - peer_address: 100.2.12.2/24
+          peer_interface: eth7
           local_address: 100.2.12.1/24
+          local_interface: Ethernet0/3
           peer_group: FABRIC-PEERS-V4
-          description: "West-Spine02"
+          description: West-Spine02
         - peer_address: 2001:db8:102:12::2/64
+          peer_interface: eth7
           local_address: 2001:db8:102:12::1/64
-          description: "West-Spine02"
+          local_interface: Ethernet0/3
+          description: West-Spine02
           peer_group: FABRIC-PEERS-V6
   - name: West-Spine01
     bgp:
@@ -2085,37 +2229,53 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.2.11.1/24
+          peer_interface: Ethernet0/2
           local_address: 100.2.11.2/24
-          description: "CE1"
+          local_interface: eth7
+          description: CE1
           peer_group: IPv4-EDGE-PEERS
         - peer_address: 2001:db8:102:11::1/64
+          peer_interface: Ethernet0/2
           local_address: 2001:db8:102:11::2/64
-          description: "CE1"
+          local_interface: eth7
+          description: CE1
           peer_group: IPv6-EDGE-PEERS
         - peer_address: 100.2.101.2/24
+          peer_interface: eth1
           local_address: 100.2.101.1/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Leaf01"
+          description: West-Leaf01
         - peer_address: 2001:db8:202:101::2/64
+          peer_interface: eth1
           local_address: 2001:db8:202:101::1/64
-          description: "West-Leaf01"
+          local_interface: eth1
+          description: West-Leaf01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.102.2/24
+          peer_interface: eth1
           local_address: 100.2.102.1/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Leaf02"
+          description: West-Leaf02
         - peer_address: 2001:db8:202:102::2/64
+          peer_interface: eth1
           local_address: 2001:db8:202:102::1/64
-          description: "West-Leaf02"
+          local_interface: eth2
+          description: West-Leaf02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.254.3/32
+          peer_interface: Loopback0
           local_address: 100.2.254.1/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Leaf01"
+          description: West-Leaf01
         - peer_address: 100.2.254.4/32
+          peer_interface: Loopback0
           local_address: 100.2.254.1/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Leaf02"
+          description: West-Leaf02
   - name: West-Spine02
     bgp:
       asn: 65201
@@ -2167,38 +2327,54 @@ bgp_routing:
           afi_safi:
             - afi_safi: l2_evpn
       bgp_peers:
-        - peer_address: 100.2.12.2/24
-          local_address: 100.2.12.1/24
-          description: "CE1"
+        - peer_address: 100.2.12.1/24
+          peer_interface: Ethernet0/3
+          local_address: 100.2.12.2/24
+          local_interface: eth7
+          description: CE1
           peer_group: IPv4-EDGE-PEERS
-        - peer_address: 2001:db8:102:12::2/64
-          local_address: 2001:db8:102:12::1/64
-          description: "CE1"
+        - peer_address: 2001:db8:102:12::1/64
+          peer_interface: Ethernet0/3
+          local_address: 2001:db8:102:12::2/64
+          local_interface: eth7
+          description: CE1
           peer_group: IPv6-EDGE-PEERS
         - peer_address: 100.2.101.2/24
+          peer_interface: eth1
           local_address: 100.2.101.1/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Leaf01"
+          description: West-Leaf01
         - peer_address: 2001:db8:202:101::2/64
+          peer_interface: eth1
           local_address: 2001:db8:202:101::1/64
-          description: "West-Leaf01"
+          local_interface: eth1
+          description: West-Leaf01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.102.2/24
+          peer_interface: eth1
           local_address: 100.2.102.1/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Leaf02"
+          description: West-Leaf02
         - peer_address: 2001:db8:202:102::2/64
+          peer_interface: eth1
           local_address: 2001:db8:202:102::1/64
-          description: "West-Leaf02"
+          local_interface: eth2
+          description: West-Leaf02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.254.3/32
+          peer_interface: Loopback0
           local_address: 100.2.254.2/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Leaf01"
+          description: West-Leaf01
         - peer_address: 100.2.254.4/32
+          peer_interface: Loopback0
           local_address: 100.2.254.2/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Leaf02"
+          description: West-Leaf02
   - name: West-Leaf01
     bgp:
       asn: 65202
@@ -2237,29 +2413,41 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.2.101.1/24
+          peer_interface: eth1
           local_address: 100.2.101.2/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Spine01"
+          description: West-Spine01
         - peer_address: 2001:db8:202:101::1/64
+          peer_interface: eth1
           local_address: 2001:db8:202:101::2/64
-          description: "West-Spine01"
+          local_interface: eth1
+          description: West-Spine01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.201.1/24
+          peer_interface: eth1
           local_address: 100.2.201.2/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Spine02"
+          description: West-Spine02
         - peer_address: 2001:db8:202:201::1/64
+          peer_interface: eth1
           local_address: 2001:db8:202:201::2/64
-          description: "West-Spine02"
+          local_interface: eth2
+          description: West-Spine02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.254.1/32
+          peer_interface: Loopback0
           local_address: 100.2.254.3/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Spine01"
+          description: West-Spine01
         - peer_address: 100.2.254.2/32
+          peer_interface: Loopback0
           local_address: 100.2.254.3/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Spine02"
+          description: West-Spine02
   - name: West-Leaf02
     bgp:
       asn: 65202
@@ -2298,26 +2486,38 @@ bgp_routing:
             - afi_safi: l2_evpn
       bgp_peers:
         - peer_address: 100.2.102.1/24
+          peer_interface: eth2
           local_address: 100.2.102.2/24
+          local_interface: eth1
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Spine01"
+          description: West-Spine01
         - peer_address: 2001:db8:202:102::1/64
+          peer_interface: eth2
           local_address: 2001:db8:202:102::2/64
-          description: "West-Spine01"
+          local_interface: eth1
+          description: West-Spine01
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.202.1/24
+          peer_interface: eth2
           local_address: 100.2.202.2/24
+          local_interface: eth2
           peer_group: IPv4-UNDERLAY-PEERS
-          description: "West-Spine02"
+          description: West-Spine02
         - peer_address: 2001:db8:202:202::1/64
+          peer_interface: eth2
           local_address: 2001:db8:202:202::2/64
-          description: "West-Spine02"
+          local_interface: eth2
+          description: West-Spine02
           peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.254.1/32
+          peer_interface: Loopback0
           local_address: 100.2.254.4/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Spine01"
+          description: West-Spine01
         - peer_address: 100.2.254.2/32
+          peer_interface: Loopback0
           local_address: 100.2.254.4/32
+          local_interface: Loopback0
           peer_group: EVPN-OVERLAY-PEERS
-          description: "West-Spine02"
+          description: West-Spine02
