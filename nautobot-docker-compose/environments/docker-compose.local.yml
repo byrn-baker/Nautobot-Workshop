@@ -22,3 +22,5 @@ services:
   celery_beat:
     volumes:
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+      - "../jobs:/opt/nautobot/jobs"
+      - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"

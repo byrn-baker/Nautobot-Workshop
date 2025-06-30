@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "nautobotworkshop-docker-compose"
+name = "nautobot-workshop-docker-compose"
 version = "0.1.1"
 description = ""
 authors = ["John Doe <johndoe@mail.com>"]
