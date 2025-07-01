@@ -252,40 +252,36 @@ bgp_peerings:
       {% set _ = seen_peerings.append(peering_key) %}
       {% set peer_group = device.bgp.bgp_peer_groups | selectattr('name', 'equalto', peer.peer_group) | first %}
       {% set peer_asn = peer_group.peer_asn if peer_group else device.bgp.asn %}
-  - "!create_or_update:status__name": "Active"
-    "!ref": "{{ device.name | lower | replace('-', '_') }}_{{ peer.description | lower | replace('-', '_') }}_peering"
-    status__name: Active
-    {% endif %}
-  {% endfor %}
-{% endfor %}
-
-bgp_peer_endpoints:
-{% set seen_peerings = [] %}
-{% for device in bgp_routing if device.bgp is defined and device.bgp.bgp_peers is defined %}
-  {% for peer in device.bgp.bgp_peers %}
-    {% set peering_key = [device.name, peer.description, peer.local_address, peer.peer_address] | sort | join(':') %}
-    {% if peering_key not in seen_peerings %}
-      {% set _ = seen_peerings.append(peering_key) %}
-      {% set peer_group = device.bgp.bgp_peer_groups | selectattr('name', 'equalto', peer.peer_group) | first %}
-      {% set peer_asn = peer_group.peer_asn if peer_group else device.bgp.asn %}
-  - "!create_or_update:id": "{{ device.name }}_{{ peer.description }}_A"
-    peering: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ peer.description | lower | replace('-', '_') }}_peering"
-    source_ip: {{ peer.local_address }}
-    source_interface: {{ peer.local_interface }}
-    autonomous_system: {{ device.bgp.asn }}
-    routing_instance: {{ device.name}}
-    description: "{{ peer.description }}"
-    enabled: true
-    peer_group: {{ peer.peer_group }}
-  - "!create_or_update:id": "{{ device.name }}_{{ peer.description }}_Z"
-    peering: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ peer.description | lower | replace('-', '_') }}_peering"
-    source_ip: {{ peer.local_address }}
-    source_interface: {{ peer.local_interface }}
-    autonomous_system: {{ device.bgp.asn }}
-    routing_instance: {{ peer.description }}
-    description: "{{ peer.description }}"
-    enabled: true
-    peer_group: {{ peer.peer_group }}
+  - "!bgp_peering":
+      endpoint_a:
+          "!create_or_update:routing_instance__autonomous_system__asn": "{{ device.bgp.asn}}"
+          "!create_or_update:source_ip": 
+              "interface__device__name": "{{ device.name }}"
+              "interface__name": "{{ peer.local_interface }}"
+              {% if '.' in peer.local_address %}
+              "address_family": "ipv4"
+              {% else %}
+              "address_family": "ipv6"
+              {% endif %}
+          source_interface:
+              "device__name": "{{ device.name }}"
+              "name": "{{ peer.local_interface }}"
+          peer_group: "{{ peer.peer_group }}"
+      endpoint_z:
+          "!create_or_update:routing_instance__autonomous_system__asn": "{{ peer.peer_asn }}"
+          "!create_or_update:source_ip": 
+              "interface__device__name": "{{ peer.description }}"
+              "interface__name": "{{ peer.peer_interface }}"
+              {% if '.' in peer.local_address %}
+              "address_family": "ipv4"
+              {% else %}
+              "address_family": "ipv6"
+              {% endif %}
+          source_interface:
+              "device__name": "{{ peer.description }}"
+              "name": "{{ peer.peer_interface }}"
+          peer_group: "{{ peer.peer_group }}"
+    status__name: "Active"
     {% endif %}
   {% endfor %}
 {% endfor %}

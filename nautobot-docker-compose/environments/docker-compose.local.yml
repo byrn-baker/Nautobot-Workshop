@@ -8,6 +8,7 @@ services:
       - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
       - "../jobs:/opt/nautobot/jobs"
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+      - "../plugins/ext.py:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot_design_builder/contrib/ext.py"
     healthcheck:
       interval: "30s"
       timeout: "10s"
@@ -19,8 +20,10 @@ services:
       - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
       - "../jobs:/opt/nautobot/jobs"
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+      - "../plugins/ext.py:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot_design_builder/contrib/ext.py"
   celery_beat:
     volumes:
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
       - "../jobs:/opt/nautobot/jobs"
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+      - "../plugins/ext.py:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot_design_builder/contrib/ext.py"
