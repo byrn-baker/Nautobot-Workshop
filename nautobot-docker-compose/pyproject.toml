@@ -6,7 +6,7 @@ authors = ["John Doe <johndoe@mail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-nautobot = "2.4.2"
+nautobot = "2.4.10"
 
 # nautobot-example-plugin = {path = "plugins/plugin_example", develop = true}
 nautobot-plugin-nornir = "^2.2.1"

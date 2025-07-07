@@ -33,9 +33,15 @@ class InitialDesign(DesignJob):
         """Metadata needed to implement the site design."""
         name = "Nautobot Workshop Demo Initial Data"
         commit_default = False
-        design_file = "designs/0001_design.yaml.j2"
+        celery_worker = "default"
+        design_files = [
+          "designs/0001_extensible_ipam.yaml.j2",
+          "designs/0002_org_devices.yaml.j2",
+          "designs/0003_primary_ip.yaml.j2",
+          "designs/0004_bgp_routing.yaml.j2"
+        ]
         context_class = InitialDesignContext
-        extensions = [ext.BGPPeeringExtension, ext.CableConnectionExtension, ext.LookupExtension]
+        extensions = [ext.BGPPeeringExtension]
         version = "1.0.0"
         description = "Establish the devices and site information for three sites: East Side Data Center, West Side Data Center, and Backbone."
         docs = """This design creates the following objects in the source of truth to establish the initial network environment in three sites: East Side Data Center (esdc), West Side Data Center (wsdc), and Backbone.

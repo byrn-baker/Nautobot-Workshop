@@ -1309,6 +1309,141 @@ devices:
         vrf: clab-mgmt
 
 bgp_routing:
+  - name: RR1
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: P1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::1/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: P1
+          peer_asn: 65000
+        - peer_address: 100.0.254.2/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: P2
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::2/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: P2
+          peer_asn: 65000
+        - peer_address: 100.0.254.3/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: P3
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::3/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: P3
+          peer_asn: 65000
+        - peer_address: 100.0.254.4/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: P4
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::4/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: P4
+          peer_asn: 65000
+        - peer_address: 100.0.254.11/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: PE1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::11/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: PE1
+          peer_asn: 65000
+        - peer_address: 100.0.254.12/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: PE2
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::12/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: PE2
+          peer_asn: 65000
+        - peer_address: 100.0.254.13/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.5/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: PE3
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::13/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::5/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: PE3
+          peer_asn: 65000
   - name: P1
     bgp:
       asn: 65000
@@ -1322,1204 +1457,1315 @@ bgp_routing:
           peer_asn: 65000
           in_route_map: ALLOW_ALL_V4_IN
           out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
-          peer_asn: 65000
           local_address: 100.0.254.1/32
           local_interface: Loopback0
-          peer_group: BACKBONE-RR-IPV4-PEERS
-          description: RR1
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
         - peer_address: 2001:db8:100:254::5/128
           peer_interface: Loopback0
-          peer_asn: 65000
           local_address: 2001:db8:100:254::1/128
           local_interface: Loopback0
-          peer_group: BACKBONE-RR-IPV6-PEERS
-          description: RR1
-  # - name: P2
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.2/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::2/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  # - name: P3
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.3/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::3/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  # - name: P4
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.4/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::4/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  # - name: PE1
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #       - name: CUSTOMER-PEERS-V4
-  #         description: IPv4 CE-to-PE peerings
-  #         peer_asn: 65200
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: CUSTOMER-PEERS-V6
-  #         peer_asn: 65200
-  #         description: IPv6 CE-to-PE peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.11/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::11/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  #       - peer_address: 100.0.111.2/24
-  #         peer_interface: Ethernet0/1
-  #         local_address: 100.0.111.1/24
-  #         local_interface: Ethernet0/3
-  #         peer_group: CUSTOMER-PEERS-V4
-  #         description: CE1
-  #       - peer_address: 2001:db8:100:111::2/64
-  #         peer_interface: Ethernet0/1
-  #         local_address: 2001:db8:100:111::1/64
-  #         local_interface: Ethernet0/3
-  #         peer_group: CUSTOMER-PEERS-V6
-  #         description: CE1
-  # - name: PE2
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #       - name: CUSTOMER-PEERS-V4
-  #         description: IPv4 CE-to-PE peerings
-  #         peer_asn: 65200
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: CUSTOMER-PEERS-V6
-  #         peer_asn: 65200
-  #         description: IPv6 CE-to-PE peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.12/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::12/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  # - name: PE3
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #       - name: CUSTOMER-PEERS-V4
-  #         description: IPv4 CE-to-PE peerings
-  #         peer_asn: 65100
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: CUSTOMER-PEERS-V6
-  #         peer_asn: 65100
-  #         description: IPv6 CE-to-PE peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.5/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.13/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: RR1
-  #       - peer_address: 2001:db8:100:254::5/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::13/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: RR1
-  #       - peer_address: 100.0.222.2/24
-  #         peer_interface: Ethernet0/1
-  #         local_address: 100.0.222.1/24
-  #         local_interface: Ethernet0/3
-  #         peer_group: CUSTOMER-PEERS-V4
-  #         description: CE2
-  #       - peer_address: 2001:db8:100:222::2/64
-  #         peer_interface: Ethernet0/1
-  #         local_address: 2001:db8:100:222::1/64
-  #         local_interface: Ethernet0/3
-  #         peer_group: CUSTOMER-PEERS-V6
-  #         description: CE2
-  # - name: CE2
-  #   bgp:
-  #     asn: 65100
-  #     description: "Customer Edge 2"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #     bgp_peer_groups:
-  #       - name: PROVIDER-IPV4-PEERS
-  #         description: BGP sessions to Provider
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: PROVIDER-IPV6-PEERS
-  #         description: BGP sessions to Provider
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #       - name: FABRIC-PEERS-V4
-  #         description: IPv4 CE-to-PE peerings
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: FABRIC-PEERS-V6
-  #         peer_asn: 65101
-  #         description: IPv6 CE-to-PE peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #     bgp_peers:
-  #       - peer_address: 100.0.222.1/24
-  #         peer_interface: Ethernet0/3
-  #         local_address: 100.0.222.2/24
-  #         local_interface: Ethernet0/1
-  #         description: PE3
-  #         peer_group: PROVIDER-IPV4-PEERS
-  #       - peer_address: 2001:db8:100:222::1/64
-  #         peer_interface: Ethernet0/3
-  #         local_address: 2001:db8:100:222::2/64
-  #         local_interface: Ethernet0/1
-  #         description: PE3
-  #         peer_group: PROVIDER-IPV6-PEERS
-  #       - peer_address: 100.1.11.2/24
-  #         peer_interface: eth7
-  #         local_address: 100.1.11.1/24
-  #         local_interface: Ethernet0/2
-  #         peer_group: FABRIC-PEERS-V4
-  #         description: East-Spine01
-  #       - peer_address: 2001:db8:101:11::2/64
-  #         peer_interface: eth7
-  #         local_address: 2001:db8:101:11::1/64
-  #         local_interface: Ethernet0/2
-  #         description: East-Spine01
-  #         peer_group: FABRIC-PEERS-V6
-  #       - peer_address: 100.1.12.2/24
-  #         peer_interface: eth7
-  #         local_address: 100.1.12.1/24
-  #         local_interface: Ethernet0/3
-  #         peer_group: FABRIC-PEERS-V4
-  #         description: East-Spine02
-  #       - peer_address: 2001:db8:101:12::2/64
-  #         peer_interface: eth7
-  #         local_address: 2001:db8:101:12::1/64
-  #         local_interface: Ethernet0/3
-  #         description: East-Spine02
-  #         peer_group: FABRIC-PEERS-V6
-  # - name: East-Spine01
-  #   bgp:
-  #     asn: 65101
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-EDGE-PEERS
-  #         description: IPv4 edge peerings
-  #         peer_asn: 65100
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-EDGE-PEERS
-  #         peer_asn: 65100
-  #         description: IPv6 edge peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65102
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65102
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65102
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.1.11.1/24
-  #         peer_interface: Ethernet0/2
-  #         local_address: 100.1.11.2/24
-  #         local_interface: eth7
-  #         description: CE2
-  #         peer_group: IPv4-EDGE-PEERS
-  #       - peer_address: 2001:db8:101:11::1/64
-  #         peer_interface: Ethernet0/2
-  #         local_address: 2001:db8:101:11::2/64
-  #         local_interface: eth7
-  #         description: CE2
-  #         peer_group: IPv6-EDGE-PEERS
-  #       - peer_address: 100.1.101.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.1.101.1/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Leaf01
-  #       - peer_address: 2001:db8:102:101::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:102:101::1/64
-  #         local_interface: eth1
-  #         description: East-Leaf01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.102.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.1.102.1/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Leaf02
-  #       - peer_address: 2001:db8:102:102::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:102:102::1/64
-  #         local_interface: eth2
-  #         description: East-Leaf02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.254.3/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.1/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Leaf01
-  #       - peer_address: 100.1.254.4/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.1/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Leaf02
-  # - name: East-Spine02
-  #   bgp:
-  #     asn: 65101
-  #     description: "East Side Spine AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-EDGE-PEERS
-  #         description: IPv4 edge peerings
-  #         peer_asn: 65100
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-EDGE-PEERS
-  #         peer_asn: 65100
-  #         description: IPv6 edge peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65102
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65102
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65102
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.1.12.1/24
-  #         peer_interface: Ethernet0/3
-  #         local_address: 100.1.12.2/24
-  #         local_interface: eth7
-  #         description: CE2
-  #         peer_group: IPv4-EDGE-PEERS
-  #       - peer_address: 2001:db8:101:12::1/64
-  #         peer_interface: Ethernet0/3
-  #         local_address: 2001:db8:101:12::2/64
-  #         local_interface: eth7
-  #         description: CE2
-  #         peer_group: IPv6-EDGE-PEERS
-  #       - peer_address: 100.1.201.2/24
-  #         peer_interface: eth2
-  #         local_address: 100.1.201.1/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Leaf01
-  #       - peer_address: 2001:db8:102:201::2/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:102:201::1/64
-  #         local_interface: eth1
-  #         description: East-Leaf01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.202.2/24
-  #         peer_interface: eth2
-  #         local_address: 100.1.202.1/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Leaf02
-  #       - peer_address: 2001:db8:102:202::2/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:102:202::1/64
-  #         local_interface: eth2
-  #         description: East-Leaf02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.254.3/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.2/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Leaf01
-  #       - peer_address: 100.1.254.4/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.2/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Leaf02
-  # - name: East-Leaf01
-  #   bgp:
-  #     asn: 65102
-  #     description: "Datacenter Leaf"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65101
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.1.101.1/24
-  #         peer_interface: eth1
-  #         local_address: 100.1.101.2/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Spine01
-  #       - peer_address: 2001:db8:102:101::1/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:102:101::2/64
-  #         local_interface: eth1
-  #         description: East-Spine01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.201.1/24
-  #         peer_interface: eth1
-  #         local_address: 100.1.201.2/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Spine02
-  #       - peer_address: 2001:db8:102:201::1/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:102:201::2/64
-  #         local_interface: eth2
-  #         description: East-Spine02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.254.1/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.3/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Spine01
-  #       - peer_address: 100.1.254.2/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.3/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Spine02
-  # - name: East-Leaf02
-  #   bgp:
-  #     asn: 65102
-  #     description: "Datacenter Leaf"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65101
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.1.102.1/24
-  #         peer_interface: eth2
-  #         local_address: 100.1.102.2/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Spine01
-  #       - peer_address: 2001:db8:102:102::1/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:102:102::2/64
-  #         local_interface: eth1
-  #         description: East-Spine01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.202.1/24
-  #         peer_interface: eth2
-  #         local_address: 100.1.202.2/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: East-Spine02
-  #       - peer_address: 2001:db8:102:202::1/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:102:202::2/64
-  #         local_interface: eth2
-  #         description: East-Spine02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.1.254.1/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.4/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Spine01
-  #       - peer_address: 100.1.254.2/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.1.254.4/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: East-Spine02
-  # - name: RR1
-  #   bgp:
-  #     asn: 65000
-  #     description: "Backbone AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #       - afi_safi: ipv6_unicast
-  #     bgp_peer_groups:
-  #       - name: BACKBONE-RR-IPV4-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: BACKBONE-RR-IPV6-PEERS
-  #         description: BGP sessions to route reflectors
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #     bgp_peers:
-  #       - peer_address: 100.0.254.1/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: P1
-  #       - peer_address: 2001:db8:100:254::1/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: P1
-  #       - peer_address: 100.0.254.2/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: P2
-  #       - peer_address: 2001:db8:100:254::2/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: P2
-  #       - peer_address: 100.0.254.3/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: P3
-  #       - peer_address: 2001:db8:100:254::3/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: P3
-  #       - peer_address: 100.0.254.4/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: P4
-  #       - peer_address: 2001:db8:100:254::4/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: P4
-  #       - peer_address: 100.0.254.11/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: PE1
-  #       - peer_address: 2001:db8:100:254::11/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: PE1
-  #       - peer_address: 100.0.254.12/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: PE2
-  #       - peer_address: 2001:db8:100:254::12/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: PE2
-  #       - peer_address: 100.0.254.13/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.0.254.5/32
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV4-PEERS
-  #         description: PE3
-  #       - peer_address: 2001:db8:100:254::13/128
-  #         peer_interface: Loopback0
-  #         local_address: 2001:db8:100:254::5/128
-  #         local_interface: Loopback0
-  #         peer_group: BACKBONE-RR-IPV6-PEERS
-  #         description: PE3
-  # - name: CE1
-  #   bgp:
-  #     asn: 65200
-  #     description: "Customer Edge 1"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #     bgp_peer_groups:
-  #       - name: PROVIDER-IPV4-PEERS
-  #         description: BGP sessions to Provider
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #       - name: PROVIDER-IPV6-PEERS
-  #         description: BGP sessions to Provider
-  #         peer_asn: 65000
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #       - name: FABRIC-PEERS-V4
-  #         description: IPv4 CE-to-PE peerings
-  #         peer_asn: 65201
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: FABRIC-PEERS-V6
-  #         peer_asn: 65201
-  #         description: IPv6 CE-to-PE peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #     bgp_peers:
-  #       - peer_address: 100.0.111.1/24
-  #         peer_interface: Ethernet0/3
-  #         local_address: 100.0.111.2/24
-  #         local_interface: Ethernet0/1
-  #         description: PE1
-  #         peer_group: PROVIDER-IPV4-PEERS
-  #       - peer_address: 2001:db8:100:111::1/64
-  #         peer_interface: Ethernet0/3
-  #         local_address: 2001:db8:100:111::2/64
-  #         local_interface: Ethernet0/1
-  #         description: PE1
-  #         peer_group: PROVIDER-IPV6-PEERS
-  #       - peer_address: 100.2.11.2/24
-  #         peer_interface: eth7
-  #         local_address: 100.2.11.1/24
-  #         local_interface: Ethernet0/2
-  #         peer_group: FABRIC-PEERS-V4
-  #         description: West-Spine01
-  #       - peer_address: 2001:db8:102:11::2/64
-  #         peer_interface: eth7
-  #         local_address: 2001:db8:102:11::1/64
-  #         local_interface: Ethernet0/2
-  #         description: West-Spine01
-  #         peer_group: FABRIC-PEERS-V6
-  #       - peer_address: 100.2.12.2/24
-  #         peer_interface: eth7
-  #         local_address: 100.2.12.1/24
-  #         local_interface: Ethernet0/3
-  #         peer_group: FABRIC-PEERS-V4
-  #         description: West-Spine02
-  #       - peer_address: 2001:db8:102:12::2/64
-  #         peer_interface: eth7
-  #         local_address: 2001:db8:102:12::1/64
-  #         local_interface: Ethernet0/3
-  #         description: West-Spine02
-  #         peer_group: FABRIC-PEERS-V6
-  # - name: West-Spine01
-  #   bgp:
-  #     asn: 65201
-  #     description: "West Side Spine AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-EDGE-PEERS
-  #         description: IPv4 edge peerings
-  #         peer_asn: 65200
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-EDGE-PEERS
-  #         peer_asn: 65200
-  #         description: IPv6 edge peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65202
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65202
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65202
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.2.11.1/24
-  #         peer_interface: Ethernet0/2
-  #         local_address: 100.2.11.2/24
-  #         local_interface: eth7
-  #         description: CE1
-  #         peer_group: IPv4-EDGE-PEERS
-  #       - peer_address: 2001:db8:102:11::1/64
-  #         peer_interface: Ethernet0/2
-  #         local_address: 2001:db8:102:11::2/64
-  #         local_interface: eth7
-  #         description: CE1
-  #         peer_group: IPv6-EDGE-PEERS
-  #       - peer_address: 100.2.101.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.101.1/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Leaf01
-  #       - peer_address: 2001:db8:202:101::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:101::1/64
-  #         local_interface: eth1
-  #         description: West-Leaf01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.102.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.102.1/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Leaf02
-  #       - peer_address: 2001:db8:202:102::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:102::1/64
-  #         local_interface: eth2
-  #         description: West-Leaf02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.254.3/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.1/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Leaf01
-  #       - peer_address: 100.2.254.4/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.1/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Leaf02
-  # - name: West-Spine02
-  #   bgp:
-  #     asn: 65201
-  #     description: "West Side Spine AS"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-EDGE-PEERS
-  #         description: IPv4 edge peerings
-  #         peer_asn: 65200
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-EDGE-PEERS
-  #         peer_asn: 65200
-  #         description: IPv6 edge peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65202
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65202
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65202
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.2.12.1/24
-  #         peer_interface: Ethernet0/3
-  #         local_address: 100.2.12.2/24
-  #         local_interface: eth7
-  #         description: CE1
-  #         peer_group: IPv4-EDGE-PEERS
-  #       - peer_address: 2001:db8:102:12::1/64
-  #         peer_interface: Ethernet0/3
-  #         local_address: 2001:db8:102:12::2/64
-  #         local_interface: eth7
-  #         description: CE1
-  #         peer_group: IPv6-EDGE-PEERS
-  #       - peer_address: 100.2.101.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.101.1/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Leaf01
-  #       - peer_address: 2001:db8:202:101::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:101::1/64
-  #         local_interface: eth1
-  #         description: West-Leaf01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.102.2/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.102.1/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Leaf02
-  #       - peer_address: 2001:db8:202:102::2/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:102::1/64
-  #         local_interface: eth2
-  #         description: West-Leaf02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.254.3/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.2/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Leaf01
-  #       - peer_address: 100.2.254.4/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.2/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Leaf02
-  # - name: West-Leaf01
-  #   bgp:
-  #     asn: 65202
-  #     description: "Datacenter Leaf"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65101
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.2.101.1/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.101.2/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Spine01
-  #       - peer_address: 2001:db8:202:101::1/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:101::2/64
-  #         local_interface: eth1
-  #         description: West-Spine01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.201.1/24
-  #         peer_interface: eth1
-  #         local_address: 100.2.201.2/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Spine02
-  #       - peer_address: 2001:db8:202:201::1/64
-  #         peer_interface: eth1
-  #         local_address: 2001:db8:202:201::2/64
-  #         local_interface: eth2
-  #         description: West-Spine02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.254.1/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.3/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Spine01
-  #       - peer_address: 100.2.254.2/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.3/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Spine02
-  # - name: West-Leaf02
-  #   bgp:
-  #     asn: 65202
-  #     description: "Datacenter Leaf"
-  #     afi_safi:
-  #       - afi_safi: ipv4_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: ipv6_unicast
-  #         extra_attributes:
-  #           redistribute:
-  #             - connected
-  #       - afi_safi: l2_evpn
-  #     bgp_peer_groups:
-  #       - name: IPv4-UNDERLAY-PEERS
-  #         description: IPv4 spine-leaf peerings
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv4_unicast
-  #       - name: IPv6-UNDERLAY-PEERS
-  #         peer_asn: 65101
-  #         description: IPv6 spine-leaf peerings
-  #         in_route_map: ALLOW_ALL_V6_IN
-  #         out_route_map: ALLOW_ALL_V6_OUT
-  #         afi_safi:
-  #           - afi_safi: ipv6_unicast
-  #       - name: EVPN-OVERLAY-PEERS
-  #         description: BGP Overlay Peers
-  #         peer_asn: 65101
-  #         in_route_map: ALLOW_ALL_V4_IN
-  #         out_route_map: ALLOW_ALL_V4_OUT
-  #         afi_safi:
-  #           - afi_safi: l2_evpn
-  #     bgp_peers:
-  #       - peer_address: 100.2.102.1/24
-  #         peer_interface: eth2
-  #         local_address: 100.2.102.2/24
-  #         local_interface: eth1
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Spine01
-  #       - peer_address: 2001:db8:202:102::1/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:202:102::2/64
-  #         local_interface: eth1
-  #         description: West-Spine01
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.202.1/24
-  #         peer_interface: eth2
-  #         local_address: 100.2.202.2/24
-  #         local_interface: eth2
-  #         peer_group: IPv4-UNDERLAY-PEERS
-  #         description: West-Spine02
-  #       - peer_address: 2001:db8:202:202::1/64
-  #         peer_interface: eth2
-  #         local_address: 2001:db8:202:202::2/64
-  #         local_interface: eth2
-  #         description: West-Spine02
-  #         peer_group: IPv6-UNDERLAY-PEERS
-  #       - peer_address: 100.2.254.1/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.4/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Spine01
-  #       - peer_address: 100.2.254.2/32
-  #         peer_interface: Loopback0
-  #         local_address: 100.2.254.4/32
-  #         local_interface: Loopback0
-  #         peer_group: EVPN-OVERLAY-PEERS
-  #         description: West-Spine02
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+  - name: P2
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.2/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::2/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+  - name: P3
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.3/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::3/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+  - name: P4
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.4/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::4/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+  - name: PE1
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: CUSTOMER-PEERS-V4
+          description: IPv4 CE-to-PE peerings
+          peer_asn: 65200
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: CUSTOMER-PEERS-V6
+          peer_asn: 65200
+          description: IPv6 CE-to-PE peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.11/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::11/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 100.0.111.2/24
+          peer_interface: Ethernet0/1
+          local_address: 100.0.111.1/24
+          local_interface: Ethernet0/3
+          local_peer_group: CUSTOMER-PEERS-V4
+          remote_peer_group: PROVIDER-IPV4-PEERS
+          peer_device: CE1
+          peer_asn: 65200
+        - peer_address: 2001:db8:100:111::2/64
+          peer_interface: Ethernet0/1
+          local_address: 2001:db8:100:111::1/64
+          local_interface: Ethernet0/3
+          local_peer_group: CUSTOMER-PEERS-V6
+          remote_peer_group: PROVIDER-IPV6-PEERS
+          peer_device: CE1
+          peer_asn: 65200
+  - name: PE2
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: CUSTOMER-PEERS-V4
+          description: IPv4 CE-to-PE peerings
+          peer_asn: 65200
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: CUSTOMER-PEERS-V6
+          peer_asn: 65200
+          description: IPv6 CE-to-PE peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.12/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::12/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+  - name: PE3
+    bgp:
+      asn: 65000
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+        - afi_safi: ipv6_unicast
+      bgp_peer_groups:
+        - name: BACKBONE-RR-IPV4-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: BACKBONE-RR-IPV6-PEERS
+          description: BGP sessions to route reflectors
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: CUSTOMER-PEERS-V4
+          description: IPv4 CE-to-PE peerings
+          peer_asn: 65200
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: CUSTOMER-PEERS-V6
+          peer_asn: 65200
+          description: IPv6 CE-to-PE peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.254.5/32
+          peer_interface: Loopback0
+          local_address: 100.0.254.13/32
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV4-PEERS
+          remote_peer_group: BACKBONE-RR-IPV4-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 2001:db8:100:254::5/128
+          peer_interface: Loopback0
+          local_address: 2001:db8:100:254::13/128
+          local_interface: Loopback0
+          local_peer_group: BACKBONE-RR-IPV6-PEERS
+          remote_peer_group: BACKBONE-RR-IPV6-PEERS
+          peer_device: RR1
+          peer_asn: 65000
+        - peer_address: 100.0.222.2/24
+          peer_interface: Ethernet0/1
+          local_address: 100.0.222.1/24
+          local_interface: Ethernet0/3
+          local_peer_group: CUSTOMER-PEERS-V4
+          remote_peer_group: PROVIDER-IPV4-PEERS
+          peer_device: CE2
+          peer_asn: 65100
+        - peer_address: 2001:db8:100:222::2/64
+          peer_interface: Ethernet0/1
+          local_address: 2001:db8:100:222::1/64
+          local_interface: Ethernet0/3
+          local_peer_group: CUSTOMER-PEERS-V6
+          remote_peer_group: PROVIDER-IPV6-PEERS
+          peer_device: CE2
+          peer_asn: 65100
+  - name: CE2
+    bgp:
+      asn: 65100
+      description: "Customer Edge 2"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peer_groups:
+        - name: PROVIDER-IPV4-PEERS
+          description: BGP sessions to Provider
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: PROVIDER-IPV6-PEERS
+          description: BGP sessions to Provider
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: FABRIC-PEERS-V4
+          description: IPv4 CE-to-PE peerings
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: FABRIC-PEERS-V6
+          peer_asn: 65101
+          description: IPv6 CE-to-PE peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.222.1/24
+          peer_interface: Ethernet0/3
+          local_address: 100.0.222.2/24
+          local_interface: Ethernet0/1
+          peer_device: PE3
+          peer_asn: 65000
+          local_peer_group: PROVIDER-IPV4-PEERS
+          remote_peer_group: CUSTOMER-PEERS-V4
+        - peer_address: 2001:db8:100:222::1/64
+          peer_interface: Ethernet0/3
+          local_address: 2001:db8:100:222::2/64
+          local_interface: Ethernet0/1
+          peer_device: PE3
+          peer_asn: 65000
+          local_peer_group: PROVIDER-IPV6-PEERS
+          remote_peer_group: CUSTOMER-PEERS-V6
+        - peer_address: 100.1.11.2/24
+          peer_interface: eth7
+          local_address: 100.1.11.1/24
+          local_interface: Ethernet0/2
+          local_peer_group: FABRIC-PEERS-V4
+          peer_device: East-Spine01
+          peer_asn: 65101
+        - peer_address: 2001:db8:101:11::2/64
+          peer_interface: eth7
+          local_address: 2001:db8:101:11::1/64
+          local_interface: Ethernet0/2
+          peer_device: East-Spine01
+          local_peer_group: FABRIC-PEERS-V6
+          remote_peer_group: IPv6-EDGE-PEERS
+          peer_asn: 65101
+        - peer_address: 100.1.12.2/24
+          peer_interface: eth7
+          local_address: 100.1.12.1/24
+          local_interface: Ethernet0/3
+          local_peer_group: FABRIC-PEERS-V4
+          peer_device: East-Spine02
+          peer_asn: 65101
+        - peer_address: 2001:db8:101:12::2/64
+          peer_interface: eth7
+          local_address: 2001:db8:101:12::1/64
+          local_interface: Ethernet0/3
+          peer_device: East-Spine02
+          local_peer_group: FABRIC-PEERS-V6
+          remote_peer_group: IPv6-EDGE-PEERS
+          peer_asn: 65101
+  - name: East-Spine01
+    bgp:
+      asn: 65101
+      description: "Backbone AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-EDGE-PEERS
+          description: IPv4 edge peerings
+          peer_asn: 65100
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-EDGE-PEERS
+          peer_asn: 65100
+          description: IPv6 edge peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65102
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65102
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65102
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.1.11.1/24
+          peer_interface: Ethernet0/2
+          local_address: 100.1.11.2/24
+          local_interface: eth7
+          peer_device: CE2
+          peer_asn: 65100
+          local_peer_group: IPv4-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V4
+        - peer_address: 2001:db8:101:11::1/64
+          peer_interface: Ethernet0/2
+          local_address: 2001:db8:101:11::2/64
+          local_interface: eth7
+          peer_device: CE2
+          peer_asn: 65100
+          local_peer_group: IPv6-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V6
+        - peer_address: 100.1.101.2/24
+          peer_interface: eth1
+          local_address: 100.1.101.1/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Leaf01
+          peer_asn: 65102
+        - peer_address: 2001:db8:102:101::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:102:101::1/64
+          local_interface: eth1
+          peer_device: East-Leaf01
+          peer_asn: 65102
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.102.2/24
+          peer_interface: eth1
+          local_address: 100.1.102.1/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Leaf02
+          peer_asn: 65102
+        - peer_address: 2001:db8:102:102::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:102:102::1/64
+          local_interface: eth2
+          peer_device: East-Leaf02
+          peer_asn: 65102
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.254.3/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Leaf01
+          peer_asn: 65102
+        - peer_address: 100.1.254.4/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Leaf02
+          peer_asn: 65102
+  - name: East-Spine02
+    bgp:
+      asn: 65101
+      description: "East Side Spine AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-EDGE-PEERS
+          description: IPv4 edge peerings
+          peer_asn: 65100
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-EDGE-PEERS
+          peer_asn: 65100
+          description: IPv6 edge peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65102
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65102
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65102
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.1.12.1/24
+          peer_interface: Ethernet0/3
+          local_address: 100.1.12.2/24
+          local_interface: eth7
+          peer_device: CE2
+          peer_asn: 65100
+          local_peer_group: IPv4-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V4
+        - peer_address: 2001:db8:101:12::1/64
+          peer_interface: Ethernet0/3
+          local_address: 2001:db8:101:12::2/64
+          local_interface: eth7
+          peer_device: CE2
+          peer_asn: 65100
+          local_peer_group: IPv6-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V6
+        - peer_address: 100.1.201.2/24
+          peer_interface: eth2
+          local_address: 100.1.201.1/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Leaf01
+          peer_asn: 65102
+        - peer_address: 2001:db8:102:201::2/64
+          peer_interface: eth2
+          local_address: 2001:db8:102:201::1/64
+          local_interface: eth1
+          peer_device: East-Leaf01
+          peer_asn: 65102
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.202.2/24
+          peer_interface: eth2
+          local_address: 100.1.202.1/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Leaf02
+          peer_asn: 65102
+        - peer_address: 2001:db8:102:202::2/64
+          peer_interface: eth2
+          local_address: 2001:db8:102:202::1/64
+          local_interface: eth2
+          peer_device: East-Leaf02
+          peer_asn: 65102
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.254.3/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.2/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Leaf01
+          peer_asn: 65102
+        - peer_address: 100.1.254.4/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.2/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Leaf02
+          peer_asn: 65102
+  - name: East-Leaf01
+    bgp:
+      asn: 65102
+      description: "Datacenter Leaf"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65101
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.1.101.1/24
+          peer_interface: eth1
+          local_address: 100.1.101.2/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Spine01
+          peer_asn: 65101
+        - peer_address: 2001:db8:102:101::1/64
+          peer_interface: eth1
+          local_address: 2001:db8:102:101::2/64
+          local_interface: eth1
+          peer_device: East-Spine01
+          peer_asn: 65101
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.201.1/24
+          peer_interface: eth1
+          local_address: 100.1.201.2/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Spine02
+          peer_asn: 65101
+        - peer_address: 2001:db8:102:201::1/64
+          peer_interface: eth1
+          local_address: 2001:db8:102:201::2/64
+          local_interface: eth2
+          peer_device: East-Spine02
+          peer_asn: 65101
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.3/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Spine01
+          peer_asn: 65101
+        - peer_address: 100.1.254.2/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.3/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Spine02
+          peer_asn: 65101
+  - name: East-Leaf02
+    bgp:
+      asn: 65102
+      description: "Datacenter Leaf"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65101
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.1.102.1/24
+          peer_interface: eth2
+          local_address: 100.1.102.2/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Spine01
+          peer_asn: 65101
+        - peer_address: 2001:db8:102:102::1/64
+          peer_interface: eth2
+          local_address: 2001:db8:102:102::2/64
+          local_interface: eth1
+          peer_device: East-Spine01
+          peer_asn: 65101
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.202.1/24
+          peer_interface: eth2
+          local_address: 100.1.202.2/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: East-Spine02
+          peer_asn: 65101
+        - peer_address: 2001:db8:102:202::1/64
+          peer_interface: eth2
+          local_address: 2001:db8:102:202::2/64
+          local_interface: eth2
+          peer_device: East-Spine02
+          peer_asn: 65101
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.1.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.4/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Spine01
+          peer_asn: 65101
+        - peer_address: 100.1.254.2/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.4/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Spine02
+          peer_asn: 65101
+  - name: CE1
+    bgp:
+      asn: 65200
+      description: "Customer Edge 1"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+      bgp_peer_groups:
+        - name: PROVIDER-IPV4-PEERS
+          description: BGP sessions to Provider
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: PROVIDER-IPV6-PEERS
+          description: BGP sessions to Provider
+          peer_asn: 65000
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: FABRIC-PEERS-V4
+          description: IPv4 CE-to-PE peerings
+          peer_asn: 65201
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: FABRIC-PEERS-V6
+          peer_asn: 65201
+          description: IPv6 CE-to-PE peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+      bgp_peers:
+        - peer_address: 100.0.111.1/24
+          peer_interface: Ethernet0/3
+          local_address: 100.0.111.2/24
+          local_interface: Ethernet0/1
+          peer_device: PE1
+          peer_asn: 65000
+          local_peer_group: PROVIDER-IPV4-PEERS
+        - peer_address: 2001:db8:100:111::1/64
+          peer_interface: Ethernet0/3
+          local_address: 2001:db8:100:111::2/64
+          local_interface: Ethernet0/1
+          peer_device: PE1
+          peer_asn: 65000
+          local_peer_group: PROVIDER-IPV6-PEERS
+        - peer_address: 100.2.11.2/24
+          peer_interface: eth7
+          local_address: 100.2.11.1/24
+          local_interface: Ethernet0/2
+          local_peer_group: FABRIC-PEERS-V4
+          remote_peer_group: IPv4-EDGE-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
+        - peer_address: 2001:db8:102:11::2/64
+          peer_interface: eth7
+          local_address: 2001:db8:102:11::1/64
+          local_interface: Ethernet0/2
+          peer_device: West-Spine01
+          peer_asn: 65201
+          local_peer_group: FABRIC-PEERS-V6
+          remote_peer_group: IPv6-EDGE-PEERS
+        - peer_address: 100.2.12.2/24
+          peer_interface: eth7
+          local_address: 100.2.12.1/24
+          local_interface: Ethernet0/3
+          local_peer_group: FABRIC-PEERS-V4
+          remote_peer_group: IPv4-EDGE-PEERS
+          peer_device: West-Spine02
+          peer_asn: 65201
+        - peer_address: 2001:db8:102:12::2/64
+          peer_interface: eth7
+          local_address: 2001:db8:102:12::1/64
+          local_interface: Ethernet0/3
+          peer_device: West-Spine02
+          peer_asn: 65201
+          local_peer_group: FABRIC-PEERS-V6
+          remote_peer_group: IPv6-EDGE-PEERS
+  - name: West-Spine01
+    bgp:
+      asn: 65201
+      description: "West Side Spine AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-EDGE-PEERS
+          description: IPv4 edge peerings
+          peer_asn: 65200
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-EDGE-PEERS
+          peer_asn: 65200
+          description: IPv6 edge peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65202
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65202
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65202
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.2.11.1/24
+          peer_interface: Ethernet0/2
+          local_address: 100.2.11.2/24
+          local_interface: eth7
+          peer_device: CE1
+          peer_asn: 65200
+          local_peer_group: IPv4-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V4
+        - peer_address: 2001:db8:102:11::1/64
+          peer_interface: Ethernet0/2
+          local_address: 2001:db8:102:11::2/64
+          local_interface: eth7
+          peer_device: CE1
+          peer_asn: 65200
+          local_peer_group: IPv6-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V6
+        - peer_address: 100.2.101.2/24
+          peer_interface: eth1
+          local_address: 100.2.101.1/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Leaf01
+          peer_asn: 65202
+        - peer_address: 2001:db8:202:101::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:101::1/64
+          local_interface: eth1
+          peer_device: West-Leaf01
+          peer_asn: 65202
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.102.2/24
+          peer_interface: eth1
+          local_address: 100.2.102.1/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Leaf02
+          peer_asn: 65202
+        - peer_address: 2001:db8:202:102::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:102::1/64
+          local_interface: eth2
+          peer_device: West-Leaf02
+          peer_asn: 65202
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.254.3/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Leaf01
+          peer_asn: 65202
+        - peer_address: 100.2.254.4/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Leaf02
+          peer_asn: 65202
+  - name: West-Spine02
+    bgp:
+      asn: 65201
+      description: "West Side Spine AS"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-EDGE-PEERS
+          description: IPv4 edge peerings
+          peer_asn: 65200
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-EDGE-PEERS
+          peer_asn: 65200
+          description: IPv6 edge peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65202
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65202
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65202
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.2.12.1/24
+          peer_interface: Ethernet0/3
+          local_address: 100.2.12.2/24
+          local_interface: eth7
+          peer_device: CE1
+          peer_asn: 65200
+          local_peer_group: IPv4-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V4
+        - peer_address: 2001:db8:102:12::1/64
+          peer_interface: Ethernet0/3
+          local_address: 2001:db8:102:12::2/64
+          local_interface: eth7
+          peer_device: CE1
+          peer_asn: 65200
+          local_peer_group: IPv6-EDGE-PEERS
+          remote_peer_group: FABRIC-PEERS-V6
+        - peer_address: 100.2.101.2/24
+          peer_interface: eth1
+          local_address: 100.2.101.1/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Leaf01
+          peer_asn: 65202
+        - peer_address: 2001:db8:202:101::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:101::1/64
+          local_interface: eth1
+          peer_device: West-Leaf01
+          peer_asn: 65202
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.102.2/24
+          peer_interface: eth1
+          local_address: 100.2.102.1/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Leaf02
+          peer_asn: 65202
+        - peer_address: 2001:db8:202:102::2/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:102::1/64
+          local_interface: eth2
+          peer_device: West-Leaf02
+          peer_asn: 65202
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.254.3/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.2/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Leaf01
+          peer_asn: 65202
+        - peer_address: 100.2.254.4/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.2/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Leaf02
+          peer_asn: 65202
+  - name: West-Leaf01
+    bgp:
+      asn: 65202
+      description: "Datacenter Leaf"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65101
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.2.101.1/24
+          peer_interface: eth1
+          local_address: 100.2.101.2/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
+        - peer_address: 2001:db8:202:101::1/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:101::2/64
+          local_interface: eth1
+          peer_device: West-Spine01
+          peer_asn: 65201
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.201.1/24
+          peer_interface: eth1
+          local_address: 100.2.201.2/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Spine02
+          peer_asn: 65201
+        - peer_address: 2001:db8:202:201::1/64
+          peer_interface: eth1
+          local_address: 2001:db8:202:201::2/64
+          local_interface: eth2
+          peer_device: West-Spine02
+          peer_asn: 65201
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.3/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
+        - peer_address: 100.2.254.2/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.3/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Spine02
+          peer_asn: 65201
+  - name: West-Leaf02
+    bgp:
+      asn: 65202
+      description: "Datacenter Leaf"
+      afi_safi:
+        - afi_safi: ipv4_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: ipv6_unicast
+          extra_attributes:
+            redistribute:
+              - connected
+        - afi_safi: l2_evpn
+      bgp_peer_groups:
+        - name: IPv4-UNDERLAY-PEERS
+          description: IPv4 spine-leaf peerings
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: ipv4_unicast
+        - name: IPv6-UNDERLAY-PEERS
+          peer_asn: 65101
+          description: IPv6 spine-leaf peerings
+          in_route_map: ALLOW_ALL_V6_IN
+          out_route_map: ALLOW_ALL_V6_OUT
+          afi_safi:
+            - afi_safi: ipv6_unicast
+        - name: EVPN-OVERLAY-PEERS
+          description: BGP Overlay Peers
+          peer_asn: 65101
+          in_route_map: ALLOW_ALL_V4_IN
+          out_route_map: ALLOW_ALL_V4_OUT
+          afi_safi:
+            - afi_safi: l2_evpn
+      bgp_peers:
+        - peer_address: 100.2.102.1/24
+          peer_interface: eth2
+          local_address: 100.2.102.2/24
+          local_interface: eth1
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
+        - peer_address: 2001:db8:202:102::1/64
+          peer_interface: eth2
+          local_address: 2001:db8:202:102::2/64
+          local_interface: eth1
+          peer_device: West-Spine01
+          peer_asn: 65201
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.202.1/24
+          peer_interface: eth2
+          local_address: 100.2.202.2/24
+          local_interface: eth2
+          local_peer_group: IPv4-UNDERLAY-PEERS
+          remote_peer_group: IPv4-UNDERLAY-PEERS
+          peer_device: West-Spine02
+          peer_asn: 65201
+        - peer_address: 2001:db8:202:202::1/64
+          peer_interface: eth2
+          local_address: 2001:db8:202:202::2/64
+          local_interface: eth2
+          peer_device: West-Spine02
+          peer_asn: 65201
+          local_peer_group: IPv6-UNDERLAY-PEERS
+          remote_peer_group: IPv6-UNDERLAY-PEERS
+        - peer_address: 100.2.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.4/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
+        - peer_address: 100.2.254.2/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.4/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Spine02
+          peer_asn: 65201

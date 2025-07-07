@@ -1,0 +1,52 @@
+custom_fields:
+{% for field in custom_fields %}
+- "!create_or_update:key": {{ field.key }}
+  label: {{ field.name }}
+  description: {{ field.description }}
+  type: {{ field.type }}
+  {% if 'grouping' in field %}
+  grouping: {{ field.grouping }}
+  {% endif %}
+  {% if 'validation_regex' in field %}
+  validation_regex: {{ field.validation_regex }}
+  {% endif %}
+  {% if 'default' in field %}
+  default: {{ field.default }}
+  {% endif %}
+  content_types:
+    {% for ct in field.content_types %}
+    - "!get:app_label": {{ ct.split('.')[0] }}
+      "!get:model": {{ ct.split('.')[1] }}
+    {% endfor %}
+  {% if 'choices' in field %}
+  custom_field_choices:
+    {% for choice in field.choices %}
+    - value: {{ choice }}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+namespaces:
+{% for ns in namespaces %}
+  - "!create_or_update:name": {{ ns.name }}
+    description: {{ ns.description }}
+    "!ref": "{{ ns.name }}_namespace"
+{% endfor %}
+
+vrfs:
+{% for vrf in vrfs %}
+  - "!create_or_update:name": {{ vrf.name }}
+    description: {{ vrf.description }}
+    namespace: "!ref:{{ vrf.namespace }}_namespace"
+    rd: {{ vrf.rd }}
+    "!ref": "{{ vrf.name }}_vrf"
+{% endfor %}
+
+prefixes:
+{% for prefix in prefixes %}
+  - "!create_or_update:prefix": {{ prefix.prefix }}
+  {% if prefix.namespace is defined %}
+    namespace: "!ref:{{ prefix.namespace }}_namespace"
+  {% endif %}
+    status__name: "Active"
+{% endfor %}

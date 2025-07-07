@@ -1,6 +1,6 @@
 router_username: admin
 router_password: admin
-nautobot_token: "dcfed8822c1c918531c98d8244932acdad515517"
+nautobot_token: "0123456789abcdef0123456789abcdef01234567"
 evpn_overlay_peers: "ARISTA!@#$%"
 ipv4_underlay_peers: "ARISTA12345"
 mlag_ipv4_underlay_peers: "ARISTA6789"
