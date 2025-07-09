@@ -1,0 +1,97 @@
+autonomous_systems:
+{% for device in bgp_routing if device.bgp is defined %}
+  - "!create_or_update:asn": {{ device.bgp.asn }}
+    description: {{ device.bgp.description | default("ASN for " ~ device.name) }}
+    status__name: Active
+    "!ref": "{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}"
+{% endfor %}
+
+bgp_routing_instances:
+{% for device in bgp_routing if device.bgp is defined %}
+  - "!create_or_update:device": "!ref:{{ device.name | lower | replace('-', '_') }}"
+    "!ref": "{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_ri"
+    autonomous_system__asn: {{ device.bgp.asn }}
+    status__name: Active
+    router_id: "!ref:{{ device.name | lower | replace('-', '_') }}_loopback0_ipv4"
+{% endfor %}
+
+bgp_address_families:
+{% for device in bgp_routing if device.bgp is defined %}
+  {% for af in device.bgp.afi_safi %}
+  - "!create_or_update:afi_safi": {{ af.afi_safi }}
+    routing_instance: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_ri"
+    {% if af.extra_attributes is defined %}
+    extra_attributes:
+{% for key, value in af.extra_attributes.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+bgp_peer_groups:
+{% for device in bgp_routing if device.bgp is defined %}
+  {% for pg in device.bgp.bgp_peer_groups %}
+  - "!create:name": {{ pg.name }}
+    "!ref": "{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_{{ pg.name | lower | replace('-', '_') }}_pg"
+    routing_instance: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_ri"
+    autonomous_system__asn: {{ pg.peer_asn }}
+    enabled: true
+  {% endfor %}
+{% endfor %}
+
+bgp_peer_group_address_families:
+{% for device in bgp_routing if device.bgp is defined %}
+  {% for pg in device.bgp.bgp_peer_groups %}
+    {% if pg.afi_safi is defined %}
+      {% for af in pg.afi_safi %}
+  - "!create:afi_safi": {{ af.afi_safi }}
+    peer_group: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_{{ pg.name | lower | replace('-', '_') }}_pg"
+    import_policy: {{ pg.in_route_map }}
+    export_policy: {{ pg.out_route_map }}
+    multipath: true
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% macro bgp_peer_endpoint(dev, asn, intf, ip, peer_group, device_ctx=None) -%}
+routing_instance: "!ref:{{ dev | lower | replace('-', '_') }}_{{ asn }}_ri"
+source_interface: "!ref:{{ dev | lower | replace('-', '_') }}_{{ intf | lower | replace('/', '_') | replace('-', '_') }}"
+source_ip: "!ref:{{ dev | lower | replace('-', '_') }}_{{ intf | lower | replace('/', '_') | replace('-', '_') }}_{{ 'ipv4' if ':' not in ip else 'ipv6' }}"
+{% if peer_group and device_ctx %}
+peer_group: "!ref:{{ device_ctx | lower | replace('-', '_') }}_{{ asn }}_{{ peer_group | lower | replace('-', '_') }}_pg"
+{% endif %}
+{%- endmacro %}
+
+{% set seen = namespace(keys=[]) %}
+bgp_peerings:
+{% for device in bgp_routing if device.bgp is defined and device.bgp.bgp_peers is defined %}
+  {% set local_dev = device.name %}
+  {% set local_asn = device.bgp.asn %}
+  {% for peer in device.bgp.bgp_peers %}
+    {% set peer_dev = peer.peer_device %}
+    {% set peer_asn = peer.peer_asn if peer.peer_asn is defined else (
+        (bgp_routing | selectattr("name", "equalto", peer_dev) | map(attribute="bgp.asn") | list | first)
+    ) %}
+    {% set local_ip = peer.local_address %}
+    {% set peer_ip = peer.peer_address %}
+    {% set local_intf = peer.local_interface %}
+    {% set peer_intf = peer.peer_interface %}
+    {% set local_peer_group = peer.local_peer_group if peer.local_peer_group is defined else None %}
+    {% set remote_peer_group = peer.remote_peer_group if peer.remote_peer_group is defined else None %}
+    {% set endpoints = [
+      local_dev, local_asn, local_intf, local_ip, local_peer_group or '',
+      peer_dev, peer_asn, peer_intf, peer_ip, remote_peer_group or ''
+    ] %}
+    {% set peering_key = endpoints | map('string') | sort | join('__') %}
+    {% if peering_key not in seen.keys %}
+      {% set _ = seen.keys.append(peering_key) %}
+- "!bgp_peering":
+    endpoints:
+      - {{ bgp_peer_endpoint(local_dev, local_asn, local_intf, local_ip, local_peer_group, local_dev) | indent(8, false) }}
+      - {{ bgp_peer_endpoint(peer_dev, peer_asn, peer_intf, peer_ip, remote_peer_group, peer_dev) | indent(8, false) }}
+    status__name: "Active"
+    {% endif %}
+  {% endfor %}
+{% endfor %}

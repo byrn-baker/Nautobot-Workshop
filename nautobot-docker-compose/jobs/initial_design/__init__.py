@@ -1,8 +1,11 @@
+import os
+import yaml
 from nautobot.apps.jobs import register_jobs
 from nautobot_design_builder.design_job import DesignJob
+from nautobot_design_builder.choices import DesignModeChoices
 from nautobot_design_builder.contrib import ext
 from .context import InitialDesignContext
-import yaml
+
 
 # Define a simple !ref constructor
 def ref_constructor(loader, node):
@@ -31,6 +34,7 @@ class InitialDesign(DesignJob):
 
     class Meta:
         """Metadata needed to implement the site design."""
+        design_mode = DesignModeChoices.DEPLOYMENT
         name = "Nautobot Workshop Demo Initial Data"
         commit_default = False
         celery_worker = "default"

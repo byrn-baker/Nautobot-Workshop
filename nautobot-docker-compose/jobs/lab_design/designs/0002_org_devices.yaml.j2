@@ -1,0 +1,147 @@
+manufacturers:
+{% for manufacturer in manufacturers %}
+  - "!create_or_update:name": {{ manufacturer.name }}
+{% endfor %}
+
+platforms:
+{% for platform in platforms %}
+  - "!create_or_update:name": {{ platform.name }}
+    manufacturer__name: {{ platform.manufacturer }}
+    network_driver: {{ platform.network_driver }}
+    "!ref": "{{ platform.name | lower | replace(' ', '_') }}_platform"
+{% endfor %}
+
+software_versions:
+{% for software_version in software_versions %}
+  - "!create_or_update:version": {{ software_version.version }}
+    platform: "!ref:{{ software_version.platform | lower | replace(' ', '_') }}_platform"
+    status__name: Active
+    "!ref": "{{ software_version.platform | lower | replace(' ', '_') }}_software_version"
+{% endfor %}
+
+device_types:
+{% for device_type in device_types %}
+  - "!create_or_update:model": {{ device_type.model }}
+    manufacturer__name: {{ device_type.manufacturer }}
+    part_number: {{ device_type.model }}
+    u_height: {{ device_type.u_height }}
+{% endfor %}
+
+roles:
+{% for role in roles %}
+  - "!create_or_update:name": {{ role.name }}
+    color: {{ role.color }}
+    content_types:
+      {% for ct in role.content_types %}
+      - "!get:app_label": {{ ct.split('.')[0] }}
+        "!get:model": {{ ct.split('.')[1] }}
+      {% endfor %}
+{% endfor %}
+
+location_types:
+{% for location_type in location_types %}
+  - "!create_or_update:name": {{ location_type.name }}
+    nestable: true
+    content_types:
+      {% for ct in location_type.content_types %}
+      - "!get:app_label": {{ ct.split('.')[0] }}
+        "!get:model": {{ ct.split('.')[1] }}
+      {% endfor %}
+{% endfor %}
+
+locations:
+{% for location in locations %}
+  - "!create_or_update:name": {{ location.name }}
+    "!ref": "nautobot_workshop"
+    location_type__name: {{ location.location_type }}
+    status__name: {{ location.status | default("Active") }}
+    {% if location.children %}
+    children:
+      {% for child in location.children %}
+      - "!create_or_update:name": {{ child.name }}
+        "!ref": "{{ child.name | lower | replace(' ', '_') }}"
+        description: {{ child.description | default("") }}
+        location_type__name: {{ child.location_type }}
+        status__name: {{ child.status | default("Active") }}
+        parent: "!ref:{{ child.parent | lower | replace(' ', '_') }}"
+      {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{% macro device(device_data) %}
+  {% set mgmt_int_name =
+      "Ethernet0/0" if device_data.platform | lower in ["ios", "cisco"]
+      else "Management0" if device_data.platform | lower in ["eos", "arista"]
+      else None
+  %}
+- "!create_or_update:name": {{ device_data.name }}
+  "!ref": "{{ device_data.name | lower | replace('-', '_') }}"
+  location: "!ref:{{ device_data.location | lower | replace(' ', '_') }}"
+  device_type__model: {{ device_data.device_type }}
+  role__name: {{ device_data.role }}
+  status__name: Active
+  platform: "!ref:{{ device_data.platform | lower | replace(' ', '_') }}_platform"
+  software_version__version: {{ device_data.software_version }}
+  interfaces:
+  {% for intf in device_data.interfaces %}
+    - "!create_or_update:name": {{ intf.name }}
+      "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}"
+      status__name: Active
+      type: {{ intf.type | lower }}
+      {% if intf.ipv4_address is defined or intf.ipv6_address is defined %}
+      ip_addresses:
+        {% if intf.ipv4_address is defined %}
+        - address: {{ intf.ipv4_address }}
+          "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}_ipv4"
+          {% if intf.name == mgmt_int_name %}
+          namespace: "!ref:clabbr220_namespace"
+          {% endif %}
+          status__name: Active
+        {% endif %}
+        {% if intf.ipv6_address is defined %}
+        - address: {{ intf.ipv6_address }}
+          "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}_ipv6"
+          status__name: Active
+        {% endif %}
+      {% endif %}
+      {% if intf.z_device is defined %}
+      description: "Connects to {{ intf.z_device }} {{ intf.z_interface }}"
+      {% endif %}
+      {% if intf.lag is defined %}
+      lag: "!ref:{{ device_data.name | lower | replace('-', '_') }}_{{ intf.lag | lower | replace('/', '_') | replace('-', '_') }}"
+      device: "!ref:{{ device_data.name | lower | replace('-', '_') }}"
+      {% endif %}
+      {% if intf.mode is defined %}
+      mode: {{ intf.mode | lower }}
+      {% endif %}
+      {% if intf.ospf_area is defined or intf.ospf_network_type is defined or intf.mpls_enabled is defined %}
+      custom_fields:
+        {% if intf.ospf_area is defined and intf.ospf_area is not none %}
+        ospf_area: "{{ intf.ospf_area }}"
+        {% endif %}
+        {% if intf.ospf_network_type is defined and intf.ospf_network_type is not none %}
+        ospf_network_type: {{ intf.ospf_network_type }}
+        {% endif %}
+        {% if intf.mpls_enabled is defined %}
+        mpls_enabled: {{ intf.mpls_enabled | lower }}
+        {% endif %}
+      {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+devices:
+{% for device_data in devices %}
+{{ device(device_data) | indent(2, true) }}
+{% endfor %}
+
+cables:
+{% for device_data in devices %}
+  {% for intf in device_data.interfaces if intf.z_device is defined %}
+    {% if device_data.name < intf.z_device %}
+  - "!create_or_update:label": "{{ device_data.name }} ↔ {{ intf.z_device }} ({{ intf.name }})"
+    status__name: Connected
+    termination_a: "!ref:{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}"
+    termination_b: "!ref:{{ intf.z_device | lower | replace('-', '_') }}_{{ intf.z_interface | lower | replace('/', '_') | replace('-', '_') }}"
+    {% endif %}
+  {% endfor %}
+{% endfor %}

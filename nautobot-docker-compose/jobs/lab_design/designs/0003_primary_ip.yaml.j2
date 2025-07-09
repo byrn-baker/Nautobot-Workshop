@@ -1,0 +1,14 @@
+{% macro update_primary_ip4(device_data) %}
+  {% set mgmt_int_name =
+      "Ethernet0/0" if device_data.platform | lower in ["ios", "cisco"]
+      else "Management0" if device_data.platform | lower in ["eos", "arista"]
+      else None
+  %}
+  - "!update:name": {{ device_data.name }}
+    primary_ip4: "!ref:{{ device_data.name | lower | replace('-', '_') }}_{{ mgmt_int_name | lower | replace('/', '_') | replace('-', '_') }}_ipv4"
+{% endmacro %}
+
+devices:
+{% for device_data in devices %}
+{{ update_primary_ip4(device_data) | indent(2, true) }}
+{% endfor %}
