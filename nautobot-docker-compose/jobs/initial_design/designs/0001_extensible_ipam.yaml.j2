@@ -42,6 +42,47 @@ vrfs:
     "!ref": "{{ vrf.name }}_vrf"
 {% endfor %}
 
+location_types:
+{% for location_type in location_types %}
+  - "!create_or_update:name": {{ location_type.name }}
+    nestable: true
+    content_types:
+{% for ct in location_type.content_types %}
+      - "!get:app_label": {{ ct.split('.')[0] }}
+        "!get:model": {{ ct.split('.')[1] }}
+{% endfor %}
+    locations:
+{% for location in locations if location.location_type == location_type.name %}
+      - "!create_or_update:name": {{ location.name }}
+        status__name: {{ location.status | default("Active") }}
+        location_type__name: {{ location.location_type }}
+        {% if location.children %}
+        children:
+{% for child in location.children %}
+          - "!create_or_update:name": {{ child.name }}
+            location_type__name: {{ child.location_type }}
+            status__name: {{ child.status | default("Active") }}
+            "!ref": "{{ child.ref | default(child.name | lower | replace(' ', '_')) }}"
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+vlans:
+{% for vlan in vlans %}
+  - "!create_or_update:name": {{ vlan.name }}
+    vid: {{ vlan.vid }}
+    description: {{ vlan.description | default("") }}
+    status__name: {{ vlan.status | default("Active") }}
+    {% if vlan.locations is defined %}
+    locations:
+      {% for loc in vlan.locations %}
+      - "!ref:{{ loc.name | lower | replace(' ', '_') }}"
+      {% endfor %}
+    {% endif %}
+    "!ref": "{{ vlan.vid }}_vlan"
+{% endfor %}
+
 prefixes:
 {% for prefix in prefixes %}
   - "!create_or_update:prefix": {{ prefix.prefix }}

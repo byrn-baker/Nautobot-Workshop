@@ -37,6 +37,15 @@ bgp_peer_groups:
     routing_instance: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_ri"
     autonomous_system__asn: {{ pg.peer_asn }}
     enabled: true
+    {% if pg.local_interface is defined %}
+    source_interface: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ pg.local_interface | lower | replace('/', '_') | replace('-', '_') }}"
+    {% endif %}
+    {% if pg.extra_attributes is defined %}
+    extra_attributes:
+          {% for key, value in pg.extra_attributes.items() %}
+      {{ key }}: {{ value }}
+          {% endfor %}
+        {% endif %}
   {% endfor %}
 {% endfor %}
 
@@ -50,18 +59,25 @@ bgp_peer_group_address_families:
     import_policy: {{ pg.in_route_map }}
     export_policy: {{ pg.out_route_map }}
     multipath: true
+        {% if af.extra_attributes is defined %}
+    extra_attributes:
+          {% for key, value in af.extra_attributes.items() %}
+      {{ key }}: {{ value }}
+          {% endfor %}
+        {% endif %}
       {% endfor %}
     {% endif %}
   {% endfor %}
 {% endfor %}
 
-{% macro bgp_peer_endpoint(dev, asn, intf, ip, peer_group, device_ctx=None) -%}
+{% macro bgp_peer_endpoint(dev, asn, intf, ip, peer_group, peer_dev, peer_intf, device_ctx=None) -%}
 routing_instance: "!ref:{{ dev | lower | replace('-', '_') }}_{{ asn }}_ri"
 source_interface: "!ref:{{ dev | lower | replace('-', '_') }}_{{ intf | lower | replace('/', '_') | replace('-', '_') }}"
 source_ip: "!ref:{{ dev | lower | replace('-', '_') }}_{{ intf | lower | replace('/', '_') | replace('-', '_') }}_{{ 'ipv4' if ':' not in ip else 'ipv6' }}"
 {% if peer_group and device_ctx %}
 peer_group: "!ref:{{ device_ctx | lower | replace('-', '_') }}_{{ asn }}_{{ peer_group | lower | replace('-', '_') }}_pg"
 {% endif %}
+description: {{ peer_dev }}_{{ peer_intf }}
 {%- endmacro %}
 
 {% set seen = namespace(keys=[]) %}
@@ -80,6 +96,7 @@ bgp_peerings:
     {% set peer_intf = peer.peer_interface %}
     {% set local_peer_group = peer.local_peer_group if peer.local_peer_group is defined else None %}
     {% set remote_peer_group = peer.remote_peer_group if peer.remote_peer_group is defined else None %}
+    {% set description = peer_dev ~ "_" ~ peer_intf %}
     {% set endpoints = [
       local_dev, local_asn, local_intf, local_ip, local_peer_group or '',
       peer_dev, peer_asn, peer_intf, peer_ip, remote_peer_group or ''

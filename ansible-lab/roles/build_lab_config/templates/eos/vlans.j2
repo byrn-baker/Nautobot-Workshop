@@ -2,7 +2,7 @@
 {% for vlan in location.vlans %}
 vlan {{ vlan['vid'] }}
     name {{ vlan['name'] }}
-{% if 'MLAG' in vlan['name'] or vlan['vlan_group']['name'] == 'MLAG_GROUP' %}
+{% if 'MLAG' in vlan['name'] or (vlan['vlan_group'] is defined and vlan['vlan_group'] and vlan['vlan_group']['name'] == 'MLAG_GROUP') %}
     trunk group MLAG
 {% endif %}
 {% endfor %}
@@ -10,7 +10,7 @@ vlan {{ vlan['vid'] }}
 {% for vlan in location.parent.vlans %}
 vlan {{ vlan['vid'] }}
     name {{ vlan['name'] }}
-{% if 'MLAG' in vlan['name'] or vlan['vlan_group']['name'] == 'MLAG_GROUP' %}
+{% if 'MLAG' in vlan['name'] or (vlan['vlan_group'] is defined and vlan['vlan_group'] and vlan['vlan_group']['name'] == 'MLAG_GROUP') %}
     trunk group MLAG
 {% endif %}
 {% endfor %}
