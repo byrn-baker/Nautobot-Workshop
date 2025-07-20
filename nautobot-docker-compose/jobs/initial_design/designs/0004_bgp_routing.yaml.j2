@@ -106,8 +106,8 @@ bgp_peerings:
       {% set _ = seen.keys.append(peering_key) %}
 - "!bgp_peering":
     endpoints:
-      - {{ bgp_peer_endpoint(local_dev, local_asn, local_intf, local_ip, local_peer_group, local_dev) | indent(8, false) }}
-      - {{ bgp_peer_endpoint(peer_dev, peer_asn, peer_intf, peer_ip, remote_peer_group, peer_dev) | indent(8, false) }}
+      - {{ bgp_peer_endpoint(local_dev, local_asn, local_intf, local_ip, local_peer_group, peer_dev, peer_intf, local_dev) | indent(8, false) }}
+      - {{ bgp_peer_endpoint(peer_dev, peer_asn, peer_intf, peer_ip, remote_peer_group, local_dev, local_intf, peer_dev) | indent(8, false) }}
     status__name: "Active"
     {% endif %}
   {% endfor %}

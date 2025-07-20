@@ -4,8 +4,10 @@
       else "Management0" if device_data.platform | lower in ["arista", "eos"]
       else None
   %}
+  {% if mgmt_int_name is not none %}
   - "!update:name": {{ device_data.name }}
     primary_ip4: "!ref:{{ device_data.name | lower | replace('-', '_') }}_{{ mgmt_int_name | lower | replace('/', '_') | replace('-', '_') }}_ipv4"
+  {% endif %}
 {% endmacro %}
 
 devices:

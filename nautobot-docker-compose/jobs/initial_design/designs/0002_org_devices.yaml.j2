@@ -7,8 +7,12 @@ platforms:
 {% for platform in platforms %}
   - "!create_or_update:name": {{ platform.name }}
     manufacturer__name: {{ platform.manufacturer }}
+  {% if platform.network_driver is defined %}
     network_driver: {{ platform.network_driver }}
+  {% endif %}
+  {% if platform.napalm_driver is defined %}
     napalm_driver: {{ platform.napalm_driver }}
+  {% endif %}
     "!ref": "{{ platform.name }}_platform"
 {% endfor %}
 
@@ -55,13 +59,14 @@ roles:
   software_version__version: {{ device_data.software_version }}
   interfaces:
 {% for intf in device_data.interfaces %}
+  {% if intf.name is defined and intf.name is not none %}
     - "!create_or_update:name": {{ intf.name }}
       "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}"
       status__name: Active
       type: {{ intf.type | lower }}
       {% if intf.ipv4_address is defined or intf.ipv6_address is defined %}
       ip_addresses:
-        {% if intf.ipv4_address is defined %}
+        {% if intf.ipv4_address is defined and intf.ipv4_address is not none %}
         - address: {{ intf.ipv4_address }}
           "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}_ipv4"
           {% if intf.name == mgmt_int_name %}
@@ -109,6 +114,7 @@ roles:
         mpls_enabled: {{ intf.mpls_enabled | lower }}
         {% endif %}
       {% endif %}
+  {% endif %}
 {% endfor %}
 {% endmacro %}
 

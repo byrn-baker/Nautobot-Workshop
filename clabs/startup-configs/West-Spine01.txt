@@ -32,13 +32,8 @@ management api gnmi
 management api netconf
    transport ssh default
 !
-interface Management0
- vrf forwarding clab-mgmt
- ip address 192.168.220.12/24
-!
 !
 ip routing
 !
 ip routing vrf clab-mgmt
 !
-ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 Management0 192.168.220.1

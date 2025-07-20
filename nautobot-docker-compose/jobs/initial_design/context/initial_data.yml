@@ -271,6 +271,8 @@ ip_addresses:
   - address: 100.1.253.5/24
   - address: 100.1.253.6/24
   - address: 100.1.253.7/24
+  - address: 100.1.253.10/24
+  - address: 100.1.253.11/24
   - address: 100.1.254.1/32
   - address: 100.1.254.2/32
   - address: 100.1.254.3/32
@@ -419,6 +421,8 @@ ip_addresses:
   - address: 2001:db8:102:253::5/64
   - address: 2001:db8:102:253::6/64
   - address: 2001:db8:102:253::7/64
+  - address: 2001:db8:102:253::10/64
+  - address: 2001:db8:102:253::11/64
   - address: 2001:db8:102:254::1/128
   - address: 2001:db8:102:254::2/128
   - address: 2001:db8:102:254::3/128
@@ -428,6 +432,7 @@ manufacturers:
   - name: Arista
   - name: Cisco
   - name: docker
+  - name: Linux
 
 platforms:
   - name: EOS
@@ -438,12 +443,16 @@ platforms:
     network_driver: cisco_ios
     manufacturer: Cisco
     napalm_driver: ios
+  - name: UBUNTU
+    manufacturer: Linux
 
 software_versions:
   - version: 4.34.0F
     platform: EOS
   - version: 17.12.01
     platform: IOS
+  - version: 24.04
+    platform: UBUNTU
 
 device_types:
   - model: ceos
@@ -455,6 +464,9 @@ device_types:
   - model: network
     u_height: 1
     manufacturer: docker
+  - model: ubuntu
+    u_height: 1
+    manufacturer: Linux
 
 roles:
   - name: Customer Edge Router
@@ -488,6 +500,11 @@ roles:
       - dcim.device
       - virtualization.virtualmachine
   - name: mgmt_switch
+    color: 9e9e9e
+    content_types:
+      - dcim.device
+      - virtualization.virtualmachine
+  - name: DNS Server
     color: 9e9e9e
     content_types:
       - dcim.device
@@ -1013,6 +1030,9 @@ devices:
         z_interface: eth4
       - name: eth5
         type: 1000base-t
+        lag: Port-Channel2
+        z_device: DNS-02
+        z_interface: eth0
       - name: eth6
         type: 1000base-t
       - name: Management0
@@ -1085,6 +1105,9 @@ devices:
         z_interface: eth4
       - name: eth5
         type: 1000base-t
+        lag: Port-Channel2
+        z_device: DNS-02
+        z_interface: eth1
       - name: eth6
         type: 1000base-t
       - name: eth7
@@ -1093,6 +1116,28 @@ devices:
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.19/24
+  - name: DNS-02
+    role: DNS Server
+    location: East Side Data Center 
+    device_type: ubuntu
+    platform: UBUNTU
+    software_version: 24.04
+    primary_ip4: 100.1.253.11/24
+    interfaces:
+      - name: bond0
+        type: LAG
+        ipv4_address: 100.1.253.11/24
+        ipv6_address: 2001:db8:101:253::11/64
+      - name: eth0
+        type: 1000base-t
+        lag: bond0
+        z_device: East-Leaf01
+        z_interface: eth5
+      - name: eth1
+        type: 1000base-t
+        lag: bond0
+        z_device: East-Leaf02
+        z_interface: eth5
 
   - name: RR1
     role: Provider Route Reflector
@@ -1319,6 +1364,9 @@ devices:
         z_interface: eth4
       - name: eth5
         type: 1000base-t
+        lag: Port-Channel2
+        z_device: DNS-01
+        z_interface: eth0
       - name: eth6
         type: 1000base-t
       - name: eth7
@@ -1395,6 +1443,9 @@ devices:
         z_interface: eth4
       - name: eth5
         type: 1000base-t
+        lag: Port-Channel2
+        z_device: DNS-01
+        z_interface: eth1
       - name: eth6
         type: 1000base-t
       - name: eth7
@@ -1403,6 +1454,28 @@ devices:
         type: 1000base-t
         ipv4_address: 192.168.220.15/24
         vrf: clab-mgmt
+  - name: DNS-01
+    role: DNS Server
+    location: West Side Data Center 
+    device_type: ubuntu
+    platform: UBUNTU
+    software_version: 24.04
+    primary_ip4: 100.1.253.10/24
+    interfaces:
+      - name: bond0
+        type: LAG
+        ipv4_address: 100.1.253.10/24
+        ipv6_address: 2001:db8:101:253::10/64
+      - name: eth0
+        type: 1000base-t
+        lag: bond0
+        z_device: West-Leaf01
+        z_interface: eth5
+      - name: eth1
+        type: 1000base-t
+        lag: bond0
+        z_device: West-Leaf02
+        z_interface: eth5
 
 bgp_routing:
   - name: RR1
@@ -1420,6 +1493,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                send-community: "both"
+                route-reflector-client: true
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1427,6 +1503,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                send-community: "both"
+                route-reflector-client: true
       bgp_peers:
         - peer_address: 100.0.254.1/32
           peer_interface: Loopback0
@@ -1555,6 +1634,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1562,6 +1643,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                send-community: "both"
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
@@ -1594,6 +1677,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1601,6 +1686,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                send-community: "both"
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
@@ -1633,6 +1720,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1640,6 +1729,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                send-community: "both"
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
@@ -1672,6 +1763,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1679,6 +1772,8 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                send-community: "both"
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
@@ -1711,6 +1806,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1718,6 +1816,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: CUSTOMER-PEERS-V4
           description: IPv4 CE-to-PE peerings
           peer_asn: 65200
@@ -1780,6 +1881,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1787,6 +1891,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: CUSTOMER-PEERS-V4
           description: IPv4 CE-to-PE peerings
           peer_asn: 65200
@@ -1833,6 +1940,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: BACKBONE-RR-IPV6-PEERS
           description: BGP sessions to route reflectors
           peer_asn: 65000
@@ -1840,6 +1950,9 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V6_OUT
           afi_safi:
             - afi_safi: ipv6_unicast
+              extra_attributes:
+                next-hop-self: true
+                send-community: "both"
         - name: CUSTOMER-PEERS-V4
           description: IPv4 CE-to-PE peerings
           peer_asn: 65200

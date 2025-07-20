@@ -5,3 +5,12 @@
     replace: line
     save_when: modified
   when: ansible_network_os == "cisco.ios.ios"
+
+- name: Pushing Full configuration to Arista EOS devices
+  arista.eos.eos_config:
+    src: "configs/{{ inventory_hostname }}.conf"
+    replace: line
+    save_when: modified
+  when: ansible_network_os == "arista.eos.eos"
+  become: true
+  become_method: enable
