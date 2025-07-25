@@ -1,5 +1,12 @@
 #jinja2: lstrip_blocks: True, trim_blocks: True
 {% if item.device_type.model == "ceos" %}
+{% set h = item.name | hash('md5') %}
+{% set mac = "00:1a:73" %}
+{% set suffix1 = h[0:2] %}
+{% set suffix2 = h[2:4] %}
+{% set suffix3 = h[4:6] %}
+system mac-address {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }}
+!
 no aaa root
 !
 username admin privilege 15 role network-admin secret 0 admin

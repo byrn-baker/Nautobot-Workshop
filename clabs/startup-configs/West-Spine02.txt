@@ -1,3 +1,5 @@
+system mac-address 00:1a:73:ac:56:81
+!
 no aaa root
 !
 username admin privilege 15 role network-admin secret 0 admin

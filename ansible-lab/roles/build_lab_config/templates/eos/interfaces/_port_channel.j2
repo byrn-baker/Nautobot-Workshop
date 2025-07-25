@@ -41,6 +41,13 @@ interface {{ interface.name }}
    no shutdown
    switchport
    switchport mode trunk
+{% elif interface.mode == "ACCESS" %}
+   no shutdown
+   switchport
+   switchport mode access
+{% if interface.untagged_vlan.vid is defined %}
+   switch access vlan {{ interface.untagged_vlan.vid }}
+{% endif %}
 {% if interface.label == 'MLAG' %}
    switchport trunk group MLAG
 {% endif %}
