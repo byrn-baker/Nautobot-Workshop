@@ -18,6 +18,9 @@ query_string: |
         source_interface {
           name
         }
+        autonomous_system {
+          asn
+        }
         extra_attributes
         secret {
           name

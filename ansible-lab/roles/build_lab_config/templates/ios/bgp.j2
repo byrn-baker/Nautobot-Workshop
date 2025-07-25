@@ -1,9 +1,11 @@
 {% for instance in bgp_routing_instances %}
 router bgp {{ instance['autonomous_system']['asn'] }}
  bgp log-neighbor-changes
+ no bgp default ipv4-unicast
 {# Declare peer-groups #}
 {% for pg in instance.get('peer_groups', []) %}
  neighbor {{ pg['name'] }} peer-group
+ neighbor {{ pg['name'] }} remote-as {{ pg['autonomous_system']['asn'] }}
 {% endfor %}
 {# Define neighbor-to-peer-group or remote-as #}
 {% for ep in instance['endpoints'] %}

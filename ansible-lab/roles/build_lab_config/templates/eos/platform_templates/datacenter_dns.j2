@@ -17,7 +17,7 @@ transceiver qsfp default-mode 4x10G
 !
 service routing protocols model multi-agent
 !
-hostname DNS-02
+hostname {{ hostname }}
 !
 spanning-tree mode none
 !
@@ -35,27 +35,7 @@ management api http-commands
    vrf clab-mgmt
        no shutdown
 !
-interface Port-Channel1
-   description Port-Channel1
-   ip address 100.1.253.11/24
-   ipv6 address 2001:db8:101:253::11/64
-!
-interface eth1
-    description To East-Leaf01-eth5
-    channel-group 1 mode active
-    no shutdown
-!
-interface eth2
-    description To East-Leaf02-eth5
-    channel-group 1 mode active
-    no shutdown
-!
-interface Management0
-    description MGMT ONLY INTERFACE   
-    vrf forwarding clab-mgmt
-    ip address 192.168.220.21 255.255.255.0
-    no shutdown
-!
+{% include '/eos/interfaces.j2' %}
 !
 ip routing
 ip routing vrf clab-mgmt

@@ -3,4 +3,6 @@
 {% include "/eos/platform_templates/datacenter_spine.j2" %}
 {% elif role["name"] == "Datacenter Leaf" %}
 {% include "/eos/platform_templates/datacenter_leaf.j2" %}
+{% elif role["name"] == "DNS Server" %}
+{% include "/eos/platform_templates/datacenter_dns.j2" %}
 {% endif %}

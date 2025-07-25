@@ -8,4 +8,4 @@ prefix_lists:
       - seq: 10
         permit: "100.1.254.0/24 eq 32"
 peer_link: Port-Channel1
-peer_ip: 10.255.1.2
+peer_ip: 172.16.1.2
