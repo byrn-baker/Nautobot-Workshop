@@ -22,7 +22,7 @@ service routing protocols model multi-agent
 vrf instance clab-mgmt
    description clab-mgmt
 !
-hostname West-Leaf02
+hostname DNS-01
 !
 spanning-tree mode mstp
 !
@@ -38,7 +38,7 @@ management api netconf
 !
 interface Management0
  vrf forwarding clab-mgmt
- ip address 192.168.220.15/24
+ ip address 192.168.220.20/24
 !
 !
 ip routing

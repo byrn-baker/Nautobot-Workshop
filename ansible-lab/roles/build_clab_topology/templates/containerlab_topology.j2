@@ -1,40 +1,7 @@
 #jinja2: lstrip_blocks: True, trim_blocks: True
-{# -- MACRO BLOCKS -- #}
-{% macro linux_bond_exec(interfaces, gateway_v4=true, gateway_v6=true) -%}
-  - modprobe bonding
-  - ip link add bond0 type bond mode 802.3ad
-  - ip link set eth0 down
-  - ip link set eth1 down
-  - ip link set eth0 master bond0
-  - ip link set eth1 master bond0
-  - ip link set eth0 up
-  - ip link set eth1 up
-  {% set bond0 = interfaces | selectattr('name', 'equalto', 'bond0') | list | first %}
-  {% if bond0 and bond0.ip_addresses %}
-    {% for ip in bond0.ip_addresses %}
-      {% if ip.address and '.' in ip.address %}
-  - ip addr add {{ ip.address }} dev bond0
-      {% elif ip.address and ':' in ip.address %}
-  - ip -6 addr add {{ ip.address }} dev bond0
-      {% endif %}
-    {% endfor %}
-  - ip link set bond0 up
-    {% for ip in bond0.ip_addresses %}
-      {% if ip.address and '.' in ip.address and gateway_v4 %}
-        {% set subnet = ip.address | ansible.utils.ipaddr('subnet') %}
-        {% set gateway = subnet | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') %}
-  - ip route add default via {{ gateway }}
-      {% elif ip.address and ':' in ip.address and gateway_v6 %}
-        {% set subnet = ip.address | ansible.utils.ipaddr('subnet') %}
-        {% set gateway = subnet | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') %}
-  - ip -6 route add default via {{ gateway }}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-{%- endmacro %}
-{# -- TOPOLOGY HEADER -- #}
 {% set delay_targets = ["vrnetlab/vr-xrv9k", "vrnetlab/n9kv"] %}
 {% set global_delay = [0] %}
+
 name: nautobot_workshop
 mgmt:
   network: clab-mgmt
@@ -43,29 +10,24 @@ mgmt:
 topology:
   nodes:
 {% for device in nb_devices["data"]["devices"] %}
-  {% if device.software_version and device.platform %}
+  {% if device.software_version is not none and device.platform is not none %}
     {% set model = device.device_type.model | lower %}
-    {% set manufacturer = device.device_type.manufacturer.name | lower %}
-    {% set kind = "ceos" if "ceos" in model else ("linux" if "ubuntu" in model else (manufacturer ~ "_" ~ model)) %}
-    {% set image = (
-        "ceos:" ~ device.software_version.version if kind == "ceos"
-        else "ubuntu:" ~ device.software_version.version if kind == "linux"
-        else "vrnetlab/" ~ kind ~ ":" ~ device.software_version.version
-    ) %}
+    {% if "ceos" in model %}
+      {% set kind = "ceos" %}
+      {% set image = "ceos:" ~ device.software_version.version %}
+    {% else %}
+      {% set kind = (device.device_type.manufacturer.name ~ "_" ~ device.device_type.model) | lower %}
+      {% set image_base = "vrnetlab/" ~ kind %}
+      {% set image = image_base ~ ":" ~ device.software_version.version %}
+    {% endif %}
     {{ device.name }}:
       kind: {{ kind }}
       image: {{ image }}
-      {% if kind in ['ceos', 'cisco_iol'] %}
       mgmt-ipv4: {{ device.primary_ip4.address | ansible.utils.ipaddr('address') }}
-      {% elif kind == 'linux' %}
-      network-mode: none
-      exec: 
-  {{ linux_bond_exec(device.interfaces) | indent(8, true) }}
-      {% endif %}
-      {% if kind == 'ceos' %}
+      {% if "ceos" in model %}
       startup-config: ./startup-configs/{{ device.name }}.txt
       {% endif %}
-      {% if image.startswith("vrnetlab/") and image.split(":")[0] in delay_targets %}
+      {% if image_base is defined and image_base in delay_targets %}
       startup-delay: {{ global_delay[0] * 30 }}
       {% set _ = global_delay.append(global_delay.pop() + 1) %}
       {% endif %}
@@ -76,14 +38,18 @@ topology:
 
   links:
 {% set ns = {'seen': []} %}
-{% for device in nb_devices["data"]["devices"] if device.software_version and device.platform %}
-  {% for iface in device.interfaces if iface.connected_interface %}
-    {% set local = device.name ~ ':' ~ iface.name %}
-    {% set remote = iface.connected_interface.device.name ~ ':' ~ iface.connected_interface.name %}
-    {% set endpoints = [local, remote] | sort %}
-    {% if endpoints not in ns.seen %}
-  - endpoints: ["{{ endpoints[0] }}", "{{ endpoints[1] }}"]
-      {% set _ = ns.seen.append(endpoints) %}
-    {% endif %}
-  {% endfor %}
+{% for device in nb_devices["data"]["devices"] %}
+  {% if device.software_version is not none and device.platform is not none %}
+    {% for iface in device.interfaces %}
+      {% if iface.connected_interface %}
+        {% set local = device.name ~ ':' ~ iface.name %}
+        {% set remote = iface.connected_interface.device.name ~ ':' ~ iface.connected_interface.name %}
+        {% set endpoints = [local, remote]|sort %}
+        {% if endpoints not in ns.seen %}
+    - endpoints: ["{{ endpoints[0] }}", "{{ endpoints[1] }}"]
+          {% set _ = ns.seen.append(endpoints) %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 {% endfor %}

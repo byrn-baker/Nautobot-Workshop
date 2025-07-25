@@ -1,3 +1,4 @@
+
 name: nautobot_workshop
 mgmt:
   network: clab-mgmt
@@ -18,45 +19,17 @@ topology:
       env:
         HOSTNAME: CE2
     DNS-01:
-      kind: linux
-      image: ubuntu:24.04
-      network-mode: none
-      exec: 
-          - modprobe bonding
-          - ip link add bond0 type bond mode 802.3ad
-          - ip link set eth0 down
-          - ip link set eth1 down
-          - ip link set eth0 master bond0
-          - ip link set eth1 master bond0
-          - ip link set eth0 up
-          - ip link set eth1 up
-          - ip addr add 100.1.253.10/24 dev bond0
-          - ip -6 addr add 2001:db8:101:253::10/64 dev bond0
-          - ip link set bond0 up
-          - ip route add default via 100.1.253.1
-          - ip -6 route add default via 2001:db8:101:253::1
-
+      kind: ceos
+      image: ceos:4.34.0F
+      mgmt-ipv4: 192.168.220.20
+      startup-config: ./startup-configs/DNS-01.txt
       env:
         HOSTNAME: DNS-01
     DNS-02:
-      kind: linux
-      image: ubuntu:24.04
-      network-mode: none
-      exec: 
-          - modprobe bonding
-          - ip link add bond0 type bond mode 802.3ad
-          - ip link set eth0 down
-          - ip link set eth1 down
-          - ip link set eth0 master bond0
-          - ip link set eth1 master bond0
-          - ip link set eth0 up
-          - ip link set eth1 up
-          - ip addr add 100.1.253.11/24 dev bond0
-          - ip -6 addr add 2001:db8:101:253::11/64 dev bond0
-          - ip link set bond0 up
-          - ip route add default via 100.1.253.1
-          - ip -6 route add default via 2001:db8:101:253::1
-
+      kind: ceos
+      image: ceos:4.34.0F
+      mgmt-ipv4: 192.168.220.21
+      startup-config: ./startup-configs/DNS-02.txt
       env:
         HOSTNAME: DNS-02
     East-Leaf01:
@@ -165,37 +138,37 @@ topology:
         HOSTNAME: West-Spine02
 
   links:
-  - endpoints: ["CE1:Ethernet0/1", "PE1:Ethernet0/3"]
-  - endpoints: ["CE1:Ethernet0/2", "West-Spine01:eth7"]
-  - endpoints: ["CE1:Ethernet0/3", "West-Spine02:eth7"]
-  - endpoints: ["CE2:Ethernet0/1", "PE3:Ethernet0/3"]
-  - endpoints: ["CE2:Ethernet0/2", "East-Spine01:eth7"]
-  - endpoints: ["CE2:Ethernet0/3", "East-Spine02:eth7"]
-  - endpoints: ["DNS-01:eth0", "West-Leaf01:eth5"]
-  - endpoints: ["DNS-01:eth1", "West-Leaf02:eth5"]
-  - endpoints: ["DNS-02:eth0", "East-Leaf01:eth5"]
-  - endpoints: ["DNS-02:eth1", "East-Leaf02:eth5"]
-  - endpoints: ["East-Leaf01:eth1", "East-Spine01:eth1"]
-  - endpoints: ["East-Leaf01:eth2", "East-Spine02:eth1"]
-  - endpoints: ["East-Leaf01:eth3", "East-Leaf02:eth3"]
-  - endpoints: ["East-Leaf01:eth4", "East-Leaf02:eth4"]
-  - endpoints: ["East-Leaf02:eth1", "East-Spine01:eth2"]
-  - endpoints: ["East-Leaf02:eth2", "East-Spine02:eth2"]
-  - endpoints: ["P1:Ethernet0/1", "P2:Ethernet0/1"]
-  - endpoints: ["P1:Ethernet0/2", "P3:Ethernet0/2"]
-  - endpoints: ["P1:Ethernet0/3", "RR1:Ethernet0/1"]
-  - endpoints: ["P1:Ethernet1/0", "PE1:Ethernet0/1"]
-  - endpoints: ["P2:Ethernet0/2", "P4:Ethernet0/2"]
-  - endpoints: ["P2:Ethernet0/3", "RR1:Ethernet0/2"]
-  - endpoints: ["P2:Ethernet1/0", "PE3:Ethernet0/1"]
-  - endpoints: ["P3:Ethernet0/1", "P4:Ethernet0/1"]
-  - endpoints: ["P3:Ethernet0/3", "PE1:Ethernet0/2"]
-  - endpoints: ["P3:Ethernet1/0", "PE2:Ethernet0/1"]
-  - endpoints: ["P4:Ethernet0/3", "PE2:Ethernet0/2"]
-  - endpoints: ["P4:Ethernet1/0", "PE3:Ethernet0/2"]
-  - endpoints: ["West-Leaf01:eth1", "West-Spine01:eth1"]
-  - endpoints: ["West-Leaf01:eth2", "West-Spine02:eth1"]
-  - endpoints: ["West-Leaf01:eth3", "West-Leaf02:eth3"]
-  - endpoints: ["West-Leaf01:eth4", "West-Leaf02:eth4"]
-  - endpoints: ["West-Leaf02:eth1", "West-Spine01:eth2"]
-  - endpoints: ["West-Leaf02:eth2", "West-Spine02:eth2"]
+    - endpoints: ["CE1:Ethernet0/1", "PE1:Ethernet0/3"]
+    - endpoints: ["CE1:Ethernet0/2", "West-Spine01:eth7"]
+    - endpoints: ["CE1:Ethernet0/3", "West-Spine02:eth7"]
+    - endpoints: ["CE2:Ethernet0/1", "PE3:Ethernet0/3"]
+    - endpoints: ["CE2:Ethernet0/2", "East-Spine01:eth7"]
+    - endpoints: ["CE2:Ethernet0/3", "East-Spine02:eth7"]
+    - endpoints: ["DNS-01:eth1", "West-Leaf01:eth5"]
+    - endpoints: ["DNS-01:eth2", "West-Leaf02:eth5"]
+    - endpoints: ["DNS-02:eth1", "East-Leaf01:eth5"]
+    - endpoints: ["DNS-02:eth2", "East-Leaf02:eth5"]
+    - endpoints: ["East-Leaf01:eth1", "East-Spine01:eth1"]
+    - endpoints: ["East-Leaf01:eth2", "East-Spine02:eth1"]
+    - endpoints: ["East-Leaf01:eth3", "East-Leaf02:eth3"]
+    - endpoints: ["East-Leaf01:eth4", "East-Leaf02:eth4"]
+    - endpoints: ["East-Leaf02:eth1", "East-Spine01:eth2"]
+    - endpoints: ["East-Leaf02:eth2", "East-Spine02:eth2"]
+    - endpoints: ["P1:Ethernet0/1", "P2:Ethernet0/1"]
+    - endpoints: ["P1:Ethernet0/2", "P3:Ethernet0/2"]
+    - endpoints: ["P1:Ethernet0/3", "RR1:Ethernet0/1"]
+    - endpoints: ["P1:Ethernet1/0", "PE1:Ethernet0/1"]
+    - endpoints: ["P2:Ethernet0/2", "P4:Ethernet0/2"]
+    - endpoints: ["P2:Ethernet0/3", "RR1:Ethernet0/2"]
+    - endpoints: ["P2:Ethernet1/0", "PE3:Ethernet0/1"]
+    - endpoints: ["P3:Ethernet0/1", "P4:Ethernet0/1"]
+    - endpoints: ["P3:Ethernet0/3", "PE1:Ethernet0/2"]
+    - endpoints: ["P3:Ethernet1/0", "PE2:Ethernet0/1"]
+    - endpoints: ["P4:Ethernet0/3", "PE2:Ethernet0/2"]
+    - endpoints: ["P4:Ethernet1/0", "PE3:Ethernet0/2"]
+    - endpoints: ["West-Leaf01:eth1", "West-Spine01:eth1"]
+    - endpoints: ["West-Leaf01:eth2", "West-Spine02:eth1"]
+    - endpoints: ["West-Leaf01:eth3", "West-Leaf02:eth3"]
+    - endpoints: ["West-Leaf01:eth4", "West-Leaf02:eth4"]
+    - endpoints: ["West-Leaf02:eth1", "West-Spine01:eth2"]
+    - endpoints: ["West-Leaf02:eth2", "West-Spine02:eth2"]

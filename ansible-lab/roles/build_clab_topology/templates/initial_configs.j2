@@ -11,6 +11,10 @@ management api http-commands
    protocol https
    no shutdown
 !
+management ssh
+   vrf clab-mgmt
+      no shutdown
+!
 no service interface inactive port-id allocation disabled
 !
 transceiver qsfp default-mode 4x10G

@@ -63,6 +63,11 @@ roles:
     - "!create_or_update:name": {{ intf.name }}
       "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}"
       status__name: Active
+      {% if intf.name == "Ethernet0/0" %}
+      mgmt_only: true
+      {% elif intf.name == "Management0" %}
+      mgmt_only: true
+      {% endif %}
       type: {{ intf.type | lower }}
       {% if intf.ipv4_address is defined or intf.ipv6_address is defined %}
       ip_addresses:
