@@ -107,6 +107,9 @@ roles:
       {% if intf.mode is defined %}
       mode: {{ intf.mode | lower }}
       {% endif %}
+      {% if intf.label is defined %}
+      mode: {{ intf.label | upper }}
+      {% endif %}
       {% if intf.ospf_area is defined or intf.ospf_network_type is defined or intf.mpls_enabled is defined %}
       custom_fields:
         {% if intf.ospf_area is defined %}

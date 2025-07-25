@@ -2,10 +2,14 @@
 {% if item.device_type.model == "ceos" %}
 {% set h = item.name | hash('md5') %}
 {% set mac = "00:1a:73" %}
-{% set suffix1 = h[0:2] %}
+{% set raw = h[0:2] %}
+{% set raw_int = raw | int(base=16) %}
+{% set cleaned = (raw_int // 4) * 4 %} {# clears the last 2 bits (U/L and I/G) #}
+{% set suffix1 = "%02x" % cleaned %}
 {% set suffix2 = h[2:4] %}
 {% set suffix3 = h[4:6] %}
 system mac-address {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }}
+
 !
 no aaa root
 !

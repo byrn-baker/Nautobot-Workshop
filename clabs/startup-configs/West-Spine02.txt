@@ -1,4 +1,5 @@
-system mac-address 00:1a:73:ac:56:81
+ system mac-address 00:1a:73:ac:56:81
+
 !
 no aaa root
 !

@@ -978,6 +978,7 @@ devices:
       - name: Port-Channel1
         type: LAG
         mode: tagged
+        label: MLAG
         tagged_vlans: [253, 4093, 4094]
       - name: Port-Channel2
         type: LAG
@@ -1047,6 +1048,7 @@ devices:
       - name: Port-Channel1
         type: LAG
         mode: tagged
+        label: MLAG
         tagged_vlans: [253, 4093, 4094]
       - name: Port-Channel2
         type: LAG
@@ -1316,6 +1318,7 @@ devices:
       - name: Port-Channel1
         type: LAG
         mode: tagged
+        label: MLAG
         tagged_vlans: [253, 4093, 4094]
       - name: Port-Channel2
         type: LAG
@@ -1395,6 +1398,7 @@ devices:
       - name: Port-Channel1
         type: LAG
         mode: tagged
+        label: MLAG
         tagged_vlans: [253, 4093, 4094]
       - name: Port-Channel2
         type: LAG
