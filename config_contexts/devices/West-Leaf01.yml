@@ -1,12 +1,4 @@
 ---
-_metadata:
-  name: "West-Leaf01 Specific Configuration"
-  description: "Device Specific Configuration for West-Leaf01."
-  weight: 100
-  is_active: true
-  devices:
-    - name: West-Leaf01
-
 prefix_lists:
   - name: PL-LOOPBACKS-EVPN-OVERLAY
     afi: ipv4

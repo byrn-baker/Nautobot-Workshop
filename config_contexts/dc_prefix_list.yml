@@ -1,7 +1,7 @@
 _metadata:
   name: "Datacenter Prefix List"
   description: "Datacenter Leaf Route Maps"
-  weight: 100
+  weight: 1000
   is_active: true
   roles:
     - name: Datacenter Spine
