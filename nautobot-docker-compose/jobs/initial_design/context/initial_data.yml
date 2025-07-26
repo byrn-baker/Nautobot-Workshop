@@ -1902,20 +1902,6 @@ bgp_routing:
               extra_attributes:
                 next-hop-self: true
                 send-community: "both"
-        - name: CUSTOMER-PEERS-V4
-          description: IPv4 CE-to-PE peerings
-          peer_asn: 65200
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
-          afi_safi:
-            - afi_safi: ipv4_unicast
-        - name: CUSTOMER-PEERS-V6
-          peer_asn: 65200
-          description: IPv6 CE-to-PE peerings
-          in_route_map: ALLOW_ALL_V6_IN
-          out_route_map: ALLOW_ALL_V6_OUT
-          afi_safi:
-            - afi_safi: ipv6_unicast
       bgp_peers:
         - peer_address: 100.0.254.5/32
           peer_interface: Loopback0
@@ -1963,13 +1949,13 @@ bgp_routing:
                 send-community: "both"
         - name: CUSTOMER-PEERS-V4
           description: IPv4 CE-to-PE peerings
-          peer_asn: 65200
+          peer_asn: 65100
           in_route_map: ALLOW_ALL_V4_IN
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: ipv4_unicast
         - name: CUSTOMER-PEERS-V6
-          peer_asn: 65200
+          peer_asn: 65100
           description: IPv6 CE-to-PE peerings
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
@@ -2148,6 +2134,12 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
+          extra_attributes:
+            bfd: true
+            send-community: true
+            maximum-routes: 0
+            ebgp-multihop: 3
+            update-source: Loopback0
       bgp_peers:
         - peer_address: 100.1.11.1/24
           peer_interface: Ethernet0/2
@@ -2264,6 +2256,12 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
+          extra_attributes:
+            bfd: true
+            send-community: true
+            maximum-routes: 0
+            ebgp-multihop: 3
+            update-source: Loopback0
       bgp_peers:
         - peer_address: 100.1.12.1/24
           peer_interface: Ethernet0/3
@@ -2697,6 +2695,12 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
+          extra_attributes:
+            bfd: true
+            send-community: true
+            maximum-routes: 0
+            ebgp-multihop: 3
+            update-source: Loopback0
       bgp_peers:
         - peer_address: 100.2.11.1/24
           peer_interface: Ethernet0/2
@@ -2813,6 +2817,12 @@ bgp_routing:
           out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
+          extra_attributes:
+            bfd: true
+            send-community: true
+            maximum-routes: 0
+            ebgp-multihop: 3
+            update-source: Loopback0
       bgp_peers:
         - peer_address: 100.2.12.1/24
           peer_interface: Ethernet0/3
@@ -2830,38 +2840,6 @@ bgp_routing:
           peer_asn: 65200
           local_peer_group: IPv6-EDGE-PEERS
           remote_peer_group: FABRIC-PEERS-V6
-        - peer_address: 100.2.101.2/24
-          peer_interface: eth1
-          local_address: 100.2.101.1/24
-          local_interface: eth1
-          local_peer_group: IPv4-UNDERLAY-PEERS
-          remote_peer_group: IPv4-UNDERLAY-PEERS
-          peer_device: West-Leaf01
-          peer_asn: 65202
-        - peer_address: 2001:db8:202:101::2/64
-          peer_interface: eth1
-          local_address: 2001:db8:202:101::1/64
-          local_interface: eth1
-          peer_device: West-Leaf01
-          peer_asn: 65202
-          local_peer_group: IPv6-UNDERLAY-PEERS
-          remote_peer_group: IPv6-UNDERLAY-PEERS
-        - peer_address: 100.2.102.2/24
-          peer_interface: eth1
-          local_address: 100.2.102.1/24
-          local_interface: eth2
-          local_peer_group: IPv4-UNDERLAY-PEERS
-          remote_peer_group: IPv4-UNDERLAY-PEERS
-          peer_device: West-Leaf02
-          peer_asn: 65202
-        - peer_address: 2001:db8:202:102::2/64
-          peer_interface: eth1
-          local_address: 2001:db8:202:102::1/64
-          local_interface: eth2
-          peer_device: West-Leaf02
-          peer_asn: 65202
-          local_peer_group: IPv6-UNDERLAY-PEERS
-          remote_peer_group: IPv6-UNDERLAY-PEERS
         - peer_address: 100.2.254.3/32
           peer_interface: Loopback0
           local_address: 100.2.254.2/32
