@@ -156,6 +156,7 @@ query_string: |
             name
           }
         }
+        cf_mlag_interface
         tags {
           id
         }

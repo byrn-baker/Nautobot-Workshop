@@ -9,3 +9,4 @@ prefix_lists:
         permit: "100.2.254.0/24 eq 32"
 peer_link: Port-Channel1
 peer_ip: 172.16.2.2
+mlag_domain_id: 00:1c:73:6a:09:30

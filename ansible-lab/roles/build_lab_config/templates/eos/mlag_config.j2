@@ -1,11 +1,6 @@
 {% if config_context['peer_link'] and config_context['peer_ip'] %}
 mlag configuration
-{% set h = hostname | hash('md5') %}
-{% set mac = "00:1c:73" %}
-{% set suffix1 = h[0:2] %}
-{% set suffix2 = h[2:4] %}
-{% set suffix3 = h[4:6] %}
-   domain-id {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }}
+   domain-id {{ config_context['mlag_domain_id'] }}
    local-interface Vlan4094
    peer-address {{ config_context['peer_ip'] }}
    peer-link {{ config_context['peer_link'] }}
