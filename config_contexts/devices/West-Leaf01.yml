@@ -7,6 +7,26 @@ prefix_lists:
         permit: "10.255.254.0/24 eq 32"
       - seq: 10
         permit: "100.2.254.0/24 eq 32"
+  - name: ALLOW_ALL_IN_PREFIX
+    afi: ipv4
+    entries:
+      - seq: 5
+        permit: "0.0.0.0/0 le 32"
+  - name: ALLOW_ALL_OUT_PREFIX
+    afi: ipv4
+    entries:
+      - seq: 5
+        permit: "0.0.0.0/0 le 32"
+  - name: ALLOW_ALL_V6_IN_PREFIX
+    afi: ipv6
+    entries:
+      - seq: 5
+        permit: "::/0 le 128"
+  - name: ALLOW_ALL_V6_OUT_PREFIX
+    afi: ipv6
+    entries:
+      - seq: 5
+        permit: "::/0 le 128"
 peer_link: Port-Channel1
 peer_ip: 172.16.2.3
 mlag_domain_id: 00:1c:73:6a:09:30
