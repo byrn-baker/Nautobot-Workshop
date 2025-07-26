@@ -1,27 +1,11 @@
 ---
-# - name: Check if device is reachable (SSH TCP connection)
-#   wait_for:
-#     host: "{{ inventory_hostname }}"
-#     port: 22
-#     timeout: 10
-#   delegate_to: localhost
-#   run_once: false
-#   ignore_unreachable: false
-
-# - name: Gather facts to ensure connectivity
-#   ios_facts:
-#   when: ansible_network_os == "cisco.ios.ios"
-
-# - name: Gather facts for Arista
-#   eos_facts:
-#   when: ansible_network_os == "arista.eos.eos"
-
 - name: Pushing Full configuration to {{ inventory_hostname }}
   cisco.ios.ios_config:
     src: "configs/{{ inventory_hostname }}.conf"
     replace: line
     save_when: modified
   when: ansible_network_os == "cisco.ios.ios"
+  tags: [deploy, cisco]
 
 - name: Pushing Full configuration to Arista EOS devices
   arista.eos.eos_config:
@@ -31,3 +15,4 @@
   when: ansible_network_os == "arista.eos.eos"
   become: true
   become_method: enable
+  tags: [deploy, arista]

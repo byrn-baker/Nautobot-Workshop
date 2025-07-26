@@ -17,4 +17,24 @@ route_maps:
     afi: ipv4
     action: permit
     sequence: 10
-    set: "origin incomplete" 
+    set: "origin incomplete"
+  - name: ALLOW_ALL_V4_IN
+    afi: ipv4
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_IN_PREFIX
+  - name: ALLOW_ALL_V4_OUT
+    afi: ipv4
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_OUT_PREFIX
+  - name: ALLOW_ALL_V6_IN
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_IN_PREFIX
+  - name: ALLOW_ALL_V6_OUT
+    afi: ipv6
+    action: permit
+    sequence: 10
+    match_prefix_list: ALLOW_ALL_V6_OUT_PREFIX

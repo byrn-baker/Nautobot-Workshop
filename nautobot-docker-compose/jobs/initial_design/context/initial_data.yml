@@ -2357,7 +2357,7 @@ bgp_routing:
         - name: MLAG-IPv4-UNDERLAY-PEER
           description: IPv4 spine-leaf peerings for MLAG
           peer_asn: 65102
-          in_route_map: ALLOW_ALL_V4_IN
+          in_route_map: RM-MLAG-PEER-IN
           out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             send-community: true
@@ -2478,7 +2478,7 @@ bgp_routing:
         - name: MLAG-IPv4-UNDERLAY-PEER
           description: IPv4 spine-leaf peerings for MLAG
           peer_asn: 65102
-          in_route_map: ALLOW_ALL_V4_IN
+          in_route_map: RM-MLAG-PEER-IN
           out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             send-community: true
@@ -2906,7 +2906,7 @@ bgp_routing:
         - name: MLAG-IPv4-UNDERLAY-PEER
           description: IPv4 spine-leaf peerings for MLAG
           peer_asn: 65202
-          in_route_map: ALLOW_ALL_V4_IN
+          in_route_map: RM-MLAG-PEER-IN
           out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             send-community: true
@@ -3020,7 +3020,7 @@ bgp_routing:
         - name: MLAG-IPv4-UNDERLAY-PEER
           description: IPv4 spine-leaf peerings for MLAG
           peer_asn: 65202
-          in_route_map: ALLOW_ALL_V4_IN
+          in_route_map: RM-MLAG-PEER-IN
           out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             send-community: true
