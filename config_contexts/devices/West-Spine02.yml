@@ -4,6 +4,6 @@ prefix_lists:
     afi: ipv4
     entries:
       - seq: 5
-        permit: "10.255.255.0/24 eq 32"
+        permit: "10.255.254.0/24 eq 32"
       - seq: 10
         permit: "100.2.254.0/24 eq 32"
