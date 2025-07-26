@@ -1,4 +1,12 @@
 ---
+_metadata:
+  name: "East-Leaf01 Specific Configuration"
+  description: "Device Specific Configuration for East-Leaf01."
+  weight: 100
+  is_active: true
+  devices:
+    - name: East-Leaf01
+
 prefix_lists:
   - name: PL-LOOPBACKS-EVPN-OVERLAY
     afi: ipv4
