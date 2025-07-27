@@ -137,6 +137,19 @@ query_string: |
         cf_ospf_network_type
         cf_ospf_area
         cf_mpls_enabled
+        cf_vrrp_group_id
+        cf_vrrp_ipv4_enabled
+        cf_vrrp_ipv6_enabled
+        cf_vrrp_disabled
+        cf_vrrp_preempt
+        cf_vrrp_priority_level
+        cf_vrrp_advertisement_interval
+        cf_vrrp_bfd_enabled
+        cf_vrrp_mac_advertisement_interval
+        cf_vrrp_peer_address
+        cf_vrrp_session_name
+        cf_vrrp_timer_interval
+        cf_vrrp_tracked_object
         ip_addresses {
           address
           tags {

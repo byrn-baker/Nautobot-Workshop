@@ -7,6 +7,7 @@ interface {{ interface.name }}
 {% endif %}
 {% set valid_addrs = interface.ip_addresses | selectattr("address", "defined") | list %}
 {% if valid_addrs | length > 0 %}
+   no switchport
 {% for addr in valid_addrs %}
 {% if '.' in addr["address"] %}
    ip address {{ addr["address"] }}

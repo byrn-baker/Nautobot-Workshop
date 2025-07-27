@@ -56,8 +56,12 @@ bgp_peer_group_address_families:
       {% for af in pg.afi_safi %}
   - "!create:afi_safi": {{ af.afi_safi }}
     peer_group: "!ref:{{ device.name | lower | replace('-', '_') }}_{{ device.bgp.asn }}_{{ pg.name | lower | replace('-', '_') }}_pg"
+      {% if pg.in_route_map is defined %}
     import_policy: {{ pg.in_route_map }}
+      {% endif %}
+      {% if pg.in_route_map is defined %}
     export_policy: {{ pg.out_route_map }}
+      {% endif %}
     multipath: true
         {% if af.extra_attributes is defined %}
     extra_attributes:

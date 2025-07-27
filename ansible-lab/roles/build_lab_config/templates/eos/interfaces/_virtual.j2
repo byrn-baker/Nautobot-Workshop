@@ -13,7 +13,7 @@ interface {{ interface.name }}
     ipv6 address {{ addr["address"] }}
 {% endif %}
 {% endfor %}
-    {# OSPF configuration if relevant #}
+{# --- OSPF Configuration --- #}
 {% if 'ospf' in config_context and interface['cf_ospf_area'] is not none %}
 {% set ospf = config_context['ospf'] %}
 {% if 'ipv4' in ospf %}
@@ -26,6 +26,52 @@ interface {{ interface.name }}
     ipv6 ospf {{ ospf['ipv6']['process_id'] }} area {{ interface['cf_ospf_area'] }}
 {% endif %}
 {% endif %}
+{# --- VRRP Configuration --- #}
+{% if interface.cf_vrrp_group_id is defined and interface.cf_vrrp_group_id is not none %}
+{% for addr in valid_addrs %}
+{% if '.' in addr["address"] %}
+{% set gateway4 = addr["address"] | ansible.utils.ipaddr('1') %}
+    vrrp {{ interface.cf_vrrp_group_id }} ipv4 {{ gateway4 | ansible.utils.ipv4('address') }}
+{% endif %}
+{% endfor %}
+{% for addr in valid_addrs %}
+{% if ':' in addr["address"] %}
+{% set gateway6 = addr["address"] | ansible.utils.ipaddr('1') %}
+    vrrp {{ interface.cf_vrrp_group_id }} ipv6 {{ gateway6 | ansible.utils.ipv6('address') }}
+{% endif %}
+{% endfor %}
+{% if interface.cf_vrrp_disabled %}
+    vrrp {{ interface.cf_vrrp_group_id }} disabled
+{% endif %}
+{% if interface.cf_vrrp_preempt %}
+    vrrp {{ interface.cf_vrrp_group_id }} preempt
+{% endif %}
+{% if interface.cf_vrrp_priority_level is defined %}
+    vrrp {{ interface.cf_vrrp_group_id }} priority-level {{ interface.cf_vrrp_priority_level }}
+{% endif %}
+{% if interface.cf_vrrp_advertisement_interval is defined and interface.cf_vrrp_advertisement_interval is not none and interface.cf_vrrp_advertisement_interval > 0  %}
+    vrrp {{ interface.cf_vrrp_group_id }} advertisement interval {{ interface.cf_vrrp_advertisement_interval }}
+{% endif %}
+{% if interface.cf_vrrp_bfd_enabled %}
+    vrrp {{ interface.cf_vrrp_group_id }} bfd
+{% endif %}
+{% if interface.cf_vrrp_mac_advertisement_interval is defined and interface.cf_vrrp_mac_advertisement_interval is not none and interface.cf_vrrp_mac_advertisement_interval > 0 %}
+    vrrp {{ interface.cf_vrrp_group_id }} mac-address advertisement interval {{ interface.cf_vrrp_mac_advertisement_interval }}
+{% endif %}
+{% if interface.cf_vrrp_peer_address %}
+    vrrp {{ interface.cf_vrrp_group_id }} peer {{ interface.cf_vrrp_peer_address }}
+{% endif %}
+{% if interface.cf_vrrp_session_name %}
+    vrrp {{ interface.cf_vrrp_group_id }} session {{ interface.cf_vrrp_session_name }}
+{% endif %}
+{% if interface.cf_vrrp_timer_interval is defined and  interface.cf_vrrp_timer_interval is not none and interface.cf_vrrp_timer_interval > 0 %}
+    vrrp {{ interface.cf_vrrp_group_id }} timers advertise {{ interface.cf_vrrp_timer_interval }}
+{% endif %}
+{% if interface.cf_vrrp_tracked_object %}
+    vrrp {{ interface.cf_vrrp_group_id }} tracked-object {{ interface.cf_vrrp_tracked_object }}
+{% endif %}
+{% endif %}
+
 {% else %}
     no ip address
 !

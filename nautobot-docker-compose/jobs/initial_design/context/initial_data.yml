@@ -75,6 +75,124 @@ custom_fields:
     default: false
     content_types:
       - dcim.interface
+  
+  - name: MLAG Interface
+    grouping: MLAG
+    description: MLAG interface for server facing Multi Chassis LAG
+    key: mlag_interface
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+  
+  - name: VRRP Group ID
+    grouping: VRRP
+    description: VRRP group ID on this interface (used as identifier for all VRRP settings)
+    key: vrrp_group_id
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: VRRP IPv4 Enabled
+    grouping: VRRP
+    description: Enable VRRP for IPv4
+    key: vrrp_ipv4_enabled
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: VRRP IPv6 Enabled
+    grouping: VRRP
+    description: Enable VRRP for IPv6
+    key: vrrp_ipv6_enabled
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Disabled
+    grouping: VRRP
+    description: Mark this VRRP configuration as administratively disabled
+    key: vrrp_disabled
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Preempt Mode
+    grouping: VRRP
+    description: Enable preempt mode for the VRRP router
+    key: vrrp_preempt
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Priority Level
+    grouping: VRRP
+    description: Set priority level (0-255) for the VRRP router
+    key: vrrp_priority_level
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Advertisement Interval
+    grouping: VRRP
+    description: Advertisement interval in seconds
+    key: vrrp_advertisement_interval
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: VRRP BFD Enabled
+    grouping: VRRP
+    description: Enable BFD for fast failure detection
+    key: vrrp_bfd_enabled
+    type: boolean
+    default: false
+    content_types:
+      - dcim.interface
+
+  - name: VRRP MAC Advertisement Interval
+    grouping: VRRP
+    description: Interval in seconds to advertise the virtual MAC address
+    key: vrrp_mac_advertisement_interval
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Peer Address
+    grouping: VRRP
+    description: IP address of the VRRP peer for state synchronization
+    key: vrrp_peer_address
+    type: text
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Session Name
+    grouping: VRRP
+    description: Optional named session for organizing VRRP groups
+    key: vrrp_session_name
+    type: text
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Timer Interval
+    grouping: VRRP
+    description: Timer value in seconds for master down interval or hold time
+    key: vrrp_timer_interval
+    type: integer
+    content_types:
+      - dcim.interface
+
+  - name: VRRP Tracked Object
+    grouping: VRRP
+    description: Track object (like an interface or IP SLA) that affects priority
+    key: vrrp_tracked_object
+    type: text
+    content_types:
+      - dcim.interface
 
 namespaces:
   - name: clabbr220
@@ -997,6 +1115,9 @@ devices:
         ip_role: VRRP
         ipv4_address: 100.1.253.2/24
         ipv6_address: 2001:db8:101:253::2/64
+        vrrp_group_id: 253
+        vrrp_preempt: true
+        vrrp_priority_level: 110
       - name: Vlan4093
         type: VIRTUAL
         ipv4_address: 172.16.1.0/31
@@ -1073,6 +1194,9 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.1.253.3/24
         ipv6_address: 2001:db8:101:253::3/64
+        vrrp_group_id: 253
+        vrrp_preempt: true
+        vrrp_priority_level: 100
       - name: Vlan4093
         type: VIRTUAL
         ipv4_address: 172.16.1.1/31
@@ -1337,6 +1461,9 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.1.253.4/24
         ipv6_address: 2001:db8:101:253::4/64
+        vrrp_group_id: 253
+        vrrp_preempt: true
+        vrrp_priority_level: 100
       - name: Vlan4093
         type: VIRTUAL
         ipv4_address: 172.16.2.0/31
@@ -1417,6 +1544,9 @@ devices:
         type: VIRTUAL
         ipv4_address: 100.1.253.5/24
         ipv6_address: 2001:db8:101:253::5/64
+        vrrp_group_id: 253
+        vrrp_preempt: true
+        vrrp_priority_level: 100
       - name: Vlan4093
         type: VIRTUAL
         ipv4_address: 172.16.2.1/31
@@ -2130,15 +2260,13 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65102
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
       bgp_peers:
         - peer_address: 100.1.11.1/24
@@ -2205,6 +2333,14 @@ bgp_routing:
           remote_peer_group: EVPN-OVERLAY-PEERS
           peer_device: East-Leaf02
           peer_asn: 65102
+        - peer_address: 100.2.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.1.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: West-Spine01
+          peer_asn: 65201
   - name: East-Spine02
     bgp:
       asn: 65101
@@ -2252,15 +2388,13 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65102
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
       bgp_peers:
         - peer_address: 100.1.12.1/24
@@ -2374,13 +2508,11 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65101
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
           afi_safi:
             - afi_safi: l2_evpn
@@ -2488,13 +2620,11 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65101
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
           afi_safi:
             - afi_safi: l2_evpn
@@ -2691,15 +2821,13 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65202
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
       bgp_peers:
         - peer_address: 100.2.11.1/24
@@ -2766,6 +2894,14 @@ bgp_routing:
           remote_peer_group: EVPN-OVERLAY-PEERS
           peer_device: West-Leaf02
           peer_asn: 65202
+        - peer_address: 100.1.254.1/32
+          peer_interface: Loopback0
+          local_address: 100.2.254.1/32
+          local_interface: Loopback0
+          local_peer_group: EVPN-OVERLAY-PEERS
+          remote_peer_group: EVPN-OVERLAY-PEERS
+          peer_device: East-Spine01
+          peer_asn: 65101
   - name: West-Spine02
     bgp:
       asn: 65201
@@ -2813,15 +2949,13 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65202
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           afi_safi:
             - afi_safi: l2_evpn
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
       bgp_peers:
         - peer_address: 100.2.12.1/24
@@ -2903,13 +3037,11 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65201
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
           afi_safi:
             - afi_safi: l2_evpn
@@ -3017,13 +3149,11 @@ bgp_routing:
           description: BGP Overlay Peers
           peer_asn: 65201
           local_interface: Loopback0
-          in_route_map: ALLOW_ALL_V4_IN
-          out_route_map: ALLOW_ALL_V4_OUT
           extra_attributes:
             bfd: true
             send-community: true
             maximum-routes: 0
-            ebgp-multihop: 3
+            ebgp-multihop: 10
             update-source: Loopback0
           afi_safi:
             - afi_safi: l2_evpn

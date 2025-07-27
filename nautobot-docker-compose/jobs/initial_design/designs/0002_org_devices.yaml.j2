@@ -108,9 +108,9 @@ roles:
       mode: {{ intf.mode | lower }}
       {% endif %}
       {% if intf.label is defined %}
-      mode: {{ intf.label | upper }}
+      label: {{ intf.label | upper }}
       {% endif %}
-      {% if intf.ospf_area is defined or intf.ospf_network_type is defined or intf.mpls_enabled is defined %}
+      {% if intf.ospf_area is defined or intf.ospf_network_type is defined or intf.mpls_enabled is defined or intf.vrrp_group_id is defined %}
       custom_fields:
         {% if intf.ospf_area is defined %}
         ospf_area: "{{ intf.ospf_area }}"
@@ -120,6 +120,15 @@ roles:
         {% endif %}
         {% if intf.mpls_enabled is defined %}
         mpls_enabled: {{ intf.mpls_enabled | lower }}
+        {% endif %}
+        {% if intf.vrrp_group_id is defined %}
+        vrrp_group_id: {{ intf.vrrp_group_id }}
+        {% endif %}
+        {% if intf.vrrp_preempt is defined %}
+        vrrp_preempt: {{ intf.vrrp_preempt }}
+        {% endif %}
+        {% if intf.vrrp_priority_level is defined %}
+        vrrp_priority_level: {{ intf.vrrp_priority_level }}
         {% endif %}
       {% endif %}
   {% endif %}

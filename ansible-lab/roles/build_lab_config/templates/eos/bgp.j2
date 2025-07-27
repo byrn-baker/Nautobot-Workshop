@@ -84,10 +84,10 @@ router bgp {{ instance['autonomous_system']['asn'] }}
 {% set afis = pg.address_families | selectattr('afi_safi', 'equalto', afi_code) | list %}
 {% if afis | length > 0 %}
     neighbor {{ pg.name }} activate
-{% if afis[0].import_policy is defined %}
+{% if afis[0].import_policy is defined and afis[0].import_policy %}
     neighbor {{ pg.name }} route-map {{ afis[0].import_policy }} in
 {% endif %}
-{% if afis[0].export_policy is defined %}
+{% if afis[0].export_policy is defined and afis[0].export_policy %}
     neighbor {{ pg.name }} route-map {{ afis[0].export_policy }} out
 {% endif %}
 {% elif afi_safi == 'ipv4' %}
@@ -102,11 +102,11 @@ router bgp {{ instance['autonomous_system']['asn'] }}
 {% for af in peer.address_families %}
 {% if afi_map[af.afi_safi] == afi_safi %}
     neighbor {{ peer_ip }} activate
-{% if af.import_policy is defined %}
-    neighbor {{ peer_ip }} route-map {{ af.import_policy }} in
+{% if afis[0].import_policy is defined and afis[0].import_policy %}
+    neighbor {{ pg.name }} route-map {{ afis[0].import_policy }} in
 {% endif %}
-{% if af.export_policy is defined %}
-    neighbor {{ peer_ip }} route-map {{ af.export_policy }} out
+{% if afis[0].export_policy is defined and afis[0].export_policy %}
+    neighbor {{ pg.name }} route-map {{ afis[0].export_policy }} out
 {% endif %}
 {% endif %}
 {% endfor %}
