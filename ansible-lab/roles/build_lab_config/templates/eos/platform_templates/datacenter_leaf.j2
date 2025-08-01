@@ -1,11 +1,16 @@
 !
-no enable password
 no aaa root
 !
 username admin privilege 15 role network-admin secret sha512 $6$vIVWaFAwuNl0Sn3q$krPseqSsELzdlHp7X3fMqQtoLTlRUgbHZAdTWEwMDSDqFOk3iKC3g2j/6BofhI9CV706VkKTr7GSst9.trUH21
 !
 management api http-commands
    protocol http
+   no shutdown
+   !
+   vrf clab-mgmt
+      no shutdown
+   !
+   protocol https
    no shutdown
    !
    vrf clab-mgmt
@@ -23,25 +28,34 @@ spanning-tree mode mstp
 no spanning-tree vlan-id 4093-4094
 spanning-tree mst 0 priority 4096
 !
+{% set h = hostname | hash('md5') %}
+{% set mac = "00:1a:73" %}
+{% set raw = h[0:2] %}
+{% set raw_int = raw | int(base=16) %}
+{% set cleaned = (raw_int // 4) * 4 %} {# clears the last 2 bits (U/L and I/G) #}
+{% set suffix1 = "%02x" % cleaned %}
+{% set suffix2 = h[2:4] %}
+{% set suffix3 = h[4:6] %}
+system mac-address {{ mac }}:{{ suffix1 }}:{{ suffix2 }}:{{ suffix3 }}
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
 {% if location.vlans is defined and location.vlans | length > 0 and location.vlans[0].vid is defined %}
 {% include '/eos/vlans.j2' %}
 {% elif location.parent.vlans is defined and location.parent.vlans | length > 0 and location.parent.vlans[0].vid is defined %}
 {% include '/eos/vlans.j2' %}
 {% endif %}
 !
-system l1
-   unsupported speed action error
-   unsupported error-correction action error
-!
 vrf instance clab-mgmt
    description clab-mgmt
 !
-management api http-commands
-   protocol https
-   no shutdown
-   !
-   vrf clab-mgmt
-       no shutdown
+management api gnmi
+   transport grpc default
+!
+management api netconf
+   transport ssh default
 !
 {% include '/eos/interfaces.j2' %}
 !
@@ -75,5 +89,9 @@ router multicast
    !
    ipv6
       software-forwarding kernel
+!
+management ssh
+   vrf clab-mgmt
+      no shutdown
 !
 end
