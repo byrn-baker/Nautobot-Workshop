@@ -1,0 +1,15 @@
+{% set ospf = config_context['ospf'] %}
+{% if ospf['ipv6'] is defined %}
+ipv6 router ospf {{ ospf['ipv6']['process_id'] }}
+{% for interface in interfaces if 'Loopback0' in interface["name"] %}
+{% for addr in interface['ip_addresses'] if '.' in addr["address"] %}
+ router-id {{ addr['address'] | ipaddr('address') }}
+{% endfor %}
+{% endfor %}
+{% if ospf['ipv6']['passive_interfaces'] is defined %}
+{% for int in ospf['ipv4']['passive_interfaces'] %}
+ passive-interface {{ int }}
+{% endfor %}
+{% endif %}
+!
+{% endif %}

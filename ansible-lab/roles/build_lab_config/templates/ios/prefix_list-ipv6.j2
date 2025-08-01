@@ -1,0 +1,7 @@
+{% for plist in config_context['prefix_lists'] %}
+{% if plist['afi'] == "ipv6" %}
+ipv6 prefix-list {{ plist['name'] }}{% for entry in plist['entries'] %} seq {{ entry['seq'] }} permit {{ entry['permit'] }}{% endfor %}
+
+!
+{% endif %}
+{% endfor %}

@@ -3,7 +3,4 @@
 {% if mpls['ldp']['force'] == True %}
 mpls ldp router-id Loopback0 force
 {% endif %}
-{% if mpls['ldp']['enabled'] == True %}
-mpls label protocol ldp
-{% endif %}
 {% endif %}
