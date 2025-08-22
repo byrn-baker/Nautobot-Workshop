@@ -105,9 +105,9 @@ PLUGINS_CONFIG = {
         "enable_sotagg": True,
         "enable_plan": True,
         "enable_deploy": True,
-        "enable_postprocessing": False,
+        "enable_postprocessing": True,
         "sot_agg_transposer": None,
-        "postprocessing_callables": [],
+        "postprocessing_callables": ['nautobot_golden_config.utilities.config_postprocessing.render_secrets'],
         "postprocessing_subscribed": [],
         "jinja_env": {
             "undefined": "jinja2.StrictUndefined",
@@ -118,3 +118,6 @@ PLUGINS_CONFIG = {
         # "get_custom_compliance": "my.custom_compliance.func"
     },
 }
+NAPALM_USERNAME = os.getenv("NAPALM_USERNAME", "admin")
+NAPALM_PASSWORD = os.getenv("NAPALM_PASSWORD", "admin")
+NAPALM_TIMEOUT = int(os.getenv("NAPALM_TIMEOUT", "30"))

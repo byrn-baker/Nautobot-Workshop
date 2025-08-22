@@ -1,0 +1,42 @@
+---
+_metadata:
+  name: "Global ACL Config Schema"
+  description: "Schema for global ACL configuration settings."
+data_schema:
+  title: "Global ACL Settings"
+  type: object
+  properties:
+    acl:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          afi:
+            enum:
+              - ipv4
+              - ipv6
+          entries:
+            type: array
+            items:
+              type: object
+              properties:
+                seq:
+                  type: integer
+                action:
+                  enum:
+                    - permit
+                    - deny
+                protocol:
+                  type: string
+                source:
+                  type: string
+                destination:
+                  type: string
+                options:
+                  type: object
+              required:
+                - seq
+                - action
+                - source

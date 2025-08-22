@@ -1,0 +1,25 @@
+_metadata:
+  name: "Global Backbone Access Lists"
+  description: "Access lists for in bound traffic control."
+  weight: 100
+  is_active: true
+  roles:
+    - name: "Provider Router"
+    - name: "Provider Edge Router"
+    - name: "Provider Route Reflector"
+acl:
+  - name: ALLOW_TRUSTED_IN_PREFIX
+    afi: ipv4
+    type: extended  # Added for clarity in rendering
+    entries:
+      - seq: 10
+        action: permit  # Explicit action
+        protocol: ip    # Specify protocol
+        source: 192.168.1.0/24
+        destination: any  # Assume any destination
+      - seq: 9999
+        action: deny    # Added implicit deny for security
+        protocol: ip
+        source: any
+        destination: any
+        log: true       # Optional: Log denies for monitoring
