@@ -1,7 +1,7 @@
 _metadata:
   name: "Example ACL"
   description: "Access lists Example."
-  weight: 100
+  weight: 150
   is_active: true
   platforms:
     - name: "IOS"
