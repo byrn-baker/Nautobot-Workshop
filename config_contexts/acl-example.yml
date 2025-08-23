@@ -3,6 +3,7 @@ _metadata:
   description: "Example Access lists for in bound traffic control."
   weight: 150
   is_active: true
+  schema: "Global ACL Config Schema"
   roles:
     - name: "Provider Router"
 acl:
