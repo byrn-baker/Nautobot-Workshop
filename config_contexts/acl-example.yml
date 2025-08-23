@@ -16,7 +16,7 @@ acl:
         protocol: ip    # Specify protocol
         source: 192.168.1.0/24
         destination: any  # Assume any destination
-      - seq: "twenty"
+      - seq: 20
         action: permit  # Explicit action
         protocol: ip    # Specify protocol
         source: 192.168.100.0/24
