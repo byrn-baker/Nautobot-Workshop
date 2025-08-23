@@ -3,6 +3,7 @@ _metadata:
   description: "Access lists for in bound traffic control."
   weight: 100
   is_active: true
+  config_context_schema: "Global ACL Config Schema"
   roles:
     - name: "Provider Router"
     - name: "Provider Edge Router"
