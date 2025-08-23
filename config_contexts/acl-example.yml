@@ -3,9 +3,9 @@ _metadata:
   description: "Example Access lists for in bound traffic control."
   weight: 150
   is_active: true
-  config_context_schema: "Global ACL Config Schema"
   roles:
     - name: "Provider Router"
+config_context_schema: "Global ACL Config Schema"
 acl:
   - name: ALLOW_TRUSTED_IN_PREFIX
     afi: ipv4
