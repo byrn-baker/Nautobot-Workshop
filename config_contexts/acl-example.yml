@@ -1,0 +1,17 @@
+_metadata:
+  name: "Example ACL"
+  description: "Access lists Example."
+  weight: 100
+  is_active: true
+  platforms:
+    - name: "IOS"
+acl:
+  - name: ALLOW_TRUSTED_IN_PREFIX
+    afi: ipv4
+    type: extended  # Added for clarity in rendering
+    entries:
+      - seq: 100
+        action: permit  # Explicit action
+        protocol: ip    # Specify protocol
+        source: 192.168.100.0/24
+        destination: any  # Assume any destination
