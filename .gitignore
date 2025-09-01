@@ -306,3 +306,5 @@ build-docker-images/ubuntu-dns-bonded_24.04.tar
 
 # Invoke overrides
 invoke.yml
+
+nautobot-docker-compose/jobs/bgp_validation.py

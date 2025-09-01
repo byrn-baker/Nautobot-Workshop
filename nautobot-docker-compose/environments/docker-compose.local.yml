@@ -9,6 +9,8 @@ services:
       - "../jobs:/opt/nautobot/jobs"
       - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
       - "../custom_python_code/custom_ext.py:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot_design_builder/contrib/ext.py"
+      - "../templates/igp_validation_form.html:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot/extras/templates/extras/inc/igp_validation_form.html"
+      - "../templates/customized_jobresult.html:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot/extras/templates/extras/jobresult.html"
     healthcheck:
       interval: "30s"
       timeout: "10s"
@@ -16,6 +18,12 @@ services:
       retries: 3
       test: ["CMD", "true"]  # Due to layering, disable: true won't work. Instead, change the test
   celery_worker:
+    volumes:
+      - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
+      - "../jobs:/opt/nautobot/jobs"
+      - "../custom_jinja_filters:/opt/nautobot/custom_jinja_filters"
+      - "../custom_python_code/custom_ext.py:/usr/local/lib/python${PYTHON_VER}/site-packages/nautobot_design_builder/contrib/ext.py"
+  celery_beat:
     volumes:
       - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
       - "../jobs:/opt/nautobot/jobs"

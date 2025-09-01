@@ -1,0 +1,99 @@
+<!-- templates/extras/inc/igp_validation_form.html -->
+{% load helpers %}
+
+{% if result.result.results.igp_validation %}
+  <div class="card mb-3">
+    <div class="card-header"><strong>IGP Provider Loopback Validation - Summary</strong></div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-auto"><span class="badge bg-secondary">Total: {{ result.result.results.igp_validation.summary.total|default_if_none:"0" }}</span></div>
+        <div class="col-auto"><span class="badge bg-success">Pass: {{ result.result.results.igp_validation.summary.passes|default_if_none:"0" }}</span></div>
+        <div class="col-auto"><span class="badge bg-danger">Fail: {{ result.result.results.igp_validation.summary.fails|default_if_none:"0" }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <strong>IGP Provider Loopback Validation Results</strong>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped mb-0">
+        <thead>
+          <tr>
+            {% if result.result.results.igp_validation.columns %}
+              {% for col in result.result.results.igp_validation.columns %}
+                <th scope="col">{{ col }}</th>
+              {% endfor %}
+            {% elif result.result.results.igp_validation.rows and result.result.results.igp_validation.rows.0 %}
+              {# Fallback: use keys from the first row if columns not provided #}
+              {% for k in result.result.results.igp_validation.rows.0 %}
+                <th scope="col">{{ k }}</th>
+              {% endfor %}
+            {% else %}
+              <th scope="col">No data</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% if result.result.results.igp_validation.rows %}
+            {% if result.result.results.igp_validation.columns %}
+              {% for row in result.result.results.igp_validation.rows %}
+                <tr>
+                  {% for col in result.result.results.igp_validation.columns %}
+                    {% with val=row|get_item:col %}
+                      {% if col == "Route Check" or col == "Ping" or col == "Result" %}
+                        {% if val and "PASS" in val %}
+                          <td><span class="badge bg-success">{{ val }}</span></td>
+                        {% elif val and "SKIP" in val %}
+                          <td><span class="badge bg-secondary">{{ val }}</span></td>
+                        {% else %}
+                          <td><span class="badge bg-danger">{{ val }}</span></td>
+                        {% endif %}
+                      {% else %}
+                        <td>{{ val }}</td>
+                      {% endif %}
+                    {% endwith %}
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            {% else %}
+              {# Fallback: iterate keys from the first row to preserve natural ordering #}
+              {% with first_row=result.result.results.igp_validation.rows.0 %}
+                {% for row in result.result.results.igp_validation.rows %}
+                  <tr>
+                    {% for k in first_row %}
+                      {% with val=row|get_item:k %}
+                        {% if k == "Route Check" or k == "Ping" or k == "Result" %}
+                          {% if val and "PASS" in val %}
+                            <td><span class="badge bg-success">{{ val }}</span></td>
+                          {% elif val and "SKIP" in val %}
+                            <td><span class="badge bg-secondary">{{ val }}</span></td>
+                          {% else %}
+                            <td><span class="badge bg-danger">{{ val }}</span></td>
+                          {% endif %}
+                        {% else %}
+                          <td>{{ val }}</td>
+                        {% endif %}
+                      {% endwith %}
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              {% endwith %}
+            {% endif %}
+          {% else %}
+            <tr>
+              {% if result.result.results.igp_validation.columns %}
+                <td colspan="{{ result.result.results.igp_validation.columns|length }}" class="text-muted">No results available.</td>
+              {% else %}
+                <td class="text-muted">No results available.</td>
+              {% endif %}
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-warning mb-0">No IGP validation result.result.results.igp_validation available.</div>
+{% endif %}
