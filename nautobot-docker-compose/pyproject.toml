@@ -19,6 +19,10 @@ toml = "^0.10.2"
 pyavd = "^5.4.0"
 pytest = "^8.4.2"
 pytest-django = "^4.11.1"
+nautobot-device-lifecycle-mgmt = "^3.1.1"
+beautifulsoup4 = "^4.13.5"
+nautobot-ssot = "^3.9.4"
+nautobot-device-onboarding = "^4.3.1"
 
 [tool.poetry.dev-dependencies]
 invoke = "*"

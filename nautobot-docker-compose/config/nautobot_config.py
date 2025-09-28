@@ -43,13 +43,16 @@ PLUGINS = [
     "nautobot_bgp_models", 
     "nautobot_golden_config",
     "nautobot_design_builder",
+    "nautobot_device_lifecycle_mgmt",
+    "nautobot_ssot",
+    "nautobot_device_onboarding"
     ]
 
 # Plugins configuration settings. These settings are used by various plugins that the user may have installed.
 # Each key in the dictionary is the name of an installed plugin and its value is a dictionary of settings.
 PLUGINS_CONFIG = {
     "nautobot_plugin_nornir": {
-        "use_config_context": {"secrets": False, "connection_options": True},
+        # "use_config_context": {"secrets": False, "connection_options": True},
         # Optionally set global connection options.
         "connection_options": {
             "napalm": {
@@ -60,6 +63,9 @@ PLUGINS_CONFIG = {
             "netmiko": {
                 "extras": {
                     "global_delay_factor": 1,
+                    "fast_cli": False,
+                    "read_timeout_override": 30,
+                    "disabled_algorithms": {"pubkeys": ["rsa-sha2-256", "rsa-sha2-512"]},
                 },
             },
         },
@@ -116,6 +122,12 @@ PLUGINS_CONFIG = {
         },
         # "default_deploy_status": "Not Approved",
         # "get_custom_compliance": "my.custom_compliance.func"
+    },
+    "nautobot_device_lifecycle_mgmt": {
+        "barchart_bar_width": float(os.environ.get("BARCHART_BAR_WIDTH", 0.1)),
+        "barchart_width": int(os.environ.get("BARCHART_WIDTH", 12)),
+        "barchart_height": int(os.environ.get("BARCHART_HEIGHT", 5)),
+        "enabled_metrics": [x for x in os.environ.get("NAUTOBOT_DLM_ENABLED_METRICS", "").split(",") if x],
     },
 }
 NAPALM_USERNAME = os.getenv("NAPALM_USERNAME", "admin")
