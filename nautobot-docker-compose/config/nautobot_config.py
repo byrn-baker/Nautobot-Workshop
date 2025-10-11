@@ -11,6 +11,15 @@ from custom_jinja_filters import hash_filter  # noqa: F401
 from custom_jinja_filters import avd_filters  # noqa: F401
 
 #
+# Jinja Templates for Jobs
+#
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+JOBS_TEMPLATE_DIR = os.path.join(BASE_DIR, "jobs", "templates")
+
+if JOBS_TEMPLATE_DIR not in TEMPLATES[0]["DIRS"]:
+    TEMPLATES[0]["DIRS"].append(JOBS_TEMPLATE_DIR)
+
+#
 # Debug
 #
 

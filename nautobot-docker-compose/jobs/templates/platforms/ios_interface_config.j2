@@ -1,0 +1,140 @@
+{% set config_context = interface.get('device', {}).get('config_context', {}) %}
+{% set role = interface.get('device', {}).get('role', {}) %}
+
+{# =====================================================================
+   Helper: Build ipv4_list / ipv6_list robustly from multiple data shapes
+   - Supports:
+       * list of objects with .address
+       * list of dicts with ['address']
+       * GraphQL Relay: ip_addresses.edges[].node.address
+   ===================================================================== #}
+{% set ns = namespace(ipv4_list=[], ipv6_list=[]) %}
+{% set ipas = interface.get('ip_addresses', []) %}
+
+{# Case A: Relay-style connection (edges -> node.address) #}
+{% if ipas and ipas.edges is defined %}
+  {% for e in ipas.edges %}
+    {% set address = '' %}
+    {% if e and e.node is defined and e.node %}
+      {% if e.node.address is defined %}
+        {% set address = e.node.address %}
+      {% elif e.node.get is defined %}
+        {% set address = e.node.get('address', '') %}
+      {% endif %}
+    {% endif %}
+    {% if address %}
+      {% if '.' in address %}
+        {% set ns.ipv4_list = ns.ipv4_list + [address] %}
+      {% elif ':' in address %}
+        {% set ns.ipv6_list = ns.ipv6_list + [address] %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{# Case B: Simple list (objects or dicts) #}
+{% else %}
+  {% for a in ipas %}
+    {% set address = '' %}
+    {% if a.address is defined %}
+      {% set address = a.address %}
+    {% elif a.get is defined %}
+      {% set address = a.get('address', '') %}
+    {% elif a['address'] is defined %}
+      {% set address = a['address'] %}
+    {% endif %}
+    {% if address %}
+      {% if '.' in address %}
+        {% set ns.ipv4_list = ns.ipv4_list + [address] %}
+      {% elif ':' in address %}
+        {% set ns.ipv6_list = ns.ipv6_list + [address] %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% set has_ipv4 = ns.ipv4_list | length > 0 %}
+{% set has_ipv6 = ns.ipv6_list | length > 0 %}
+
+{# =====================================================================
+   MAIN BRANCHES
+   ===================================================================== #}
+{% if interface.get('enabled') 
+      and (('Ethernet' in interface.get('name', '')) or ('eth' in interface.get('name', ''))) 
+      and not interface.get('mgmt_only') %}
+interface {{ interface.get('name', '').split('.')[0] }}
+{% set desc = interface.get('description', '') %}
+{% if desc|length > 0 %}
+  description {{ desc }}
+{% elif interface.get('connected_interface') 
+      and interface['connected_interface'].get('device') 
+      and interface['connected_interface']['device'].get('name') %}
+  description To {{ interface['connected_interface']['device']['name'] }}-{{ interface['connected_interface'].get('name','') }}
+{% endif %}
+
+{# ---------- IPv4 CONFIG ---------- #}
+{% if has_ipv4 %}
+  {% if 'Router' not in role.get('name', '') %}
+  no switchport
+  {% endif %}
+  {% for address in ns.ipv4_list %}
+  ip address {{ address | ipaddr('address') }} {{ address | ipaddr('netmask') }}
+  {% endfor %}
+{% else %}
+  no ip address
+{% endif %}
+
+{# ---------- IPv6 CONFIG ---------- #}
+{% if has_ipv6 %}
+  {% for address in ns.ipv6_list %}
+  ipv6 address {{ address | upper }}
+  {% endfor %}
+  ipv6 enable
+{% else %}
+  no ipv6 address
+  no ipv6 enable
+{% endif %}
+
+{# ---------- OSPF / MPLS ---------- #}
+{% set ospf = config_context.get('ospf', {}) %}
+{% set area = interface.get('cf_ospf_area') | default('') | string | trim %}
+
+{# Apply OSPF only if an area is defined, OSPF exists, and IPs exist #}
+{% if area and ospf and (has_ipv4 or has_ipv6) %}
+  {% if has_ipv4 and ospf.get('ipv4') %}
+    {% set nettype = interface.get('cf_ospf_network_type') | default('') | trim %}
+    {% if nettype %}
+  ip ospf network {{ nettype }}
+    {% endif %}
+  ip ospf {{ ospf['ipv4'].get('process_id', 1) }} area {{ area }}
+  {% endif %}
+  {% if has_ipv6 and ospf.get('ipv6') %}
+  ipv6 ospf {{ ospf['ipv6'].get('process_id', 1) }} area {{ area }}
+  {% endif %}
+{% endif %}
+
+{% if interface.get('cf_mpls_enabled') %}
+  mpls ip
+{% endif %}
+
+  no shutdown
+!
+{% elif interface.get('mgmt_only') %}
+interface {{ interface.get('name', '') }}
+  description {{ interface.get('description') or 'MGMT ONLY INTERFACE' }}
+  vrf forwarding clab-mgmt
+  {% for a in interface.get('ip_addresses', []) %}
+    {% set address = a.address if a.address is defined else (a.get('address') if a.get is defined else '') %}
+    {% if '.' in address %}
+  ip address {{ address | ipaddr('address') }} {{ address | ipaddr('netmask') }}
+    {% endif %}
+  {% endfor %}
+  no cdp enable
+!
+{% else %}
+interface {{ interface.get('name', '') }}
+  description NOT IN USE
+  no ip address
+  no ipv6 address
+  no ipv6 enable
+  shutdown
+!
+{% endif %}

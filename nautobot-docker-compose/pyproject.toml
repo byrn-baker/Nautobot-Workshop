@@ -23,6 +23,10 @@ nautobot-device-lifecycle-mgmt = "^3.1.1"
 beautifulsoup4 = "^4.13.5"
 nautobot-ssot = "^3.9.4"
 nautobot-device-onboarding = "^4.3.1"
+pyats = {extras = ["full"], version = "^25.9"}
+ntc-templates = "^8.1.0"
+genie = "^25.9"
+requests = "^2.32.5"
 
 [tool.poetry.dev-dependencies]
 invoke = "*"

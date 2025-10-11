@@ -1,0 +1,7 @@
+{# jobs/templates/interface_config.j2 #}
+{% set platform = platform_name | lower if platform_name else "unknown" %}
+{% if "eos" in platform %}
+{% include "platforms/eos_interface_config.j2" %}
+{% elif "ios" in platform or "cisco_ios" in platform %}
+{% include "platforms/ios_interface_config.j2" %}
+{% endif %}
