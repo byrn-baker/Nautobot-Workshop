@@ -83,7 +83,7 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
         re.compile(r"^Building\s+configuration.*$", re.I),
         re.compile(r"^Current\s+configuration\s*:.*$", re.I),
     )
-    _PROMPT_PATTERN = re.compile(r"^[\w\-.()/#\s]+#$")
+    _PROMPT_PATTERN = re.compile(r"^[\w\-.()/#\s]+#$")  # typical enable prompt ending with '#'
     _END_PATTERN = re.compile(r"^end$", re.I)
 
     def _clean_running_text(self, text: str) -> list[str]:
@@ -128,7 +128,7 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
         return out
 
     def _normalize_admin_state(self, ifname: str, lines: list[str], enabled: bool, is_cisco: bool) -> list[str]:
-        """Inject synthetic admin-state for Cisco."""
+        """Inject synthetic admin-state for Cisco when missing."""
         if not is_cisco or not lines:
             return lines
         content = [ln for ln in lines[1:]]
@@ -150,7 +150,8 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
         header = lines[0]
         body = [ln for ln in lines[1:] if ln.strip() and ln.strip() != "!"]
         footer = ["!"] if lines and lines[-1].strip() == "!" else []
-        def sort_key(line):
+
+        def rank_for(line: str) -> str:
             l = line.strip()
             if l.startswith("description"):
                 return "00_description"
@@ -170,8 +171,10 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                 return "13_ospf_v6"
             if l.startswith("no shutdown") or l.startswith("shutdown"):
                 return "99_admin"
-            return l
-        sorted_body = sorted(body, key=sort_key)
+            return "50_other"
+
+        # stable, deterministic sort
+        sorted_body = sorted(body, key=lambda x: (rank_for(x), x.strip()))
         return [header] + sorted_body + footer
 
     # -----------------------------
@@ -221,7 +224,8 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                                              platform=device.platform).first()
         if not rule:
             self.logger.info(
-                f"No GoldenConfig 'intf' rule found for {device.platform}, skipping compliance.")
+                f"No GoldenConfig 'intf' rule found for {device.platform}, skipping compliance."
+            )
             return None
         missing_lines = "\n".join(l[1:] for l in diff_output.splitlines()
                                   if l.startswith("+") and not l.startswith("+++"))
@@ -285,6 +289,8 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
         return integration.remote_url or None
 
     def _send_discord_alert(self, webhook_url, device, interface, diff_output):
+        # Wrap the diff in a code fence so Discord renders it properly.
+        trimmed = diff_output[:1850]  # leave headroom for fences and metadata
         payload = {
             "username": "Nautobot Compliance Bot",
             "embeds": [{
@@ -293,7 +299,7 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                     f"**Device:** {device.name}\n"
                     f"**Interface:** {interface}\n"
                     f"**Time:** {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}\n\n"
-                    f"```diff\n{diff_output[:1900]}\n```"
+                    f"```diff\n{trimmed}\n```"
                 ),
                 "color": 16734296,
                 "footer": {"text": "Nautobot JobHook Compliance Monitor"},
@@ -323,10 +329,11 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
         discord_webhook = self._get_discord_webhook()
 
         try:
-            # Build intended config
+            # Build intended config (pre-normalization list form)
             if action in ("create", "update"):
                 interface = Interface.objects.select_related(
-                    "device__platform").get(id=object_change.changed_object_id)
+                    "device__platform"
+                ).get(id=object_change.changed_object_id)
                 device = interface.device
                 v4, v6 = self._collect_first_ips(interface)
                 enabled = bool(interface.enabled)
@@ -334,15 +341,17 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                 intended_cfg = self._build_intended_config(interface, v4, v6, enabled)
             else:
                 data = object_change.object_data or {}
-                device = Device.objects.filter(id=data.get("device")).first()
+                dev_id_or_obj = data.get("device")
+                dev_id = dev_id_or_obj if isinstance(dev_id_or_obj, str) else (dev_id_or_obj or {}).get("id")
+                device = Device.objects.filter(id=dev_id).first()
                 name = data.get("name")
                 if not device or not name:
                     self.logger.info("Delete event missing device/name; nothing to do.")
                     return "No changes."
                 intended_cfg = self._canonicalize_indent(
-                    [f"interface {name}", "no ip address", "no ipv6 address", "shutdown", "!"])
+                    [f"interface {name}", "no ip address", "no ipv6 address", "shutdown", "!"]
+                )
 
-            intended_text = "\n".join(intended_cfg)
             self.logger.info(f"Intended configuration prepared for {device.name} {name}")
 
             # Init Nornir
@@ -358,8 +367,8 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
             if not target.inventory.hosts:
                 raise RuntimeError(f"Device '{device.name}' not found in Nornir inventory.")
 
-            # Push intended config
-            config_block = [line for line in intended_cfg if line.strip()]
+            # Push intended config (strip any left indentation to be safe for Netmiko)
+            config_block = [line.lstrip() for line in intended_cfg if line.strip()]
             if config_block:
                 _ = target.run(
                     task=netmiko_send_config,
@@ -371,6 +380,7 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                 nr.close_connections()
 
             # Retrieve FULL running config via dispatcher
+            # FIX: Correct regex escaping in dispatcher args (use single backslashes in raw strings)
             full = target.run(
                 task=dispatcher,
                 obj=device,
@@ -378,9 +388,11 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                 method="get_config",
                 framework="netmiko",
                 backup_file=None,
-                remove_lines=[{"regex": r"^Building\\s+configuration.*\\n"}],
-                substitute_lines=[{"regex": r"^(enable (password|secret)( level \\d+)? \\d) .+$",
-                                   "replace": r"\\1 <removed>"}],
+                remove_lines=[{"regex": r"^Building\s+configuration.*\n"}],
+                substitute_lines=[{
+                    "regex": r"^(enable (password|secret)( level \d+)? \d) .+$",
+                    "replace": r"\1 <removed>"
+                }],
             )
 
             # Extract text
@@ -412,18 +424,20 @@ class AutoConfigureInterfaceDispatcher(JobHookReceiver):
                 fb_text = next(iter(fb.values())).result or ""
                 running_block = self._clean_running_text(fb_text)
 
+            # Normalize both sides before diff
             running_block = self._canonicalize_indent(running_block)
             running_block = self._normalize_admin_state(name, running_block, enabled, self._is_cisco(device))
             running_block = self._strip_non_persistent_ios_lines(running_block)
             intended_cfg = self._strip_non_persistent_ios_lines(intended_cfg)
             running_block = self._strip_extraneous_bang_lines(running_block)
             intended_cfg = self._strip_extraneous_bang_lines(intended_cfg)
-
-            # Normalize IOS command order before diff
             running_block = self._normalize_interface_order(running_block)
             intended_cfg = self._normalize_interface_order(intended_cfg)
 
+            # Persist exactly what we diffed (normalized)
             running_text = "\n".join(running_block)
+            intended_text = "\n".join(intended_cfg)
+
             diff_output = self._compute_diff(intended_cfg, running_block)
             drift_detected = bool(diff_output.strip())
 

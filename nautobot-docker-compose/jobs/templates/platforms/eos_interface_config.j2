@@ -1,6 +1,6 @@
 {% set config_context = interface['device']['config_context'] %}
 {% if interface["enabled"] == true and 'eth' in interface["name"] or 'Ethernet' in interface["name"] and interface["mgmt_only"] == False %}
-interface {{ interface["name"]["split"]('.')[0] | replace('eth', 'Ethernet')}}
+interface {{ interface["name"].split('.')[0] | replace('eth', 'Ethernet')}}
 {% if interface["description"] | length > 1 %}
    description {{ interface.description }}
 {% elif interface['connected_interface'] is defined and interface['connected_interface'] and interface['connected_interface']['device'] is defined and interface['connected_interface']['device']['name'] is defined %}
