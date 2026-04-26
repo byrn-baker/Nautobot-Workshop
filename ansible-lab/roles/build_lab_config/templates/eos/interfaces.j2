@@ -10,10 +10,7 @@
 {% for interface in interfaces if 'Loop' in interface.name %}
 {%   include "/eos/interfaces/_loopback.j2" %}
 {% endfor %}
-{# Management interface last #}
-{% for interface in interfaces if 'Management0' in interface.name %}
-{%   include "/eos/interfaces/_mgmt.j2" %}
-{% endfor %}
+{# Management interface — skip, managed by clab startup config #}
 {# VLAN interfaces #}
 {% for interface in interfaces if 'Vlan' in interface.name %}
 {%   include "/eos/interfaces/_virtual.j2" %}
