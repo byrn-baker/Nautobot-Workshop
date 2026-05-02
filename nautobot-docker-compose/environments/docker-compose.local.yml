@@ -17,7 +17,19 @@ services:
       start_period: "60s"
       retries: 3
       test: ["CMD", "true"]  # Due to layering, disable: true won't work. Instead, change the test
-  celery_worker:
+   celery_worker:
+    healthcheck:
+      interval: "30s"
+      timeout: "30s"
+      start_period: "120s"
+      retries: 5
+      test:
+        [
+          "CMD",
+          "bash",
+          "-c",
+          "nautobot-server celery inspect ping --destination celery@$$HOSTNAME"
+        ]
     volumes:
       - "../config/nautobot_config.py:/opt/nautobot/nautobot_config.py"
       - "../jobs:/opt/nautobot/jobs"
