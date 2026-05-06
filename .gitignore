@@ -308,3 +308,5 @@ build-docker-images/ubuntu-dns-bonded_24.04.tar
 invoke.yml
 
 nautobot-docker-compose/jobs/bgp_validation.py
+
+clabs/clab-nautobot_workshop

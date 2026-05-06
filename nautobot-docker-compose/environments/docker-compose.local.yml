@@ -16,8 +16,8 @@ services:
       timeout: "10s"
       start_period: "60s"
       retries: 3
-      test: ["CMD", "true"]  # Due to layering, disable: true won't work. Instead, change the test
-   celery_worker:
+      test: ["CMD", "true"]
+  celery_worker:
     healthcheck:
       interval: "30s"
       timeout: "30s"
