@@ -1,0 +1,21 @@
+_metadata:
+  name: Observability
+  description: SNMP and syslog configuration for the observability stack (OTEL Collector)
+  weight: 200
+  is_active: true
+  roles:
+    - name: "Provider Router"
+    - name: "Provider Edge Router"
+    - name: "Provider Route Reflector"
+    - name: "Customer Edge Router"
+    - name: "Datacenter Spine"
+    - name: "Datacenter Leaf"
+observability:
+  snmp:
+    community: public
+    access: ro
+  syslog:
+    host: 192.168.220.200
+    port: 1514
+    transport: udp
+    trap_level: informational

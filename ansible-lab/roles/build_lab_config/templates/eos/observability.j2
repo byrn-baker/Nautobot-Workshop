@@ -1,0 +1,10 @@
+{% set obs = config_context['observability'] %}
+{% if obs['snmp'] is defined %}
+{% set snmp = obs['snmp'] %}
+snmp-server community {{ snmp['community'] }} {{ snmp['access'] }}
+{% endif %}
+{% if obs['syslog'] is defined %}
+{% set syslog = obs['syslog'] %}
+logging host {{ syslog['host'] }} {{ syslog['port'] }} protocol {{ syslog['transport'] }}
+logging trap {{ syslog['trap_level'] }}
+{% endif %}

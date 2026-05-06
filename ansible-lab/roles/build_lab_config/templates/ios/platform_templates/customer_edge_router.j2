@@ -123,7 +123,9 @@ ipv6 route vrf clab-mgmt ::/0 Ethernet0/0
 {% include '/ios/mpls.j2' %}
 {% endif %}
 !
-!
+{% if config_context['observability'] is defined %}
+{% include '/ios/observability.j2' %}
+{% endif %}
 !
 control-plane
 !

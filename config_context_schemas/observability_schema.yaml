@@ -1,0 +1,54 @@
+---
+_metadata:
+  name: "Observability Config Schema"
+  description: "Schema for SNMP and syslog configuration used by the observability stack."
+data_schema:
+  title: "Observability Settings"
+  type: object
+  properties:
+    observability:
+      type: object
+      properties:
+        snmp:
+          type: object
+          properties:
+            community:
+              type: string
+              description: "SNMP community string"
+            access:
+              type: string
+              enum: ["ro", "rw"]
+              description: "SNMP access level"
+          required:
+            - community
+            - access
+        syslog:
+          type: object
+          properties:
+            host:
+              type: string
+              format: ipv4
+              description: "Syslog destination IP (OTEL Collector)"
+            port:
+              type: integer
+              minimum: 1
+              maximum: 65535
+              description: "Syslog destination port"
+            transport:
+              type: string
+              enum: ["udp", "tcp"]
+              description: "Syslog transport protocol"
+            trap_level:
+              type: string
+              enum: ["emergencies", "alerts", "critical", "errors", "warnings", "notifications", "informational", "debugging"]
+              description: "Minimum severity level to send"
+          required:
+            - host
+            - port
+            - transport
+            - trap_level
+      required:
+        - snmp
+        - syslog
+  required:
+    - observability

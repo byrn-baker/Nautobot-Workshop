@@ -74,6 +74,10 @@ router multicast
    ipv6
       software-forwarding kernel
 !
+{% if config_context['observability'] is defined %}
+{% include '/eos/observability.j2' %}
+{% endif %}
+!
 management ssh
    vrf clab-mgmt
       no shutdown
