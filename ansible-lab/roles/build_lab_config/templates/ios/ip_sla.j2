@@ -1,0 +1,21 @@
+{# IP SLA probes for jitter and packet loss measurement #}
+{# Requires config_context['ip_sla']['probes'] list #}
+{% if config_context['ip_sla'] is defined %}
+{% for probe in config_context['ip_sla']['probes'] %}
+ip sla {{ probe['id'] }}
+{% if probe['type'] == 'jitter' %}
+ udp-jitter {{ probe['destination'] }} {{ probe['port'] }} num-packets {{ probe.get('num_packets', 100) }}
+ frequency {{ probe.get('frequency', 60) }}
+ threshold {{ probe.get('threshold', 3000) }}
+{% elif probe['type'] == 'icmp-echo' %}
+ icmp-echo {{ probe['destination'] }}
+ frequency {{ probe.get('frequency', 60) }}
+ threshold {{ probe.get('threshold', 5000) }}
+{% endif %}
+ip sla schedule {{ probe['id'] }} life forever start-time now
+{% endfor %}
+!
+{% if config_context['ip_sla']['responder'] | default(false) %}
+ip sla responder
+{% endif %}
+{% endif %}

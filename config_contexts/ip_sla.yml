@@ -1,0 +1,24 @@
+# IP SLA configuration for PE and CE routers
+# Enables jitter and ICMP echo probes for path quality monitoring
+#
+# Applied to roles: pe_router, ce_router
+#
+# The probes measure:
+#   - UDP jitter (one-way delay variation, packet loss, latency)
+#   - ICMP echo (basic reachability and round-trip time)
+#
+# Results are polled via SNMP by the OTEL Collector and stored
+# in VictoriaMetrics as time-series metrics.
+
+_metadata:
+  roles:
+    - pe_router
+    - ce_router
+
+ip_sla:
+  # PE routers act as responders for jitter probes from other PEs/CEs
+  responder: true
+  probes: []
+
+# Device-specific probes are defined in config_contexts/devices/
+# Example: PE1 probes PE2 and PE3 for cross-SP jitter measurement

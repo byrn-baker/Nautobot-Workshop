@@ -1,4 +1,5 @@
 {% set obs = config_context['observability'] %}
+{% set mgmt_vrf = obs.get('mgmt_vrf', '') %}
 {% if obs['snmp'] is defined %}
 {% set snmp = obs['snmp'] %}
 {% if snmp['access'] == 'ro' %}
@@ -9,6 +10,10 @@ snmp-server community {{ snmp['community'] }} RW
 {% endif %}
 {% if obs['syslog'] is defined %}
 {% set syslog = obs['syslog'] %}
+{% if mgmt_vrf %}
+logging host {{ syslog['host'] }} vrf {{ mgmt_vrf }} transport {{ syslog['transport'] }} port {{ syslog['port'] }}
+{% else %}
 logging host {{ syslog['host'] }} transport {{ syslog['transport'] }} port {{ syslog['port'] }}
+{% endif %}
 logging trap {{ syslog['trap_level'] }}
 {% endif %}

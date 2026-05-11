@@ -1,0 +1,25 @@
+# PE1 IP SLA probes
+# Measures jitter/loss to other PE routers and connected CE
+
+ip_sla:
+  responder: true
+  probes:
+    - id: 10
+      type: jitter
+      destination: 10.0.0.7    # PE2 loopback
+      port: 16384
+      num_packets: 100
+      frequency: 60
+      threshold: 3000
+    - id: 20
+      type: jitter
+      destination: 10.0.0.8    # PE3 loopback
+      port: 16384
+      num_packets: 100
+      frequency: 60
+      threshold: 3000
+    - id: 30
+      type: icmp-echo
+      destination: 10.0.0.9    # CE1 loopback
+      frequency: 30
+      threshold: 5000

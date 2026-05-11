@@ -11,6 +11,7 @@ _metadata:
     - name: "Datacenter Spine"
     - name: "Datacenter Leaf"
 observability:
+  mgmt_vrf: clab-mgmt
   snmp:
     community: public
     access: ro

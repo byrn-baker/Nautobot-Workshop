@@ -1,4 +1,33 @@
-{% if interface["enabled"] == true and 'Ethernet' in interface["name"] and interface["mgmt_only"] == False %}
+{% if interface["enabled"] == true and 'Tunnel' in interface["name"] %}
+!
+interface {{ interface["name"] }}
+{% if interface["description"] | length > 1 %}
+ description {{ interface.description }}
+{% endif %}
+{% if interface["ip_addresses"] | length > 0 %}
+{% for addr in interface["ip_addresses"] %}
+{% if addr["address"] is defined %}
+ ip address {{ addr["address"] | ipaddr('address') }} {{ addr["address"] | ipaddr('netmask') }}
+{% endif %}
+{% endfor %}
+{% else %}
+ no ip address
+{% endif %}
+{% if config_context['tunnels'] is defined %}
+{% for tun in config_context['tunnels'] %}
+{% if tun['name'] == interface['name'] %}
+ tunnel source {{ tun['source_interface'] }}
+ tunnel destination {{ tun['destination'] }}
+ tunnel mode {{ tun['mode'] }} ip
+{% if tun['vrf'] is defined %}
+ tunnel vrf {{ tun['vrf'] }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+ no shutdown
+!
+{% elif interface["enabled"] == true and 'Ethernet' in interface["name"] and interface["mgmt_only"] == False %}
 interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["description"] | length > 1 %}
  description {{ interface.description }}

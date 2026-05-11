@@ -1,0 +1,18 @@
+# CE1 IP SLA probes
+# Measures end-to-end path quality to CE2 (traverses full SP core)
+
+ip_sla:
+  responder: true
+  probes:
+    - id: 10
+      type: jitter
+      destination: 10.0.0.10   # CE2 loopback
+      port: 16384
+      num_packets: 100
+      frequency: 60
+      threshold: 3000
+    - id: 20
+      type: icmp-echo
+      destination: 10.0.0.10   # CE2 loopback
+      frequency: 30
+      threshold: 5000
