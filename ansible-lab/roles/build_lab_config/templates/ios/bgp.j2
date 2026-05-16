@@ -100,6 +100,14 @@ address-family {{ 'ipv4' if 'IPV4_UNICAST' in afi else 'ipv6' }}
 {% endif %}
 {% endif %}
 {% endfor %}
+{# 3. Aggregate-address statements from config_context #}
+{% if config_context['bgp_aggregates'] is defined %}
+{% set af_key = 'ipv4' if 'IPV4_UNICAST' in afi else 'ipv6' %}
+{% for agg in config_context['bgp_aggregates'].get(af_key, []) %}
+ aggregate-address {{ agg['prefix'] | ipaddr('network') }} {{ agg['prefix'] | ipaddr('netmask') }}{% if agg.get('summary_only') %} summary-only{% endif %}
+
+{% endfor %}
+{% endif %}
 exit-address-family
 !
 {% endfor %}
