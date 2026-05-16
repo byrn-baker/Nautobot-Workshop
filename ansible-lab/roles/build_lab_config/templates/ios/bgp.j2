@@ -104,8 +104,13 @@ address-family {{ 'ipv4' if 'IPV4_UNICAST' in afi else 'ipv6' }}
 {% if config_context['bgp_aggregates'] is defined %}
 {% set af_key = 'ipv4' if 'IPV4_UNICAST' in afi else 'ipv6' %}
 {% for agg in config_context['bgp_aggregates'].get(af_key, []) %}
+{% if af_key == 'ipv4' %}
  aggregate-address {{ agg['prefix'] | ipaddr('network') }} {{ agg['prefix'] | ipaddr('netmask') }}{% if agg.get('summary_only') %} summary-only{% endif %}
 
+{% else %}
+ aggregate-address {{ agg['prefix'] }}{% if agg.get('summary_only') %} summary-only{% endif %}
+
+{% endif %}
 {% endfor %}
 {% endif %}
 exit-address-family
