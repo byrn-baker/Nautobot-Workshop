@@ -7,10 +7,12 @@ ip sla {{ probe['id'] }}
  udp-jitter {{ probe['destination'] }} {{ probe['port'] }} num-packets {{ probe.get('num_packets', 100) }}
  frequency {{ probe.get('frequency', 60) }}
  threshold {{ probe.get('threshold', 3000) }}
+ owner netclaw-{{ probe['type'] }}-{{ probe['id'] }}
 {% elif probe['type'] == 'icmp-echo' %}
  icmp-echo {{ probe['destination'] }}
  frequency {{ probe.get('frequency', 60) }}
  threshold {{ probe.get('threshold', 5000) }}
+ owner netclaw-{{ probe['type'] }}-{{ probe['id'] }}
 {% endif %}
 ip sla schedule {{ probe['id'] }} life forever start-time now
 {% endfor %}
