@@ -127,6 +127,10 @@ ipv6 route vrf clab-mgmt ::/0 Ethernet0/0
 {% include '/ios/observability.j2' %}
 {% endif %}
 !
+{% if config_context['ip_sla'] is defined %}
+{% include '/ios/ip_sla.j2' %}
+{% endif %}
+!
 control-plane
 !
 !
