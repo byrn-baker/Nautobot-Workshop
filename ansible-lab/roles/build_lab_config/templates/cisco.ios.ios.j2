@@ -1,10 +1,35 @@
 #jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{# Select IOS platform family based on device_type (csr1000v vs iol/other) #}
+{% set _model = '' %}
+{% if device_type is defined and device_type.model is defined %}
+  {% set _model = device_type.model | lower %}
+{% elif platform is defined and platform.name is defined %}
+  {% set _model = platform.name | lower %}
+{% endif %}
+{% set _is_csr1000v = ('csr' in _model) or ('csr1000' in _model) %}
+
 {% if role["name"] == "Provider Router" %}
-{% include "/ios/platform_templates/provider_router.j2" %}
+  {% if _is_csr1000v %}
+    {% include "/ios/csr1000v/provider_router.j2" %}
+  {% else %}
+    {% include "/ios/platform_templates/provider_router.j2" %}
+  {% endif %}
 {% elif role["name"] == "Provider Edge Router" %}
-{% include "/ios/platform_templates/provider_edge_router.j2" %}
+  {% if _is_csr1000v %}
+    {% include "/ios/csr1000v/provider_edge_router.j2" %}
+  {% else %}
+    {% include "/ios/platform_templates/provider_edge_router.j2" %}
+  {% endif %}
 {% elif role["name"] == "Customer Edge Router" %}
-{% include "/ios/platform_templates/customer_edge_router.j2" %}
+  {% if _is_csr1000v %}
+    {% include "/ios/csr1000v/customer_edge_router.j2" %}
+  {% else %}
+    {% include "/ios/platform_templates/customer_edge_router.j2" %}
+  {% endif %}
 {% elif role["name"] == "Provider Route Reflector" %}
-{% include "/ios/platform_templates/provider_route_reflector.j2" %}
+  {% if _is_csr1000v %}
+    {% include "/ios/csr1000v/provider_route_reflector.j2" %}
+  {% else %}
+    {% include "/ios/platform_templates/provider_route_reflector.j2" %}
+  {% endif %}
 {% endif %}

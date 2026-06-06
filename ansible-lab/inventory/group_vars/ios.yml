@@ -1,2 +1,15 @@
 ansible_user: "{{ router_username }}"
 ansible_password: "{{ router_password }}"
+ansible_become_password: "{{ router_password }}"
+ansible_connection: ansible.netcommon.network_cli
+ansible_become: true
+ansible_become_method: enable
+
+# CSR1000v (vrnetlab) uses older SSH; allow legacy KEX and host keys that modern OpenSSH disables by default.
+# Also force password auth only (common in these lab images).
+ansible_ssh_common_args: "-o PubkeyAuthentication=no -o PreferredAuthentications=password,keyboard-interactive -o StrictHostKeyChecking=no -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa -o ServerAliveInterval=30 -o ServerAliveCountMax=5"
+
+# These images are slow to respond during config pushes and can be flaky.
+ansible_command_timeout: 300
+ansible_connect_timeout: 90
+ansible_persistent_connect_timeout: 90

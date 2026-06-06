@@ -1,0 +1,9 @@
+{# Arista cEOS gNMI — streams OpenConfig BGP to bgp-gnmi-exporter (port 6030 lab default) #}
+{% set gnmi = config_context.get('observability', {}).get('gnmi', {}) %}
+{% if gnmi.get('enabled', true) %}
+management api gnmi
+   transport grpc {{ gnmi.get('transport', 'default') }}
+{% if gnmi.get('port') and gnmi.get('port') != 6030 %}
+   port {{ gnmi['port'] }}
+{% endif %}
+{% endif %}

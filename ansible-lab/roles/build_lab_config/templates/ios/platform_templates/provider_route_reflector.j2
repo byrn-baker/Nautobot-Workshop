@@ -11,12 +11,12 @@ boot-end-marker
 !
 vrf definition clab-mgmt
  description clab-mgmt
- !
- address-family ipv4
- exit-address-family
- !
- address-family ipv6
- exit-address-family
+  !
+  address-family ipv4
+  exit-address-family
+  !
+  address-family ipv6
+  exit-address-family
 !
 no aaa new-model
 !
@@ -34,10 +34,8 @@ no aaa new-model
 !
 no ip domain lookup
 ip domain name lab
-ip cef
 login on-success log
 ipv6 unicast-routing
-ipv6 cef
 !
 !
 !
@@ -63,7 +61,7 @@ memory free low-watermark processor 55011
 spanning-tree mode rapid-pvst
 !
 !
-username admin privilege 15 secret 9 $9$YMji4T302rqlEk$8/V96ezzz3poG/aQH1pTF2x0ZamMDT2eP4s/PjDQbOk
+!
 !
 !
 !
@@ -100,7 +98,7 @@ ip forward-protocol nd
 !
 ip http server
 ip http secure-server
-ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 Ethernet0/0 192.168.220.1
+ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 GigabitEthernet1 192.168.220.1
 ip scp server enable
 ip ssh bulk-mode 131072
 !
@@ -108,7 +106,7 @@ ip ssh bulk-mode 131072
 {% if config_context['prefix_lists'] is defined %}
 {% include '/ios/prefix_list-ipv4.j2' %}
 {% endif %}
-ipv6 route vrf clab-mgmt ::/0 Ethernet0/0
+ipv6 route vrf clab-mgmt ::/0 GigabitEthernet1
 {% if config_context['ospf'] is defined %}
 {% include '/ios/ospf-ipv6.j2' %}
 {% endif %}

@@ -1,0 +1,28 @@
+!
+hostname P3
+!
+username admin privilege 15 secret 0 admin
+!
+interface GigabitEthernet2
+ description to P4
+ no shutdown
+!
+interface GigabitEthernet3
+ description to P1
+ no shutdown
+!
+interface GigabitEthernet4
+ description to PE1
+ no shutdown
+!
+interface GigabitEthernet5
+ description to PE2
+ no shutdown
+!
+line vty 0 4
+ transport input ssh
+ login local
+ privilege level 15
+ exec-timeout 0 0
+!
+end

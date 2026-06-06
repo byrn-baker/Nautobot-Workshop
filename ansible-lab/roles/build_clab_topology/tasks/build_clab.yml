@@ -6,7 +6,7 @@
     validate_certs: false
     query: |
       {
-        devices (device_type: ["ceos","iol"]) {
+        devices (device_type: ["ceos","csr1000v"]) {
           name
           primary_ip4 {
             address

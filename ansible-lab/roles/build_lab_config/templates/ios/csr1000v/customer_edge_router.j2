@@ -1,5 +1,6 @@
 !
-version 17.12
+! Base configuration for vrnetlab/cisco_csr1000v:17.03.08a
+! (see clabs/nautobot-workshop-topology.clab.yml)
 service timestamps debug datetime msec
 service timestamps log datetime msec
 !
@@ -9,14 +10,7 @@ boot-start-marker
 boot-end-marker
 !
 !
-vrf definition clab-mgmt
- description clab-mgmt
-  !
-  address-family ipv4
-  exit-address-family
-  !
-  address-family ipv6
-  exit-address-family
+username admin privilege 15 password 0 admin
 !
 no aaa new-model
 !
@@ -100,7 +94,11 @@ ip http server
 ip http secure-server
 ip route vrf clab-mgmt 0.0.0.0 0.0.0.0 GigabitEthernet1 192.168.220.1
 ip scp server enable
-ip ssh bulk-mode 131072
+!
+ip ssh version 2
+ip ssh time-out 60
+ip ssh source-interface GigabitEthernet1
+!
 !
 !
 {% if config_context['prefix_lists'] is defined %}
@@ -126,20 +124,17 @@ ipv6 route vrf clab-mgmt ::/0 GigabitEthernet1
 {% include '/ios/observability.j2' %}
 {% endif %}
 !
-{% if config_context['ip_sla'] is defined %}
-{% include '/ios/ip_sla.j2' %}
-{% endif %}
-!
 control-plane
 !
 !
 !
 line con 0
  logging synchronous
-line aux 0
 line vty 0 4
- login local
  transport input ssh
+ login local
+ privilege level 15
+ exec-timeout 0 0
 !
 !
 !

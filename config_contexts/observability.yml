@@ -1,6 +1,6 @@
 _metadata:
   name: Observability
-  description: SNMP and syslog configuration for the observability stack (OTEL Collector)
+  description: SNMP, syslog, BMP, and gNMI for the NetClaw observability stack
   weight: 200
   is_active: true
   roles:
@@ -20,3 +20,17 @@ observability:
     port: 1514
     transport: udp
     trap_level: informational
+  bmp:
+    enabled: true
+    host: 192.168.220.205
+    port: 5000
+    server_id: 1
+    description: netclaw-gobmp
+    initial_refresh_delay: 30
+    initial_delay: 5
+    failure_retry_delay: 5
+    flapping_delay: 30
+  gnmi:
+    enabled: true
+    transport: default
+    port: 6030

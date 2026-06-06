@@ -1,0 +1,14 @@
+{# IOS-XE gNMI / model-driven telemetry (production).
+   Lab CSR uses SNMP BGP exporter — render only when observability.gnmi.enabled on IOS-XE. #}
+{% set gnmi = config_context.get('observability', {}).get('gnmi', {}) %}
+{% set _model = '' %}
+{% if device_type is defined and device_type.model is defined %}
+  {% set _model = device_type.model | lower %}
+{% elif platform is defined and platform.name is defined %}
+  {% set _model = platform.name | lower %}
+{% endif %}
+{% set _is_iosxe = ('csr' in _model) or ('csr1000' in _model) or ('iosxe' in _model) or ('ios-xe' in _model) %}
+{% if gnmi.get('enabled') and _is_iosxe and gnmi.get('iosxe_grpc') %}
+gnmi
+ grpc port {{ gnmi.get('port', 9339) }}
+{% endif %}

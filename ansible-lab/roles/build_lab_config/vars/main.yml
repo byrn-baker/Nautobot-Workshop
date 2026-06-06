@@ -104,6 +104,12 @@ query_string: |
         network_driver
         napalm_driver
       }
+      device_type {
+        model
+        manufacturer {
+          name
+        }
+      }
       location {
         name
         vlans {

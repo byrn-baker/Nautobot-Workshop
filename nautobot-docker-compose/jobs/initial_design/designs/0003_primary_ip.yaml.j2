@@ -1,6 +1,6 @@
 {% macro update_primary_ip4(device_data) %}
   {% set mgmt_int_name =
-      "Ethernet0/0" if device_data.platform | lower in ["cisco", "ios"]
+      "GigabitEthernet1" if device_data.platform | lower in ["cisco", "ios"]
       else "Management0" if device_data.platform | lower in ["arista", "eos"]
       else None
   %}

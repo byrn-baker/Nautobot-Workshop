@@ -48,6 +48,9 @@ router bgp {{ instance['autonomous_system']['asn'] }}
 {% endfor %}
 {% endfor %}
 !
+{% if config_context.get('observability', {}).get('bmp', {}).get('enabled') %}
+{% include '/ios/bmp.j2' %}
+{% endif %}
 {# Address-family config #}
 {% for afi in afis %}
 address-family {{ 'ipv4' if 'IPV4_UNICAST' in afi else 'ipv6' }}

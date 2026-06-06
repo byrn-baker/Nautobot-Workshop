@@ -45,7 +45,7 @@ roles:
 
 {% macro device(device_data, site_ref) %}
   {% set mgmt_int_name =
-      "Ethernet0/0" if device_data.platform | lower in ["cisco", "ios"] 
+      "GigabitEthernet1" if device_data.platform | lower in ["cisco", "ios"]
       else "Management0" if device_data.platform | lower in ["arista", "eos"]
       else None
   %}
@@ -63,7 +63,7 @@ roles:
     - "!create_or_update:name": {{ intf.name }}
       "!ref": "{{ device_data.name | lower | replace('-', '_') }}_{{ intf.name | lower | replace('/', '_') | replace('-', '_') }}"
       status__name: Active
-      {% if intf.name == "Ethernet0/0" %}
+      {% if intf.name in ["GigabitEthernet1", "Ethernet0/0"] %}
       mgmt_only: true
       {% elif intf.name == "Management0" %}
       mgmt_only: true

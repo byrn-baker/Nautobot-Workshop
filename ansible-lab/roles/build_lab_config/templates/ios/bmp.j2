@@ -1,0 +1,25 @@
+{# IOS-XE BMP → gobmp (CSR1000v / IOS-XE only; skip Cisco IOL)
+   Do NOT set update-source to a VRF-forwarded interface — BMP TCP uses the global
+   socket table on CSR1000v and will stay Down (TCB 0x0). RR Gi1 stays in global. #}
+{% set bmp = config_context.get('observability', {}).get('bmp', {}) %}
+{% set _model = '' %}
+{% if device_type is defined and device_type.model is defined %}
+  {% set _model = device_type.model | lower %}
+{% elif platform is defined and platform.name is defined %}
+  {% set _model = platform.name | lower %}
+{% endif %}
+{% set _is_iosxe = ('csr' in _model) or ('csr1000' in _model) or ('iosxe' in _model) or ('ios-xe' in _model) %}
+{% if bmp.get('enabled') and _is_iosxe and role['name'] == 'Provider Route Reflector' %}
+ bmp initial-refresh delay {{ bmp.get('initial_refresh_delay', 30) }}
+{% for pg in instance.get('peer_groups', []) %}
+ neighbor {{ pg['name'] }} bmp-activate server {{ bmp.get('server_id', 1) }}
+{% endfor %}
+ bmp server {{ bmp.get('server_id', 1) }}
+  address {{ bmp['host'] }} port-number {{ bmp['port'] }}
+  description {{ bmp.get('description', 'netclaw-gobmp') }}
+  initial-delay {{ bmp.get('initial_delay', 5) }}
+  failure-retry-delay {{ bmp.get('failure_retry_delay', 5) }}
+  flapping-delay {{ bmp.get('flapping_delay', 30) }}
+  activate
+ exit-bmp-server-mode
+{% endif %}

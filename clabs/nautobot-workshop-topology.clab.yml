@@ -7,17 +7,23 @@ mgmt:
 topology:
   nodes:
     CE1:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.9
+      startup-delay: 0
+      startup-config: ./startup-configs/CE1.txt
       env:
         HOSTNAME: CE1
+        CLAB_MGMT_PASSTHROUGH: "true"
     CE2:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.10
+      startup-delay: 30
+      startup-config: ./startup-configs/CE2.txt
       env:
         HOSTNAME: CE2
+        CLAB_MGMT_PASSTHROUGH: "true"
     DNS-01:
       kind: ceos
       image: ceos:4.34.0F
@@ -61,53 +67,77 @@ topology:
       env:
         HOSTNAME: East-Spine02
     P1:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.2
+      startup-delay: 60
+      startup-config: ./startup-configs/P1.txt
       env:
         HOSTNAME: P1
+        CLAB_MGMT_PASSTHROUGH: "true"
     P2:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.3
+      startup-delay: 90
+      startup-config: ./startup-configs/P2.txt
       env:
         HOSTNAME: P2
+        CLAB_MGMT_PASSTHROUGH: "true"
     P3:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.4
+      startup-delay: 120
+      startup-config: ./startup-configs/P3.txt
       env:
         HOSTNAME: P3
+        CLAB_MGMT_PASSTHROUGH: "true"
     P4:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.5
+      startup-delay: 150
+      startup-config: ./startup-configs/P4.txt
       env:
         HOSTNAME: P4
+        CLAB_MGMT_PASSTHROUGH: "true"
     PE1:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.6
+      startup-delay: 180
+      startup-config: ./startup-configs/PE1.txt
       env:
         HOSTNAME: PE1
+        CLAB_MGMT_PASSTHROUGH: "true"
     PE2:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.7
+      startup-delay: 210
+      startup-config: ./startup-configs/PE2.txt
       env:
         HOSTNAME: PE2
+        CLAB_MGMT_PASSTHROUGH: "true"
     PE3:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.8
+      startup-delay: 240
+      startup-config: ./startup-configs/PE3.txt
       env:
         HOSTNAME: PE3
+        CLAB_MGMT_PASSTHROUGH: "true"
     RR1:
-      kind: cisco_iol
-      image: vrnetlab/cisco_iol:17.12.01
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08a
       mgmt-ipv4: 192.168.220.11
+      startup-delay: 270
+      startup-config: ./startup-configs/RR1.txt
       env:
         HOSTNAME: RR1
+        CLAB_MGMT_PASSTHROUGH: "true"
     West-Leaf01:
       kind: ceos
       image: ceos:4.34.0F
@@ -138,12 +168,12 @@ topology:
         HOSTNAME: West-Spine02
 
   links:
-    - endpoints: ["CE1:Ethernet0/1", "PE1:Ethernet0/3"]
-    - endpoints: ["CE1:Ethernet0/2", "West-Spine01:eth7"]
-    - endpoints: ["CE1:Ethernet0/3", "West-Spine02:eth7"]
-    - endpoints: ["CE2:Ethernet0/1", "PE3:Ethernet0/3"]
-    - endpoints: ["CE2:Ethernet0/2", "East-Spine01:eth7"]
-    - endpoints: ["CE2:Ethernet0/3", "East-Spine02:eth7"]
+    - endpoints: ["CE1:GigabitEthernet2", "PE1:GigabitEthernet4"]
+    - endpoints: ["CE1:GigabitEthernet3", "West-Spine01:eth7"]
+    - endpoints: ["CE1:GigabitEthernet4", "West-Spine02:eth7"]
+    - endpoints: ["CE2:GigabitEthernet2", "PE3:GigabitEthernet4"]
+    - endpoints: ["CE2:GigabitEthernet3", "East-Spine01:eth7"]
+    - endpoints: ["CE2:GigabitEthernet4", "East-Spine02:eth7"]
     - endpoints: ["DNS-01:eth1", "West-Leaf01:eth5"]
     - endpoints: ["DNS-01:eth2", "West-Leaf02:eth5"]
     - endpoints: ["DNS-02:eth1", "East-Leaf01:eth5"]
@@ -154,18 +184,18 @@ topology:
     - endpoints: ["East-Leaf01:eth4", "East-Leaf02:eth4"]
     - endpoints: ["East-Leaf02:eth1", "East-Spine01:eth2"]
     - endpoints: ["East-Leaf02:eth2", "East-Spine02:eth2"]
-    - endpoints: ["P1:Ethernet0/1", "P2:Ethernet0/1"]
-    - endpoints: ["P1:Ethernet0/2", "P3:Ethernet0/2"]
-    - endpoints: ["P1:Ethernet0/3", "RR1:Ethernet0/1"]
-    - endpoints: ["P1:Ethernet1/0", "PE1:Ethernet0/1"]
-    - endpoints: ["P2:Ethernet0/2", "P4:Ethernet0/2"]
-    - endpoints: ["P2:Ethernet0/3", "RR1:Ethernet0/2"]
-    - endpoints: ["P2:Ethernet1/0", "PE3:Ethernet0/1"]
-    - endpoints: ["P3:Ethernet0/1", "P4:Ethernet0/1"]
-    - endpoints: ["P3:Ethernet0/3", "PE1:Ethernet0/2"]
-    - endpoints: ["P3:Ethernet1/0", "PE2:Ethernet0/1"]
-    - endpoints: ["P4:Ethernet0/3", "PE2:Ethernet0/2"]
-    - endpoints: ["P4:Ethernet1/0", "PE3:Ethernet0/2"]
+    - endpoints: ["P1:GigabitEthernet2", "P2:GigabitEthernet2"]
+    - endpoints: ["P1:GigabitEthernet3", "P3:GigabitEthernet3"]
+    - endpoints: ["P1:GigabitEthernet4", "RR1:GigabitEthernet2"]
+    - endpoints: ["P1:GigabitEthernet5", "PE1:GigabitEthernet2"]
+    - endpoints: ["P2:GigabitEthernet3", "P4:GigabitEthernet3"]
+    - endpoints: ["P2:GigabitEthernet4", "RR1:GigabitEthernet3"]
+    - endpoints: ["P2:GigabitEthernet5", "PE3:GigabitEthernet2"]
+    - endpoints: ["P3:GigabitEthernet2", "P4:GigabitEthernet2"]
+    - endpoints: ["P3:GigabitEthernet4", "PE1:GigabitEthernet3"]
+    - endpoints: ["P3:GigabitEthernet5", "PE2:GigabitEthernet2"]
+    - endpoints: ["P4:GigabitEthernet4", "PE2:GigabitEthernet3"]
+    - endpoints: ["P4:GigabitEthernet5", "PE3:GigabitEthernet3"]
     - endpoints: ["West-Leaf01:eth1", "West-Spine01:eth1"]
     - endpoints: ["West-Leaf01:eth2", "West-Spine02:eth1"]
     - endpoints: ["West-Leaf01:eth3", "West-Leaf02:eth3"]

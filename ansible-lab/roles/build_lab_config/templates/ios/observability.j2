@@ -1,5 +1,8 @@
 {% set obs = config_context['observability'] %}
-{% set mgmt_vrf = obs.get('mgmt_vrf', '') %}
+{% set mgmt_vrf = obs.get('mgmt_vrf', 'clab-mgmt') %}
+{% if role['name'] == 'Provider Route Reflector' %}
+{% set mgmt_vrf = '' %}
+{% endif %}
 {% if obs['snmp'] is defined %}
 {% set snmp = obs['snmp'] %}
 {% if snmp['access'] == 'ro' %}
@@ -9,6 +12,7 @@ snmp-server community {{ snmp['community'] }} RW
 {% endif %}
 {% endif %}
 {% if obs['syslog'] is defined %}
+logging on
 {% set syslog = obs['syslog'] %}
 {% if mgmt_vrf %}
 logging host {{ syslog['host'] }} vrf {{ mgmt_vrf }} transport {{ syslog['transport'] }} port {{ syslog['port'] }}

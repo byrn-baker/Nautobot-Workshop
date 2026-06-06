@@ -61,12 +61,13 @@ PLUGINS = [
 # Each key in the dictionary is the name of an installed plugin and its value is a dictionary of settings.
 PLUGINS_CONFIG = {
     "nautobot_plugin_nornir": {
-        # "use_config_context": {"secrets": False, "connection_options": True},
-        # Optionally set global connection options.
         "connection_options": {
             "napalm": {
                 "extras": {
-                    "optional_args": {"global_delay_factor": 1},
+                    "optional_args": {
+                        "global_delay_factor": 1,
+                        "transport": "ssh"
+                    },
                 },
             },
             "netmiko": {
@@ -87,28 +88,6 @@ PLUGINS_CONFIG = {
                 },
             },
         },
-        "nautobot_golden_config": {
-            "per_feature_bar_width": 0.15,
-            "per_feature_width": 13,
-            "per_feature_height": 4,
-            "enable_backup": True,
-            "enable_compliance": True,
-            "enable_intended": True,
-            "enable_sotagg": True,
-            "enable_plan": True,
-            "enable_deploy": True,
-            "enable_postprocessing": False,
-            "sot_agg_transposer": None,
-            "postprocessing_callables": [],
-            "postprocessing_subscribed": [],
-            "jinja_env": {
-                "undefined": "jinja2.StrictUndefined",
-                "trim_blocks": True,
-                "lstrip_blocks": False,
-            },
-            # "default_deploy_status": "Not Approved",
-            # "get_custom_compliance": "my.custom_compliance.func"
-        },
     },
     "nautobot_golden_config": {
         "per_feature_bar_width": 0.15,
@@ -128,9 +107,11 @@ PLUGINS_CONFIG = {
             "undefined": "jinja2.StrictUndefined",
             "trim_blocks": True,
             "lstrip_blocks": False,
+            "extensions": ["jinja2.ext.do"],
         },
-        # "default_deploy_status": "Not Approved",
-        # "get_custom_compliance": "my.custom_compliance.func"
+        "default_framework": {"all": "netmiko"},
+        "get_config_framework": {"all": "netmiko"},
+        "default_deploy_status": "Not Approved",
     },
     "nautobot_device_lifecycle_mgmt": {
         "barchart_bar_width": float(os.environ.get("BARCHART_BAR_WIDTH", 0.1)),
@@ -139,6 +120,7 @@ PLUGINS_CONFIG = {
         "enabled_metrics": [x for x in os.environ.get("NAUTOBOT_DLM_ENABLED_METRICS", "").split(",") if x],
     },
 }
+
 NAPALM_USERNAME = os.getenv("NAPALM_USERNAME", "admin")
 NAPALM_PASSWORD = os.getenv("NAPALM_PASSWORD", "admin")
 NAPALM_TIMEOUT = int(os.getenv("NAPALM_TIMEOUT", "30"))

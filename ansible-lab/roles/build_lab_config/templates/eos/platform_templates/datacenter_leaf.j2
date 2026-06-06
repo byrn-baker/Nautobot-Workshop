@@ -51,8 +51,7 @@ system l1
 vrf instance clab-mgmt
    description clab-mgmt
 !
-management api gnmi
-   transport grpc default
+{% include '/eos/gnmi-telemetry.j2' %}
 !
 management api netconf
    transport ssh default

@@ -7,6 +7,9 @@ device_types:
   - model: ceos
     u_height: 1
     manufacturer: Arista
+  - model: csr1000v
+    u_height: 1
+    manufacturer: Cisco
   - model: iol
     u_height: 1
     manufacturer: Cisco
@@ -27,14 +30,16 @@ software_versions:
     platform: EOS
   - version: 17.12.01
     platform: IOS
+  - version: 17.03.08a
+    platform: IOS
 
 devices:       
   - name: P1
     role: Provider Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.2/24
     bgp:
       asn: 65000
@@ -54,7 +59,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.12.1/24
         ipv6_address: 2001:db8:100:12::1/64
@@ -62,8 +67,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P2
-        z_interface: Ethernet0/1
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.13.1/24
         ipv6_address: 2001:db8:100:13::1/64
@@ -71,8 +76,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P3
-        z_interface: Ethernet0/2
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.101.1/24
         ipv6_address: 2001:db8:100:101::1/64
@@ -80,8 +85,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: RR1
-        z_interface: Ethernet0/1
-      - name: Ethernet1/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet5
         type: 1000base-t
         ipv4_address: 100.0.11.1/24
         ipv6_address: 2001:db8:100:11::1/64
@@ -89,8 +94,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE1
-        z_interface: Ethernet0/1
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.2/24
@@ -102,9 +107,9 @@ devices:
   - name: P2
     role: Provider Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.3/24
     bgp:
       asn: 65000
@@ -124,7 +129,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.12.2/24
         ipv6_address: 2001:db8:100:12::2/64
@@ -132,8 +137,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P1
-        z_interface: Ethernet0/1
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.24.2/24
         ipv6_address: 2001:db8:100:24::2/64
@@ -141,8 +146,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P4
-        z_interface: Ethernet0/2
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.102.1/24
         ipv6_address: 2001:db8:100:102::2/64
@@ -150,8 +155,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: RR1
-        z_interface: Ethernet0/2
-      - name: Ethernet1/0
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet5
         type: 1000base-t
         ipv4_address: 100.0.22.2/24
         ipv6_address: 2001:db8:100:22::2/64
@@ -159,8 +164,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE3
-        z_interface: Ethernet0/1
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.3/24
@@ -172,9 +177,9 @@ devices:
   - name: P3
     role: Provider Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.4/24
     bgp:
       asn: 65000
@@ -194,7 +199,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.34.3/24
         ipv6_address: 2001:db8:100:34::3/64
@@ -202,8 +207,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P4
-        z_interface: Ethernet0/1
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.13.3/24
         ipv6_address: 2001:db8:100:13::3/64
@@ -211,8 +216,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P1
-        z_interface: Ethernet0/2
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.31.3/24
         ipv6_address: 2001:db8:100:31::3/64
@@ -220,8 +225,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE1
-        z_interface: Ethernet0/2
-      - name: Ethernet1/0
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet5
         type: 1000base-t
         ipv4_address: 100.0.33.3/24
         ipv6_address: 2001:db8:100:33::3/64
@@ -229,8 +234,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE2
-        z_interface: Ethernet0/1
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.4/24
@@ -242,9 +247,9 @@ devices:
   - name: P4
     role: Provider Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.5/24
     bgp:
       asn: 65000
@@ -264,7 +269,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.34.4/24
         ipv6_address: 2001:db8:100:34::4/64
@@ -272,8 +277,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P3
-        z_interface: Ethernet0/1
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.24.4/24
         ipv6_address: 2001:db8:100:24::4/64
@@ -281,8 +286,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P2
-        z_interface: Ethernet0/2
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.42.4/24
         ipv6_address: 2001:db8:100:42::4/64
@@ -290,8 +295,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE2
-        z_interface: Ethernet0/2
-      - name: Ethernet1/0
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet5
         type: 1000base-t
         ipv4_address: 100.0.43.4/24
         ipv6_address: 2001:db8:100:43::4/64
@@ -299,8 +304,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: PE3
-        z_interface: Ethernet0/2
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet3
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.5/24
@@ -312,9 +317,9 @@ devices:
   - name: PE1
     role: Provider Edge Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.6/24
     bgp:
       asn: 65000
@@ -344,7 +349,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.11.11/24
         ipv6_address: 2001:db8:100:11::11/64
@@ -352,8 +357,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P1
-        z_interface: Ethernet0/1
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.31.11/24
         ipv6_address: 2001:db8:100:31::11/64
@@ -361,14 +366,14 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P3
-        z_interface: Ethernet0/3
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet4
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.111.1/24
         ipv6_address: 2001:db8:100:111::1/64
         z_device: CE1
-        z_interface: Ethernet0/1
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.6/24
@@ -380,9 +385,9 @@ devices:
   - name: PE2
     role: Provider Edge Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.7/24
     bgp:
       asn: 65000
@@ -402,7 +407,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.33.33/24
         ipv6_address: 2001:db8:100:33::33/64
@@ -410,8 +415,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P3
-        z_interface: Ethernet1/0
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet5
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.42.12/24
         ipv6_address: 2001:db8:100:42::12/64
@@ -419,10 +424,10 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P4
-        z_interface: Ethernet0/3
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet4
+      - name: GigabitEthernet4
         type: 1000base-t
-      - name: Ethernet0/0
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.7/24
@@ -434,9 +439,9 @@ devices:
   - name: PE3
     role: Provider Edge Router
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.8/24
     bgp:
       asn: 65000
@@ -466,7 +471,7 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.22.12/24
         ipv6_address: 2001:db8:100:22::12/64
@@ -474,8 +479,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P2
-        z_interface: Ethernet1/0
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet5
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.43.43/24
         ipv6_address: 2001:db8:100:43::43/64
@@ -483,14 +488,14 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P4
-        z_interface: Ethernet1/0
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet5
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.0.222.1/24
         ipv6_address: 2001:db8:100:222::1/64
         z_device: CE2
-        z_interface: Ethernet0/1
-      - name: Ethernet0/0
+        z_interface: GigabitEthernet2
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.8/24
@@ -503,9 +508,9 @@ devices:
   - name: CE2
     role: Customer Edge Router
     location: East Side Data Center
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.10/24
     bgp:
       asn: 65100
@@ -535,25 +540,25 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.222.2/24
         ipv6_address: 2001:db8:100:222::2/64
         z_device: PE3
-        z_interface: Ethernet0/3
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet4
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.1.11.1/24
         ipv6_address: 2001:db8:101:11::1/64
         z_device: East-Spine01
         z_interface: eth7
-      - name: Ethernet0/3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.1.12.1/24
         ipv6_address: 2001:db8:101:12::1/64
         z_device: East-Spine02
         z_interface: eth7
-      - name: Ethernet0/0
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.10/24
@@ -626,7 +631,7 @@ devices:
         ipv4_address: 100.1.11.2/24
         ipv6_address: 2001:db8:101:11::2/64
         z_device: CE2
-        z_interface: Ethernet0/2
+        z_interface: GigabitEthernet3
       - name: Management0
         type: 1000base-t
         vrf: clab-mgmt
@@ -696,7 +701,7 @@ devices:
         ipv4_address: 100.1.12.2/24
         ipv6_address: 2001:db8:101:12::2/64
         z_device: CE2
-        z_interface: Ethernet0/3
+        z_interface: GigabitEthernet4
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.17/24
@@ -844,9 +849,9 @@ devices:
   - name: RR1
     role: Provider Route Reflector
     location: Backbone
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.11/24
     bgp:
       asn: 65000
@@ -855,7 +860,7 @@ devices:
         - afi_safi: ipv4_unicast
         - afi_safi: ipv6_unicast
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.101.2/24
         ipv6_address: 2001:db8:100:101::101/64
@@ -863,8 +868,8 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P1
-        z_interface: Ethernet1/0
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet5
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.0.102.2/24
         ipv6_address: 2001:db8:100:102::101/64
@@ -872,10 +877,10 @@ devices:
         ospf_network_type: point-to-point
         mpls_enabled: true
         z_device: P2
-        z_interface: Ethernet0/3
-      - name: Ethernet0/3
+        z_interface: GigabitEthernet4
+      - name: GigabitEthernet4
         type: 1000base-t
-      - name: Ethernet0/0
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.11/24
@@ -888,9 +893,9 @@ devices:
   - name: CE1
     role: Customer Edge Router
     location: West Side Data Center
-    device_type: iol
+    device_type: csr1000v
     platform: IOS
-    software_version: 17.12.01
+    software_version: 17.03.08a
     primary_ip4: 192.168.220.9/24
     bgp:
       asn: 65200
@@ -920,25 +925,25 @@ devices:
           in_route_map: ALLOW_ALL_V6_IN
           out_route_map: ALLOW_ALL_V6_OUT
     interfaces:
-      - name: Ethernet0/1
+      - name: GigabitEthernet2
         type: 1000base-t
         ipv4_address: 100.0.111.2/24
         ipv6_address: 2001:db8:100:111::2/64
         z_device: PE1
-        z_interface: Ethernet0/3
-      - name: Ethernet0/2
+        z_interface: GigabitEthernet4
+      - name: GigabitEthernet3
         type: 1000base-t
         ipv4_address: 100.2.11.1/24
         ipv6_address: 2001:db8:102:11::1/64
         z_device: West-Spine01
         z_interface: eth7
-      - name: Ethernet0/3
+      - name: GigabitEthernet4
         type: 1000base-t
         ipv4_address: 100.2.12.1/24
         ipv6_address: 2001:db8:102:12::1/64
         z_device: West-Spine02
         z_interface: eth7
-      - name: Ethernet0/0
+      - name: GigabitEthernet1
         type: 1000base-t
         vrf: clab-mgmt
         ipv4_address: 192.168.220.9/24
@@ -1011,7 +1016,7 @@ devices:
         ipv4_address: 100.2.11.2/24
         ipv6_address: 2001:db8:102:11::2/64
         z_device: CE1
-        z_interface: Ethernet0/2
+        z_interface: GigabitEthernet3
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.12/24
@@ -1081,7 +1086,7 @@ devices:
         ipv4_address: 100.2.12.2/24
         ipv6_address: 2001:db8:102:12::2/64
         z_device: CE1
-        z_interface: Ethernet0/3
+        z_interface: GigabitEthernet4
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.13/24
@@ -1156,7 +1161,7 @@ devices:
       - name: eth7
         type: 1000base-t
         z_device: CE1
-        z_interface: Ethernet0/2
+        z_interface: GigabitEthernet3
       - name: Management0
         type: 1000base-t
         ipv4_address: 192.168.220.14/24

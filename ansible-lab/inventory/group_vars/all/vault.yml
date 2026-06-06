@@ -1,4 +1,3 @@
-# Sourced from inventory/group_vars/all/vault.yml — loaded by pb.build-lab.yml vars_files
 router_username: admin
 router_password: admin
 nautobot_token: "0123456789abcdef0123456789abcdef01234567"

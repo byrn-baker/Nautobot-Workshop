@@ -27,7 +27,7 @@ interface {{ interface["name"] }}
 {% endif %}
  no shutdown
 !
-{% elif interface["enabled"] == true and 'Ethernet' in interface["name"] and interface["mgmt_only"] == False %}
+{% elif interface["enabled"] == true and ('GigabitEthernet' in interface["name"] or 'Ethernet' in interface["name"]) and interface["mgmt_only"] == False %}
 interface {{ interface["name"]["split"]('.')[0] }}
 {% if interface["description"] | length > 1 %}
  description {{ interface.description }}
@@ -68,9 +68,11 @@ interface {{ interface["name"] }}
 {% if interface["description"] | length > 1 %}
  description {{ interface["description"] }}
 {% else %}
- description MGMT ONLY INTERFACE   
+ description Containerlab management interface
 {% endif %}
+{% if role['name'] != 'Provider Route Reflector' %}
  vrf forwarding clab-mgmt
+{% endif %}
 {% if interface["ip_addresses"] | length > 0 %}
 {% for addr in interface["ip_addresses"] %}
 {% if addr["address"] is defined %}
@@ -82,8 +84,5 @@ interface {{ interface["name"] }}
 {% endfor %}
 {% endif %}
 {% else %}
-interface {{ interface["name"] }}
- description NOT IN USE
- shutdown
-!
+{# Skip unconfigured/unconnected interfaces - CSR1000v only has interfaces with ContainerLab links #}
 {% endif %}

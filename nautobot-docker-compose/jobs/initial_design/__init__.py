@@ -53,15 +53,15 @@ class InitialDesign(DesignJob):
 - East Side Data Center includes:
   - 2 Datacenter Spine devices (East-Spine01, East-Spine02; Arista ceos)
   - 2 Datacenter Leaf devices (East-Leaf01, East-Leaf02; Arista ceos)
-  - 1 Customer Edge Router (CE2; Cisco iol)
+  - 1 Customer Edge Router (CE2; Cisco CSR1000v)
 - West Side Data Center includes:
   - 2 Datacenter Spine devices (West-Spine01, West-Spine02; Arista ceos)
   - 2 Datacenter Leaf devices (West-Leaf01, West-Leaf02; Arista ceos)
-  - 1 Customer Edge Router (CE1; Cisco iol)
+  - 1 Customer Edge Router (CE1; Cisco CSR1000v)
 - Backbone includes:
-  - 4 Provider Routers (P1, P2, P3, P4; Cisco iol)
-  - 3 Provider Edge Routers (PE1, PE2, PE3; Cisco iol)
-  - 1 Provider Route Reflector (RR1; Cisco iol)
+  - 4 Provider Routers (P1, P2, P3, P4; Cisco CSR1000v)
+  - 3 Provider Edge Routers (PE1, PE2, PE3; Cisco CSR1000v)
+  - 1 Provider Route Reflector (RR1; Cisco CSR1000v)
 
 The design includes detailed configurations for devices, interfaces, IP addresses, OSPF settings, MPLS settings, VRF assignments, and cable connections, all statically defined in the design template.
 """
